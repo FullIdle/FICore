@@ -11,6 +11,23 @@ java {
 group = 'me.fullidle.ficore.ficore.Main'
 version = '1.0-SNAPSHOT'
 
+allprojects {
+    apply plugin: 'java'
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {url 'https://raw.github.com/FullIdle/maven-repository/main/'}
+    }
+    dependencies {
+        compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
+        compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+        compileOnly 'org.projectlombok:lombok:1.18.28'
+        annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    }
+}
+
 repositories {
     mavenCentral()
     mavenLocal()
@@ -20,13 +37,6 @@ dependencies {
     implementation project(path: ':v1_12')
     implementation project(path: ':v1_16')
     implementation project(path: ':common')
-    implementation project(path: ':v1_20')
-    compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 test {
@@ -40,13 +50,4 @@ tasks.withType(JavaCompile){
 processResources {
     setFilteringCharset("UTF-8")
     expand project.properties
-}
-
-shadowJar{
-    mergeServiceFiles()
-    archiveBaseName.set(this.rootProject.name)
-    archiveVersion.set(version)
-    manifest{
-        attributes 'Main-Class':this.group
-    }
 }

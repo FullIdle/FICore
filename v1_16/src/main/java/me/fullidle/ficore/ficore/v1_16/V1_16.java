@@ -1,14 +1,11 @@
 package me.fullidle.ficore.ficore.v1_16;
 
 import lombok.SneakyThrows;
-import me.fullidle.ficore.ficore.common.FIData;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
 import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.ListenerList;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventListenerHelper;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventListener;
+import net.minecraftforge.eventbus.api.*;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Field;
@@ -72,5 +69,12 @@ public class V1_16 extends V1_version {
         for (Map.Entry<Integer, ArrayList<Object>> entry : listMap.entrySet()) {
             ListenerList.unregisterAll(entry.getKey(), (IEventListener) entry.getValue());
         }
+    }
+
+    @SneakyThrows
+    @Override
+    public void JsonToNBTInit() {
+        Class<net.minecraft.nbt.JsonToNBT> jsonToNBTClass = net.minecraft.nbt.JsonToNBT.class;
+        Method method = jsonToNBTClass.getDeclaredMethod("parseTag", String.class);
     }
 }

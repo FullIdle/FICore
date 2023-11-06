@@ -8,4 +8,5 @@ public abstract class V1_version {
     abstract public void registerForgeEvent();
     abstract public void register(Plugin plugin, Object bus, Object target);
     abstract public void unregisterAllListener(Plugin plugin);
+    abstract public void JsonToNBTInit();
 }

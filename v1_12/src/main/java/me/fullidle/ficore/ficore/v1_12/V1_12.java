@@ -1,8 +1,7 @@
 package me.fullidle.ficore.ficore.v1_12;
 
 import lombok.SneakyThrows;
-import me.fullidle.ficore.ficore.v1_12.ForgeEventListener;
-import me.fullidle.ficore.ficore.common.FIData;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
 import net.minecraftforge.fml.common.eventhandler.*;
@@ -25,7 +24,6 @@ public class V1_12 extends V1_version {
     public String getVersion() {
         return "1.12.2"; 
     }
-
     @Override
     @SneakyThrows
     public void registerForgeEvent(){
@@ -119,5 +117,12 @@ public class V1_12 extends V1_version {
                 listenerList().unregister(entry.getKey(), (IEventListener) o);
             }
         }
+    }
+
+    @SneakyThrows
+    @Override
+    public void JsonToNBTInit() {
+        Class<net.minecraft.nbt.JsonToNBT> jsonToNBTClass = net.minecraft.nbt.JsonToNBT.class;
+        Method method = jsonToNBTClass.getDeclaredMethod("getTagFromJson", String.class);
     }
 }
