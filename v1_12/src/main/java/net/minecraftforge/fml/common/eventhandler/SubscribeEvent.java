@@ -12,4 +12,3 @@ public @interface SubscribeEvent {
 
     boolean receiveCanceled() default false;
 }
-

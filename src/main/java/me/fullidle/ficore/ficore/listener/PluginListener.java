@@ -1,4 +1,4 @@
-package me.fullidle.ficore.ficore;
+package me.fullidle.ficore.ficore.listener;
 
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.event.ForgeEvent;
