@@ -2,6 +2,7 @@ package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
 import me.fullidle.ficore.ficore.v1_12.V1_12;
 import me.fullidle.ficore.ficore.v1_16.V1_16;
@@ -35,6 +36,7 @@ public class Main extends JavaPlugin {
         }
         getLogger().info("§aPlugin loaded!");
         getServer().getPluginManager().registerEvents(new PluginListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(),this);
     }
 
     @Override
