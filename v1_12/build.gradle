@@ -1,22 +1,20 @@
-java{
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
-}
+apply plugin: 'net.minecraftforge.gradle'
 
-group = 'me.fullidle.ficore.ficore.Main'
-version = '1.0-SNAPSHOT'
+group = rootProject.group
+version = rootProject.version
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+}
 
 repositories {
     mavenCentral()
     maven {url 'https://raw.github.com/FullIdle/maven-repository/main/'}
 }
-/*
-mvn deploy:deploy-file -DgroupId=com.fullidle.fullidledev.minecraft -DartifactId=forge -Dversion=1.16.5-36.2.39 -Dpackaging=jar -Dfile=D:\MyProject\FICore\libs\forge-1.16.5-36.2.39.jar -Durl=file:///D:\MyProject\maven-repository -DrepositoryId=releases
-*/
 
 dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     implementation project(':common')
-    compileOnly 'com.fullidle.fullidledev.minecraft:forge:1.12.2-14.23.5.2860'
 }
 
 test {
