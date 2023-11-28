@@ -1,6 +1,8 @@
 package me.fullidle.ficore.ficore.common;
 
+import me.fullidle.ficore.ficore.common.api.util.LangMsgUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class SomeMethod {
     /**
@@ -16,5 +18,8 @@ public class SomeMethod {
      */
     public static String getColorMsg(String msg) {
         return msg.replace("§", "&");
+    }
+    public static void setLangMsgUtil(Object util, ConfigurationSection section){
+        LangMsgUtil.langMsgUtil(util,section);
     }
 }

@@ -9,7 +9,7 @@ buildscript {
 }
 
 group = 'me.fullidle.ficore.ficore.Main'
-version = '1.1'
+version = '1.2.1'
 
 allprojects {
     apply plugin: 'java'
@@ -35,6 +35,8 @@ repositories {
 
 dependencies {
     implementation project(path: ':common')
+    compileOnly fileTree(dir: 'v1_12/build/libs', include: '**/v1_12'+'-'+version+'.jar')
+    compileOnly fileTree(dir: 'v1_16/build/libs', include: '**/v1_16'+'-'+version+'.jar')
 }
 
 test {
@@ -48,4 +50,10 @@ tasks.withType(JavaCompile){
 processResources {
     setFilteringCharset("UTF-8")
     expand project.properties
+}
+
+jar {
+    from fileTree("common/build/libs/").include('*.jar').collect { zipTree(it) }
+    from fileTree("v1_12/build/libs/").include('*.jar').collect { zipTree(it) }
+    from fileTree("v1_16/build/libs/").include('*.jar').collect { zipTree(it) }
 }
