@@ -4,6 +4,9 @@ import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLEvent;
 import net.minecraftforge.fml.common.eventhandler.*;
 import org.bukkit.plugin.Plugin;
 
@@ -47,6 +50,8 @@ public class V1_12 extends V1_version {
                 method.setAccessible(true);
             }
         }
+        //总线上需要单独注册
+        register(FIData.plugin,MinecraftForge.EVENT_BUS,EventPriority.NORMAL,listener);
     }
 
     @Override

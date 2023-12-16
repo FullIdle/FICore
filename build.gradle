@@ -9,7 +9,7 @@ buildscript {
 }
 
 group = 'me.fullidle.ficore.ficore.Main'
-version = '1.2.1'
+version = '1.2.3'
 
 allprojects {
     apply plugin: 'java'
@@ -35,9 +35,16 @@ repositories {
 
 dependencies {
     implementation project(path: ':common')
-    compileOnly fileTree(dir: 'v1_12/build/libs', include: '**/v1_12'+'-'+version+'.jar')
-    compileOnly fileTree(dir: 'v1_16/build/libs', include: '**/v1_16'+'-'+version+'.jar')
+    implementation project(':v1_12').sourceSets.main.output
+    implementation project(':v1_16').sourceSets.main.output
+
+    compileOnly fileTree(dir: 'v1_12/src/main/java', include: '**/*.java')
+    compileOnly fileTree(dir: 'v1_16/src/main/java', include: '**/*.java')
 }
+
+project(":v1_12").evaluationDependsOnChildren()
+project(":v1_16").evaluationDependsOnChildren()
+compileJava.dependsOn(':v1_12:build', ':v1_16:build')
 
 test {
     useJUnitPlatform()
@@ -53,7 +60,10 @@ processResources {
 }
 
 jar {
-    from fileTree("common/build/libs/").include('*.jar').collect { zipTree(it) }
-    from fileTree("v1_12/build/libs/").include('*.jar').collect { zipTree(it) }
-    from fileTree("v1_16/build/libs/").include('*.jar').collect { zipTree(it) }
+    from project(':v1_12').sourceSets.main.output
+    from project(':v1_12').sourceSets.main.resources
+    from project(':common').sourceSets.main.output
+    from project(':common').sourceSets.main.resources
+    from project(':v1_16').sourceSets.main.output
+    from project(':v1_16').sourceSets.main.resources
 }

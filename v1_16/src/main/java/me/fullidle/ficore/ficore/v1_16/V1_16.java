@@ -3,6 +3,7 @@ package me.fullidle.ficore.ficore.v1_16;
 import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.ListenerList;
 import net.minecraftforge.eventbus.api.*;
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class V1_16 extends V1_version {
     public V1_16(){
@@ -45,6 +47,8 @@ public class V1_16 extends V1_version {
                 method.setAccessible(true);
             }
         }
+        //总线注册
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL,listener);
     }
 
     @SneakyThrows

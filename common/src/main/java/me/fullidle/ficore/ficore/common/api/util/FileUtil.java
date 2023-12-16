@@ -4,8 +4,13 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,13 +39,7 @@ public class FileUtil {
      */
     @SneakyThrows
     private FileUtil(File file){
-        if (!file.exists()){
-            File parentFile = file.getParentFile();
-            if (!parentFile.exists()) {
-                parentFile.mkdirs();
-            }
-            file.createNewFile();
-        }
+        checkFile(file);
         this.file = file;
         this.configuration = YamlConfiguration.loadConfiguration(file);
     }
@@ -66,10 +65,29 @@ public class FileUtil {
      * @return FileUtil
      */
     public static FileUtil getInstance(File file,boolean isNew) {
-        FileUtil fileUtil = new FileUtil(file);
         if (isNew) {
+            FileUtil fileUtil = new FileUtil(file);
+            cache.put(file,fileUtil);
             return fileUtil;
         }
         return cache.computeIfAbsent(file, FileUtil::new);
+    }
+
+    @SneakyThrows
+    public static FileUtil getResourceInstance(Plugin plugin, String path, boolean isNew, boolean replace){
+        File file = new File(plugin.getDataFolder(), path);
+        plugin.saveResource(path,replace);
+        return getInstance(file,isNew);
+    }
+
+    @SneakyThrows
+    public static void checkFile(File file){
+        if (!file.exists()){
+            File parentFile = file.getParentFile();
+            if (!parentFile.exists()) {
+                parentFile.mkdirs();
+            }
+            file.createNewFile();
+        }
     }
 }
