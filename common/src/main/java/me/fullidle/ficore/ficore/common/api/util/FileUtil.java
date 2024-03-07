@@ -2,15 +2,15 @@ package me.fullidle.ficore.ficore.common.api.util;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.core.util.IOUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,28 +76,18 @@ public class FileUtil {
     @SneakyThrows
     public static FileUtil getResourceInstance(Plugin plugin, String path, boolean isNew, boolean replace){
         File file = new File(plugin.getDataFolder(), path);
-        if (path.contains("\\")) {
-            path = path.replace("\\","/");
-        }
-        InputStream inputStream = plugin.getClass().getClassLoader().getResource(path).openStream();
-        if (replace || !Files.exists(file.toPath())) {
-            Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            return getInstance(file,isNew);
-        }
-        inputStream.close();
+        plugin.saveResource(path,replace);
         return getInstance(file,isNew);
     }
 
     @SneakyThrows
-    public static boolean checkFile(File file){
-        boolean exists = file.exists();
-        if (!exists){
+    public static void checkFile(File file){
+        if (!file.exists()){
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
                 parentFile.mkdirs();
             }
             file.createNewFile();
         }
-        return exists;
     }
 }
