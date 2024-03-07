@@ -19,7 +19,7 @@ public class SomeMethod {
     public static String getColorMsg(String msg) {
         return msg.replace("§", "&");
     }
-    public static void setLangMsgUtil(Object util, ConfigurationSection section){
-        LangMsgUtil.langMsgUtil(util,section);
+    public static void setLangMsgUtil(Object util, ConfigurationSection section,String spiltSign){
+        LangMsgUtil.langMsgUtil(util,section,spiltSign);
     }
 }
