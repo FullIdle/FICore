@@ -12,10 +12,10 @@ public class LangMsgUtil {
      * @apiNote 自动将对象中所有变量进行设置,所有值都来自与section内同变量名的节点值
      */
     @SneakyThrows
-    public static void langMsgUtil(Object util, ConfigurationSection section){
+    public static void langMsgUtil(Object util, ConfigurationSection section,String splitSign){
         for (Field field : util.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            field.set(util, section.get(field.getName()));
+            field.set(util, section.get(field.getName().replace(splitSign,".")));
         }
     }
 }
