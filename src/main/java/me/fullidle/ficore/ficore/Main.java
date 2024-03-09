@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.SomeMethod;
+import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
@@ -18,20 +19,12 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         String version = SomeMethod.getMinecraftVersion();
         getLogger().info("§3你的版本是"+version);
-        if (version.equalsIgnoreCase("1.12.2")) {
-            new V1_12();
-        }else
-        if (version.equalsIgnoreCase("1.16.5")) {
-            new V1_16();
-        }else{
-            getLogger().info("§c该版本不受到支持!");
-        }
+        int shortVer = Integer.parseInt(version.split("\\.")[1]);
+        V1_version v1Version = shortVer > 12 ? new V1_16() : new V1_12();
         try {
-            if (FIData.V1_version != null){
-                FIData.V1_version.registerForgeEvent();
-            }
+            v1Version.registerForgeEvent();
         }catch (Exception e){
-            getLogger().info("§c这个端没有ForgeApi,不涉及ForgeApi的功能均不可用");
+            getLogger().info("§c这个版本的forge不被支持,以放弃Forge功能,保留基础功能!");
             e.printStackTrace();
         }
         getLogger().info("§aPlugin loaded!");
