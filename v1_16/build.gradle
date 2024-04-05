@@ -1,11 +1,5 @@
-apply plugin: 'net.minecraftforge.gradle'
-
 group = rootProject.group
 version = rootProject.version
-
-minecraft {
-    mappings channel: 'official', version: '1.16.5'
-}
 
 repositories {
     mavenCentral()
@@ -14,19 +8,12 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
-    implementation project(':common')
-}
+    compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'me.forge.forgedev:ForgeDev:1.16.5'
 
-test {
-    useJUnitPlatform()
-}
+    implementation project(path: ':common')
 
-tasks.withType(JavaCompile){
-    options.encoding = "UTF-8"
-}
-
-processResources {
-    setFilteringCharset("UTF-8")
-    expand project.properties
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
