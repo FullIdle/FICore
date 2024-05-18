@@ -5,8 +5,6 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.event.FMLEvent;
 import net.minecraftforge.fml.common.eventhandler.*;
 import org.bukkit.plugin.Plugin;
 
@@ -122,12 +120,5 @@ public class V1_12 extends V1_version {
                 listenerList().unregister(entry.getKey(), (IEventListener) o);
             }
         }
-    }
-
-    @SneakyThrows
-    @Override
-    public void JsonToNBTInit() {
-        Class<net.minecraft.nbt.JsonToNBT> jsonToNBTClass = net.minecraft.nbt.JsonToNBT.class;
-        Method method = jsonToNBTClass.getDeclaredMethod("getTagFromJson", String.class);
     }
 }

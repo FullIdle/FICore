@@ -18,18 +18,18 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         String version = SomeMethod.getMinecraftVersion();
-        getLogger().info("§3你的版本是"+version);
+        getLogger().info("§3你的版本是" + version);
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
         V1_version v1Version = shortVer > 12 ? new V1_16() : new V1_12();
         try {
             v1Version.registerForgeEvent();
-        }catch (Exception e){
+        } catch (Exception e) {
             getLogger().info("§c这个版本的forge不被支持,以放弃Forge功能,保留基础功能!");
             e.printStackTrace();
         }
         getLogger().info("§aPlugin loaded!");
-        getServer().getPluginManager().registerEvents(new PluginListener(),this);
-        getServer().getPluginManager().registerEvents(new PlayerListener(),this);
+        getServer().getPluginManager().registerEvents(new PluginListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     @Override

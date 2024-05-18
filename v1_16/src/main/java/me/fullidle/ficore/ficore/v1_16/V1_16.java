@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class V1_16 extends V1_version {
     public V1_16(){
@@ -73,12 +72,5 @@ public class V1_16 extends V1_version {
         for (Map.Entry<Integer, ArrayList<Object>> entry : listMap.entrySet()) {
             ListenerList.unregisterAll(entry.getKey(), (IEventListener) entry.getValue());
         }
-    }
-
-    @SneakyThrows
-    @Override
-    public void JsonToNBTInit() {
-        Class<net.minecraft.nbt.JsonToNBT> jsonToNBTClass = net.minecraft.nbt.JsonToNBT.class;
-        Method method = jsonToNBTClass.getDeclaredMethod("parseTag", String.class);
     }
 }

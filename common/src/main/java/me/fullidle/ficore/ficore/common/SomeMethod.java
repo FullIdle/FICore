@@ -2,9 +2,13 @@ package me.fullidle.ficore.ficore.common;
 
 import me.fullidle.ficore.ficore.common.api.util.LangMsgUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 public class SomeMethod {
+    public static String nmsVersion;
+
     /**
      * @return 获取minecraft的版本
      */
@@ -21,5 +25,13 @@ public class SomeMethod {
     }
     public static void setLangMsgUtil(Object util, ConfigurationSection section,String spiltSign){
         LangMsgUtil.langMsgUtil(util,section,spiltSign);
+    }
+
+    public static String getNmsVersion(){
+        if (nmsVersion == null){
+            String name = new ItemStack(Material.GRASS).getItemMeta().getClass().getName();
+            nmsVersion = name.split("\\.")[3];
+        }
+        return nmsVersion;
     }
 }
