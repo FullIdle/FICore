@@ -70,7 +70,19 @@ public class V1_16 extends V1_version {
             return;
         }
         for (Map.Entry<Integer, ArrayList<Object>> entry : listMap.entrySet()) {
-            ListenerList.unregisterAll(entry.getKey(), (IEventListener) entry.getValue());
+            int busID = entry.getKey();
+            ArrayList<Object> listeners = entry.getValue();
+            for (Object obj : listeners) {
+                if (obj instanceof IEventListener) {
+                    ListenerList.unregisterAll(busID, (IEventListener) obj);
+                } else {
+                    // 处理不是 IEventListener 的情况（可选）
+                    System.err.println("Warning: Listener is not an instance of IEventListener");
+                }
+            }
         }
+        // 清空插件的监听器列表，避免重复注销
+        FIData.listenerList.remove(plugin);
     }
+
 }
