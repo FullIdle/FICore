@@ -33,7 +33,7 @@ allprojects {
         repositories {
             maven {
                 allowInsecureProtocol = true
-                url diary_studio_repo
+                url = uri(diary_studio_repo)
                 credentials {
                     username = diary_studio_username
                     password = diary_studio_password

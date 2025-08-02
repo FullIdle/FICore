@@ -10,6 +10,7 @@ public class PluginListener implements org.bukkit.event.Listener {
     @EventHandler
     public void pluginDisable(PluginDisableEvent e){
         Plugin plugin = e.getPlugin();
+        if (FIData.V1_version == null) return;
         FIData.V1_version.unregisterAllListener(plugin);
     }
 }
