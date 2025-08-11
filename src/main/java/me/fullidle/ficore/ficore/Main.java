@@ -18,7 +18,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         String version = SomeMethod.getMinecraftVersion();
-        getLogger().info("§3你的版本是" + version);
+        getLogger().info("§3Your version: " + version);
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
 
 
@@ -28,13 +28,14 @@ public class Main extends JavaPlugin {
             V1_version v1Version = shortVer > 12 ? new V1_16() : new V1_12();
             v1Version.registerForgeEvent();
         } catch (NoClassDefFoundError e) {
-            getLogger().info("§c这个版本的forge不被支持,以放弃Forge功能,保留基础功能!");
+            getLogger().info("§cThe server-side core version is not supported or supported by Forge, and the basic functionality of Forge features has been abandoned!");
         }
         getLogger().info("§aPlugin loaded!");
     }
 
     @Override
     public void onDisable() {
+        if (FIData.V1_version == null) return;
         FIData.V1_version.unregisterAllListener(this);
     }
 }

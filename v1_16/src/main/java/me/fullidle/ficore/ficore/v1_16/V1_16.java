@@ -3,6 +3,7 @@ package me.fullidle.ficore.ficore.v1_16;
 import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.ListenerList;
@@ -85,4 +86,8 @@ public class V1_16 extends V1_version {
         FIData.listenerList.remove(plugin);
     }
 
+    @Override
+    public ISpeciesWrapperFactory<?> getSpeciesWrapperFactory() {
+        return SpeciesWrapperFactory.INSTANCE;
+    }
 }

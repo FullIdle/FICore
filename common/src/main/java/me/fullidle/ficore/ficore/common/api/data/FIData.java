@@ -1,6 +1,5 @@
 package me.fullidle.ficore.ficore.common.api.data;
 
-import me.fullidle.ficore.ficore.common.V1_version;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;

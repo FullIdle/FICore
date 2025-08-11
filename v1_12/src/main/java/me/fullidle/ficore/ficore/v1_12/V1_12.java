@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.*;
 import org.bukkit.plugin.Plugin;
@@ -120,5 +121,10 @@ public class V1_12 extends V1_version {
                 listenerList().unregister(entry.getKey(), (IEventListener) o);
             }
         }
+    }
+
+    @Override
+    public ISpeciesWrapperFactory<?> getSpeciesWrapperFactory() {
+        return SpeciesWrapperFactory.INSTANCE;
     }
 }
