@@ -40,7 +40,6 @@ public class ConfigPool implements SpeciesWrapperPool {
         return new ConfigPool(
                 new CompositePool(section.getStringList("includes").stream().map(ConfigPool::baseParse).collect(Collectors.toList())),
                 new CompositePool(section.getStringList("excludes").stream().map(ConfigPool::baseParse).collect(Collectors.toList()))
-
         );
     }
 
@@ -66,6 +65,9 @@ public class ConfigPool implements SpeciesWrapperPool {
             }
             case "{mythical}": {
                 return MythicalPool.INSTANCE;
+            }
+            case "{ultra}": {
+                return UltraPool.INSTANCE;
             }
         }
         if (lowerCase.startsWith("{gen(")) {
