@@ -1,0 +1,46 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+apply plugin: 'architectury-plugin'
+apply plugin: 'dev.architectury.loom'
+
+architectury {
+    minecraft = '1.21.1'
+}
+
+repositories {
+    maven {
+        url = 'https://maven.impactdev.net/repository/development/'
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+compileKotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava {
+    options.release = 8
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings loom.officialMojangMappings()
+    def file = rootProject.file('./.gradle/loom-cache/remapped_mods/loom_mappings_1_21_1_layered_hash_40545_v2/com/cobblemon/mod/1.6.1+1.21.1')
+    if (!file.exists()) {
+        modCompileOnly "com.cobblemon:mod:1.6.1+1.21.1"
+    } else {
+        compileOnly fileTree(file)
+    }
+    compileOnly 'org.spigotmc:spigot:1.21.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
+}
