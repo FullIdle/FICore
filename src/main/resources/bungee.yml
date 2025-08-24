@@ -1,0 +1,3 @@
+name: ${rootProject.name}
+main: ${rootProject.group}.Bungee
+version: ${rootProject.version}
