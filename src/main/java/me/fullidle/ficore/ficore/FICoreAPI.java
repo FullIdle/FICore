@@ -1,8 +1,7 @@
 package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.api.data.FIData;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import org.bukkit.plugin.Plugin;
 
@@ -27,5 +26,9 @@ public class FICoreAPI {
      */
     public static ISpeciesWrapperFactory<?> getSpeciesWrapperFactory() {
         return FIData.V1_version.getSpeciesWrapperFactory();
+    }
+
+    public static IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
+        return FIData.V1_version.getPokemonWrapperFactory();
     }
 }

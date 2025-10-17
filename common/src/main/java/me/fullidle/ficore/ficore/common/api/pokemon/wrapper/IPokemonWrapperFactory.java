@@ -6,4 +6,6 @@ package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
  */
 public interface IPokemonWrapperFactory<T> {
     IPokemonWrapper<T> create(T original);
+
+    IPokemonWrapper<T> create(ISpeciesWrapper<?> speciesWrapper);
 }
