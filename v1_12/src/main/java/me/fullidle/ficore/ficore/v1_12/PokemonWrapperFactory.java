@@ -2,7 +2,6 @@ package me.fullidle.ficore.ficore.v1_12;
 
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
@@ -10,11 +9,11 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-
-import java.util.WeakHashMap;
+import org.bukkit.entity.Player;
 
 public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
     public static final PokemonWrapperFactory INSTANCE = new PokemonWrapperFactory();
@@ -32,15 +31,20 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
     @Getter
     public static class PokemonWrapper extends IPokemonWrapper<Pokemon> {
-        private final Pokemon original;
-
         public PokemonWrapper(Pokemon original) {
-            this.original = original;
+            super(original);
         }
 
         @Override
         public Entity getEntity() {
             return CraftEntity.getEntity(((CraftServer) Bukkit.getServer()), (((net.minecraft.server.v1_12_R1.Entity) (Object) this.getOriginal().getPixelmonIfExists())));
+        }
+
+        @Override
+        public Entity spawnEntity(Location location) {
+            val entity = CraftEntity.getEntity(((CraftServer) Bukkit.getServer()), (((net.minecraft.server.v1_12_R1.Entity) (Object) this.getOriginal().getOrSpawnPixelmon(null))));
+            entity.teleport(location);
+            return entity;
         }
 
         @Override
@@ -56,6 +60,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public String getTranslatedName() {
             return getOriginal().getLocalizedName();
+        }
+
+        @Override
+        public void givePlayer(Player player) {
+            Pixelmon.storageManager.getParty(player.getUniqueId()).add(this.getOriginal());
         }
 
         @Override

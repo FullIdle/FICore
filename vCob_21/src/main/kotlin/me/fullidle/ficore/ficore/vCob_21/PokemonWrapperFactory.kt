@@ -1,12 +1,21 @@
 package me.fullidle.ficore.ficore.vCob_21
 
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.party
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.ServerLinks
+import org.bukkit.craftbukkit.v1_21_R1.CraftWorld
 import org.bukkit.entity.Entity
+import org.bukkit.entity.Player
 
 object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
     override fun create(original: Pokemon): IPokemonWrapper<Pokemon> {
@@ -18,9 +27,17 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
         return create(pokemon)
     }
 
-    class PokemonWrapper(private val original: Pokemon) : IPokemonWrapper<Pokemon>() {
+    class PokemonWrapper(original: Pokemon) : IPokemonWrapper<Pokemon>(original) {
         override fun getEntity(): Entity? {
             return original.entity?.bukkitEntity
+        }
+
+        override fun spawnEntity(location: Location): Entity {
+            return this.original.sendOut(
+                (location.world as CraftWorld).handle as Any as ServerLevel,
+                Vec3(location.x, location.y, location.z),
+                null
+            )!!.bukkitEntity
         }
 
         override fun getSpecies(): ISpeciesWrapper<*> {
@@ -35,8 +52,8 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             return original.species.translatedName.string
         }
 
-        override fun getOriginal(): Pokemon {
-            return original
+        override fun givePlayer(player: Player) {
+            player.uniqueId.getPlayer()!!.party().add(this.original)
         }
 
         override fun getType(): Class<Pokemon> {
