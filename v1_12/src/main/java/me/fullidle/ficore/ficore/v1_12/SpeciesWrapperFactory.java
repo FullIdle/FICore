@@ -44,22 +44,19 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
         ).collect(Collectors.toList());
     }
 
-    @Getter
     public static class SpeciesWrapper extends ISpeciesWrapper<EnumSpecies> {
-        private final EnumSpecies original;
-
         public SpeciesWrapper(EnumSpecies original) {
-            this.original = original;
+            super(original);
         }
 
         @Override
         public String getName() {
-            return this.original.getUnlocalizedName();
+            return this.getOriginal().getUnlocalizedName();
         }
 
         @Override
         public boolean isLegend() {
-            return this.original.isLegendary();
+            return this.getOriginal().isLegendary();
         }
 
         /**
@@ -67,17 +64,17 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
          */
         @Override
         public boolean isMythical() {
-            return this.original.isLegendary();
+            return this.getOriginal().isLegendary();
         }
 
         @Override
         public int getGeneration() {
-            return this.original.getGeneration();
+            return this.getOriginal().getGeneration();
         }
 
         @Override
         public boolean isUltra() {
-            return this.original.isUltraBeast();
+            return this.getOriginal().isUltraBeast();
         }
 
         @Override

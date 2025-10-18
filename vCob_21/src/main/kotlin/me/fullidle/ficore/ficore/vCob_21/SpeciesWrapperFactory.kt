@@ -37,7 +37,7 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
         return cache.computeIfAbsent(es) { original: Species -> SpeciesWrapper(original) }
     }
 
-    class SpeciesWrapper(private val original: Species) : ISpeciesWrapper<Species>() {
+    class SpeciesWrapper(original: Species) : ISpeciesWrapper<Species>(original) {
         override fun getName(): String {
             return this.original.name
         }
@@ -68,10 +68,6 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
 
         override fun isUltra(): Boolean {
             return this.original.labels.contains(CobblemonPokemonLabels.ULTRA_BEAST)
-        }
-
-        override fun getOriginal(): Species? {
-            return this.original
         }
 
         override fun getType(): Class<Species> {

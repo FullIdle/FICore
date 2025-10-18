@@ -45,22 +45,19 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
         ).collect(Collectors.toList());
     }
 
-    @Getter
     public static class SpeciesWrapper extends ISpeciesWrapper<Species> {
-        private final Species original;
-
         public SpeciesWrapper(Species original) {
-            this.original = original;
+            super(original);
         }
 
         @Override
         public String getName() {
-            return this.original.getName();
+            return this.getOriginal().getName();
         }
 
         @Override
         public boolean isLegend() {
-            return this.original.isLegendary();
+            return this.getOriginal().isLegendary();
         }
 
         /**
@@ -68,17 +65,17 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
          */
         @Override
         public boolean isMythical() {
-            return this.original.isMythical();
+            return this.getOriginal().isMythical();
         }
 
         @Override
         public int getGeneration() {
-            return this.original.getGeneration();
+            return this.getOriginal().getGeneration();
         }
 
         @Override
         public boolean isUltra() {
-            return this.original.isUltraBeast();
+            return this.getOriginal().isUltraBeast();
         }
 
         @Override

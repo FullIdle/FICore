@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import net.minecraftforge.common.MinecraftForge;
@@ -132,5 +133,10 @@ public class V1_12 extends V1_version {
     @Override
     public IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
         return PokemonWrapperFactory.INSTANCE;
+    }
+
+    @Override
+    public IBreedLogic getBreedLogic() {
+        return BreedLogic.INSTANCE;
     }
 }

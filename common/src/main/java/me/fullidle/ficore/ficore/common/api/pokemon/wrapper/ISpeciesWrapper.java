@@ -1,8 +1,16 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
+import lombok.Getter;
 import me.fullidle.ficore.ficore.common.api.Wrapper;
 
+@Getter
 public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
+    private final T original;
+
+    public ISpeciesWrapper(T original) {
+        this.original = original;
+    }
+
     /**
      * 宝可梦物种名
      */

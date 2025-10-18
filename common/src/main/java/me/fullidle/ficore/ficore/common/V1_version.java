@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common;
 
+import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import org.bukkit.plugin.Plugin;
@@ -15,6 +16,8 @@ public abstract class V1_version {
     abstract public void unregisterAllListener(Plugin plugin);
     /**获取所有物种包装(这应该直接将所有物种进行缓存了)*/
     abstract public ISpeciesWrapperFactory<?> getSpeciesWrapperFactory();
-
+    /**获取宝可梦包裹工厂*/
     abstract public IPokemonWrapperFactory<?> getPokemonWrapperFactory();
+    /**获取配种繁殖逻辑*/
+    abstract public IBreedLogic getBreedLogic();
 }
