@@ -4,11 +4,14 @@ import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
+import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
 import me.fullidle.ficore.ficore.v1_12.V1_12;
 import me.fullidle.ficore.ficore.v1_16.V1_16;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
@@ -59,6 +62,11 @@ public class Main extends JavaPlugin {
             getLogger().info("§cThe server-side core version is not supported or supported by Forge, and the basic functionality of Forge features has been abandoned!");
         }
         getLogger().info("§aPlugin loaded!");
+        val world = Bukkit.getWorlds().get(0);
+        val entity = world.spawnEntity(new Location(world, 0, 0, 0), EntityType.DROPPED_ITEM);
+        val handle = CraftEntity.getHandle(entity);
+        System.out.println(handle.getClass());
+        System.out.println(CraftEntity.getEntity(handle).getUniqueId());
     }
 
     @Override

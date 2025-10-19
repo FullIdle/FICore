@@ -9,10 +9,21 @@ import org.bukkit.entity.Entity;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class CraftEntity {
     public static final Class<?> NMS_CRAFT_ENTITY_CLASS;
     public static final Method GET_ENTITY_METHOD;
+    public static final Method GET_HANDLE_METHOD;
+
+    public static Object getHandle(Entity entity) {
+        if (entity == null) return null;
+        try {
+            return GET_HANDLE_METHOD.invoke(entity);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static Entity getEntity(Object nmsEntity) {
         if (nmsEntity == null) return null;
@@ -25,10 +36,13 @@ public class CraftEntity {
 
     static {
         try {
-            NMS_CRAFT_ENTITY_CLASS = Class.forName(String.format("%s.%s.entity.CraftEntity", VersionUtil.CRAFT_BUKKIT_HEAD_TAG, VersionUtil.getNmsVersion()));
-            val method = Arrays.stream(NMS_CRAFT_ENTITY_CLASS.getDeclaredMethods()).filter(m -> m.getName().equals("getEntity")).findFirst();
-            if (!method.isPresent()) throw new RuntimeException("Could not find getHandle method in CraftEntity class");
-            GET_ENTITY_METHOD = method.get();
+            NMS_CRAFT_ENTITY_CLASS = Class.forName(VersionUtil.formatCraftBukkitClass("entity.CraftEntity"));
+            val collect = Arrays.stream(NMS_CRAFT_ENTITY_CLASS.getDeclaredMethods()).collect(Collectors.toMap(Method::getName, method -> method,(a,b)-> a));
+            GET_ENTITY_METHOD = collect.get("getEntity");
+            GET_HANDLE_METHOD = collect.get("getHandle");
+
+            if (GET_ENTITY_METHOD == null || GET_HANDLE_METHOD == null)
+                FIData.plugin.getLogger().warning("CraftEntity may not work properly!");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

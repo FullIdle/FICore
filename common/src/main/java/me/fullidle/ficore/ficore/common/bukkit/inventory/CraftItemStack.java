@@ -45,7 +45,7 @@ public class CraftItemStack {
 
     static {
         try {
-            v1_CraftItemStack_Class = Class.forName(String.format("%s.%s.inventory.CraftItemStack", VersionUtil.CRAFT_BUKKIT_HEAD_TAG, VersionUtil.getNmsVersion()));
+            v1_CraftItemStack_Class = Class.forName("inventory.CraftItemStack");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -16,6 +16,14 @@ public class VersionUtil {
     @Getter
     private final static String nmsVersion;
 
+
+    /**
+     * 格式化 CraftBukkit 类名
+     */
+    public static String formatCraftBukkitClass(String tail) {
+        return CRAFT_BUKKIT_HEAD_TAG + "." + (nmsVersion.isEmpty() ? tail : nmsVersion + "." + tail);
+    }
+
     /**
      * @return 获取minecraft的版本
      */
