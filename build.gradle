@@ -29,14 +29,6 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
-    kotlin {
-        jvmToolchain(8)
-    }
-
-    java {
-        sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     repositories {
         mavenCentral()
         mavenLocal()
@@ -84,15 +76,25 @@ publishing {
     }
 }
 
+def project21 = project(":v1_21")
+
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
 
-    compileOnly subprojects
+
+    compileOnly subprojects.findAll {
+        it != project21 && !project21.subprojects.contains(it)
+    }
 }
 
 jar {
     archiveFileName = "${project.name}-${project.version}.jar"
     from(subprojects.collect {it.sourceSets.main.output})
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

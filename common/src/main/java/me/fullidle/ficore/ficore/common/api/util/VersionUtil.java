@@ -9,6 +9,10 @@ import org.bukkit.configuration.ConfigurationSection;
 public class VersionUtil {
     public final static String CRAFT_BUKKIT_HEAD_TAG = "org.bukkit.craftbukkit";
 
+    /**
+     * NMS 版本
+     * 在 Your 核心上 这将会是一个空字符
+     */
     @Getter
     private final static String nmsVersion;
 
@@ -32,8 +36,9 @@ public class VersionUtil {
     }
 
     static {
-        val ver = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        nmsVersion = (ver.startsWith("v") && ver.matches(".*\\d.*") && ver.contains("_")) ? ver : null;
+        val info = Bukkit.getServer().getClass().getPackage().getName().split("\\.");
+        val ver = info.length == 3 ? "" : info[3];
+        nmsVersion = (ver.isEmpty() || (ver.startsWith("v") && ver.matches(".*\\d.*") && ver.contains("_"))) ? ver : null;
         if (nmsVersion == null) {
             FIData.plugin.getLogger().warning("当前版本涉及NMS的功能无法正常使用! >> " + ver);
         }
