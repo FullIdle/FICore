@@ -1,14 +1,13 @@
 package me.fullidle.ficore.ficore;
 
-import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
-import me.fullidle.ficore.ficore.common.api.commands.CommandBuilder;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
 import me.fullidle.ficore.ficore.v1_12.V1_12;
 import me.fullidle.ficore.ficore.v1_16.V1_16;
+import me.fullidle.ficore.ficore.v1_21.V1_21;
 import me.fullidle.ficore.ficore.vCob_21.VCob_21;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,7 +31,7 @@ public class Main extends JavaPlugin {
                 Class.forName("com.cobblemon.mod.common.Cobblemon");
                 VCob_21.INSTANCE.registerForgeEvent();
             } catch (ClassNotFoundException e) {
-                V1_version v1Version = shortVer > 12 ? new V1_16() : new V1_12();
+                V1_version v1Version = shortVer > 12 ? shortVer == 21 ? new V1_21() : new V1_16() : new V1_12();
                 v1Version.registerForgeEvent();
             }
         } catch (NoClassDefFoundError e) {

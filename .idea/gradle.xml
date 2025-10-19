@@ -12,7 +12,8 @@
             <option value="$PROJECT_DIR$/v1_12" />
             <option value="$PROJECT_DIR$/v1_16" />
             <option value="$PROJECT_DIR$/v1_21" />
-            <option value="$PROJECT_DIR$/vCob_21" />
+            <option value="$PROJECT_DIR$/v1_21/Cob" />
+            <option value="$PROJECT_DIR$/v1_21/Reforged" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />
