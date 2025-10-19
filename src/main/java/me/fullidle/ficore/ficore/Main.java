@@ -1,8 +1,10 @@
 package me.fullidle.ficore.ficore;
 
-import me.fullidle.ficore.ficore.common.SomeMethod;
+import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.commands.CommandBuilder;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
 import me.fullidle.ficore.ficore.v1_12.V1_12;
@@ -18,7 +20,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        String version = SomeMethod.getMinecraftVersion();
+        String version = VersionUtil.getMinecraftVersion();
         getLogger().info("§3Your version: " + version);
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
 

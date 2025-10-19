@@ -11,10 +11,9 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
+import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -41,12 +40,12 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Override
         public Entity getEntity() {
-            return CraftEntity.getEntity(((CraftServer) Bukkit.getServer()), ((net.minecraft.server.v1_16_R3.Entity) (Object) this.getOriginal().getPixelmonEntity().orElse(null)));
+            return CraftEntity.getEntity(this.getOriginal().getPixelmonEntity().orElse(null));
         }
 
         @Override
         public Entity spawnEntity(Location location) {
-            val entity = CraftEntity.getEntity(((CraftServer) Bukkit.getServer()), ((net.minecraft.server.v1_16_R3.Entity) (Object) this.getOriginal().getOrSpawnPixelmon(null)));
+            val entity = CraftEntity.getEntity(this.getOriginal().getOrSpawnPixelmon(null));
             entity.teleport(location);
             return entity;
         }

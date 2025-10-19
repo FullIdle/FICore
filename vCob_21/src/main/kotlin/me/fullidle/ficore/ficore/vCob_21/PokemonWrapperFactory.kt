@@ -8,11 +8,8 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
-import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.ServerLinks
 import org.bukkit.craftbukkit.v1_21_R1.CraftWorld
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player

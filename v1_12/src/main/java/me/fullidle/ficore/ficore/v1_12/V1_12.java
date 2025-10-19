@@ -7,6 +7,7 @@ import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.*;
 import org.bukkit.plugin.Plugin;
@@ -31,7 +32,7 @@ public class V1_12 extends V1_version {
     @Override
     @SneakyThrows
     public void registerForgeEvent(){
-        if (!SomeMethod.getMinecraftVersion().equalsIgnoreCase("1.12.2")){
+        if (!VersionUtil.getMinecraftVersion().equalsIgnoreCase("1.12.2")){
             throw new RuntimeException("注册Forge事件失败,如果你不需要用到,可以不在意这个报错");
         }
         Field field = ListenerList.class.getDeclaredField("lists");

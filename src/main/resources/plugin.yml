@@ -1,4 +1,7 @@
 name: ${rootProject.name}
 main: ${rootProject.group}.Main
-version: ${version}
+version: ${rootProject.version}
 api-version: 1.16
+commands:
+  ficore:
+    description: ficore demo command

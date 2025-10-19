@@ -6,6 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 将换成更有识别度的 {@link me.fullidle.ficore.ficore.common.api.util.VersionUtil}
+ */
+@Deprecated
 public class SomeMethod {
     public static String nmsVersion;
 
