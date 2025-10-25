@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common;
 
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
@@ -20,4 +21,6 @@ public abstract class V1_version {
     abstract public IPokemonWrapperFactory<?> getPokemonWrapperFactory();
     /**获取配种繁殖逻辑*/
     abstract public IBreedLogic getBreedLogic();
+    /**获取对局管理器*/
+    abstract public IBattleManager getBattleManager();
 }
