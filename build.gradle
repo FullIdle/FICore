@@ -46,6 +46,8 @@ allprojects {
         /*==>lombok<==*/
         compileOnly('org.projectlombok:lombok:1.18.34')
         annotationProcessor('org.projectlombok:lombok:1.18.34')
+
+        compileOnly "org.jetbrains.kotlin:kotlin-reflect:2.0.20"
     }
 
     tasks.withType(JavaCompile).configureEach {

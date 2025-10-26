@@ -3,6 +3,7 @@ package me.fullidle.ficore.ficore.v1_16;
 import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
@@ -101,5 +102,10 @@ public class V1_16 extends V1_version {
     @Override
     public IBreedLogic getBreedLogic() {
         return BreedLogic.INSTANCE;
+    }
+
+    @Override
+    public IBattleManager getBattleManager() {
+        return BattleManager.INSTANCE;
     }
 }

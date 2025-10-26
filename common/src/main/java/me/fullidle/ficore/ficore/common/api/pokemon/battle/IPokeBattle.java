@@ -11,4 +11,6 @@ public interface IPokeBattle {
      * 停止对局
      */
     void end();
+
+    void start();
 }
