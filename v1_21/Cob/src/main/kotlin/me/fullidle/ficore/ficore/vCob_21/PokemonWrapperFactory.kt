@@ -7,10 +7,11 @@ import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
+import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
+import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_21_R1.CraftWorld
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
@@ -26,15 +27,19 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
 
     class PokemonWrapper(original: Pokemon) : IPokemonWrapper<Pokemon>(original) {
         override fun getEntity(): Entity? {
-            return original.entity?.bukkitEntity
+            return original.entity?.let {
+                CraftEntity.getEntity(it)
+            }
         }
 
         override fun spawnEntity(location: Location): Entity {
             return this.original.sendOut(
-                (location.world as CraftWorld).handle as Any as ServerLevel,
+                CraftWorld.getHandle(location.world) as ServerLevel,
                 Vec3(location.x, location.y, location.z),
                 null
-            )!!.bukkitEntity
+            )!!.let {
+                CraftEntity.getEntity(it)
+            }
         }
 
         override fun getSpecies(): ISpeciesWrapper<*> {
