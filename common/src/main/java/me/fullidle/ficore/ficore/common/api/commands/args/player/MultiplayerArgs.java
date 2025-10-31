@@ -43,6 +43,8 @@ public class MultiplayerArgs implements Args<Set<Player>> {
 
     @Override
     public List<String> prompts() {
-        return PlayerArgs.INSTANCE.prompts();
+        val list = Lists.newArrayList(PlayerArgs.INSTANCE.prompts());
+        list.addAll(Arrays.asList("@a", "@r", "@s", "@p"));
+        return list;
     }
 }

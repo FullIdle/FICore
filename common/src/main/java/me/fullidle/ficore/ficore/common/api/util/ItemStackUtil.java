@@ -17,6 +17,12 @@ public class ItemStackUtil {
         val materialName = Objects.requireNonNull(Objects.requireNonNull(section).getString("material"));
         val material = Objects.requireNonNull(Material.getMaterial(materialName));
         val itemStack = new ItemStack(material);
+
+        val durability = section.getInt("durability", -1);
+        if (durability != -1) itemStack.setDurability((short) durability);
+        val amount = section.getInt("amount", -1);
+        if (amount != -1) itemStack.setAmount(amount);
+
         val itemMeta = itemStack.getItemMeta();
         assert itemMeta != null;
         itemMeta.setDisplayName(section.getString("name"));
@@ -29,10 +35,7 @@ public class ItemStackUtil {
      * 只读3项
      */
     public static ItemStack parseSimpleMap(Map<String, Object> map) {
-        val yaml = new YamlConfiguration();
-        yaml.set("material",map.get("material"));
-        yaml.set("name",map.get("name"));
-        yaml.set("lore",map.get("lore"));
-        return parseSimpleYaml(yaml);
+        val section = new YamlConfiguration().createSection("item",map);
+        return parseSimpleYaml(section);
     }
 }

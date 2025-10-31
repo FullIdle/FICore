@@ -2,6 +2,7 @@ package me.fullidle.ficore.ficore.common;
 
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import org.bukkit.plugin.Plugin;
@@ -23,4 +24,6 @@ public abstract class V1_version {
     abstract public IBreedLogic getBreedLogic();
     /**获取对局管理器*/
     abstract public IBattleManager getBattleManager();
+    /*** 宝可梦存储管理器*/
+    abstract public IPokeStorageManager getPokeStorageManager();
 }

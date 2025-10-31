@@ -15,16 +15,19 @@ import java.util.Objects;
 public class InvButton {
     private String id;
     private ItemStack displayItem;
+    private ConfigurationSection config;
 
     public InvButton(
             String id,
-            ItemStack displayItem
+            ItemStack displayItem,
+            ConfigurationSection config
     ) {
         this.id = id;
         this.displayItem = displayItem;
+        this.config = config;
     }
 
     public static InvButton parse(String id,ConfigurationSection section) {
-        return new InvButton(id, ItemStackUtil.parseSimpleYaml(section));
+        return new InvButton(id, ItemStackUtil.parseSimpleYaml(section), section);
     }
 }

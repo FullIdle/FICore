@@ -3,19 +3,31 @@ package me.fullidle.ficore.ficore.v1_16;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
+import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
+import com.pixelmonmod.pixelmon.api.storage.StoragePosition;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
+import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
     public static final PokemonWrapperFactory INSTANCE = new PokemonWrapperFactory();
@@ -72,8 +84,67 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
+        public Map<Stats, Integer> getStats() {
+            val map = new HashMap<Stats, Integer>();
+            for (BattleStatsType type : BattleStatsType.getEVIVStatValues()) {
+                val stat = this.getOriginal().getStats().get(type);
+                map.put(Stats.fromString(type.name()), stat);
+            }
+            return map;
+        }
+
+        @Override
+        public boolean isLegend() {
+            return this.getOriginal().isLegendary(true);
+        }
+
+        @Override
+        public boolean isMythical() {
+            return this.getOriginal().isMythical();
+        }
+
+        @Override
+        public boolean isUltra() {
+            return this.getOriginal().isUltraBeast();
+        }
+
+        @Nullable
+        @Override
+        public OfflinePlayer getOwner() {
+            val uuid = this.getOriginal().getOwnerPlayerUUID();
+            return uuid == null ? null : Bukkit.getOfflinePlayer(uuid);
+        }
+
+        @Nullable
+        @Override
+        public UUID getUniqueId() {
+            val uuid = this.getOriginal().getOwnerPlayerUUID();
+            return uuid == null ? this.getOriginal().getOwnerTrainerUUID() : null;
+        }
+
+        @Override
+        public IPokeStorageWrapper<?> getStorage() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public StoragePos getStoragePos() {
+            val pos = this.getOriginal().getPosition();
+            return pos == null ? null : asPos(pos);
+        }
+
+        @Override
+        public boolean isEgg() {
+            return this.getOriginal().isEgg();
+        }
+
+        @Override
         public Class<Pokemon> getType() {
             return Pokemon.class;
         }
+    }
+
+    public static StoragePos asPos(StoragePosition pos) {
+        return new StoragePos(pos.box, pos.order);
     }
 }

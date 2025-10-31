@@ -5,6 +5,7 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import org.bukkit.plugin.Plugin;
@@ -53,5 +54,10 @@ public class V1_21 extends V1_version {
     @Override
     public IBattleManager getBattleManager() {
         return BattleManager.INSTANCE;
+    }
+
+    @Override
+    public IPokeStorageManager getPokeStorageManager() {
+        return PokeStorageManager.INSTANCE;
     }
 }

@@ -81,7 +81,7 @@ public class InvConfig {
         return inv;
     }
 
-    public InvConfig parse(ConfigurationSection section) {
+    public static InvConfig parse(ConfigurationSection section) {
         val title = section.getString("title");
         val layout = section.getStringList("layout");
         val invButtons = new ArrayList<InvButton>();
@@ -89,5 +89,9 @@ public class InvConfig {
         if (buttons != null) for (String key : buttons.getKeys(false))
             invButtons.add(InvButton.parse(key, buttons.getConfigurationSection(key)));
         return new InvConfig(section, title, layout, invButtons);
+    }
+
+    public static InvConfig parse(Map<String, Object> data) {
+        return parse(new YamlConfiguration().createSection("data", data));
     }
 }

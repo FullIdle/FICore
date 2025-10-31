@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import org.bukkit.plugin.Plugin;
@@ -30,5 +31,9 @@ public class FICoreAPI {
 
     public static IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
         return FIData.V1_version.getPokemonWrapperFactory();
+    }
+
+    public static IPokeStorageManager getPokeStorageManager() {
+        return FIData.V1_version.getPokeStorageManager();
     }
 }

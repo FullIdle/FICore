@@ -24,8 +24,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println(VersionUtil.class);
-        System.out.println(VersionUtil.getMinecraftVersion());
         String version = VersionUtil.getMinecraftVersion();
         getLogger().info("§3Your version: " + version);
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
@@ -42,7 +40,7 @@ public class Main extends JavaPlugin {
             } catch (ClassNotFoundException e) {
                 V1_version v1Version;
                 if (shortVer > 12) {
-                    if (shortVer > 21) {
+                    if (shortVer >= 21) {
                         try {
                             val clazz = Class.forName("me.fullidle.ficore.ficore.v1_21.V1_21");
                             v1Version = (V1_version) clazz.getDeclaredConstructor().newInstance();
@@ -62,11 +60,6 @@ public class Main extends JavaPlugin {
             getLogger().info("§cThe server-side core version is not supported or supported by Forge, and the basic functionality of Forge features has been abandoned!");
         }
         getLogger().info("§aPlugin loaded!");
-        val world = Bukkit.getWorlds().get(0);
-        val entity = world.spawnEntity(new Location(world, 0, 0, 0), EntityType.DROPPED_ITEM);
-        val handle = CraftEntity.getHandle(entity);
-        System.out.println(handle.getClass());
-        System.out.println(CraftEntity.getEntity(handle).getUniqueId());
     }
 
     @Override
