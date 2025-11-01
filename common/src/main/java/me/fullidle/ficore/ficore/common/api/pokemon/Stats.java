@@ -20,7 +20,7 @@ public enum Stats {
     public static Stats fromString(String s) {
         try {
             return valueOf(s.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         for (Stats value : values()) if (value.id.equals(s)) return value;
         return null;

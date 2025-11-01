@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import me.fullidle.ficore.ficore.common.api.Wrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import org.bukkit.Location;
@@ -25,8 +26,10 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
     }
 
     /*==>abstract<==*/
+
     /**
      * 获取宝可梦生成的实体
+     *
      * @return 如果不存在则会空
      */
     public abstract Entity getEntity();
@@ -38,6 +41,7 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * {@code FICoreAPI.createSpeciesWrapper(species)}
      */
     public abstract ISpeciesWrapper<?> getSpecies();
+
     /**
      * 获取宝可梦的名字(非中文)
      */
@@ -51,7 +55,7 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
     public abstract void givePlayer(Player player);
 
     /**
-     * 种族值
+     * 种族值 无法修改
      */
     public abstract Map<Stats, Integer> getStats();
 
@@ -60,10 +64,12 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 1.12.2重铸则包含
      */
     public abstract boolean isLegend();
+
     /**
      * 是否是幻兽
      */
     public abstract boolean isMythical();
+
     /**
      * 是否是究极异兽
      */
@@ -71,6 +77,7 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
 
     /**
      * 当主人不是玩家时，该值应该为null
+     *
      * @return 宝可梦主人
      */
     @Nullable
@@ -92,5 +99,85 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      */
     public abstract StoragePos getStoragePos();
 
+    /**
+     * 是否是蛋
+     */
     public abstract boolean isEgg();
+
+    /**
+     * 是否是闪光
+     */
+    public abstract boolean isShiny();
+
+    /**
+     * 设置闪光
+     */
+    public abstract void setShiny(boolean shiny);
+
+    /**
+     * 获取个体值数据
+     *
+     * @return 返回值不应该直接修改
+     */
+    public abstract Map<Stats, Integer> getIVs();
+
+    /**
+     * 获取努力值数据
+     *
+     * @return 返回值不应该直接修改
+     */
+    public abstract Map<Stats, Integer> getEVs();
+
+    /**
+     * 设置努力值
+     *
+     * @param type  类型
+     * @param value 值
+     */
+    public abstract void setEV(Stats type, int value);
+
+    /**
+     * 设置个体值
+     *
+     * @param type  类型
+     * @param value 值
+     */
+    public abstract void setIV(Stats type, int value);
+
+    /**
+     * 获取性别
+     * @return 性别
+     */
+    public abstract Gender getGender();
+
+    /**
+     * 设置性别
+     * @param gender 性别
+     */
+    public abstract void setGender(Gender gender);
+
+    /**
+     * 该宝可梦的UUID
+     * @return 宝可梦UUID
+     */
+    public abstract UUID getUUID();
+
+    /**
+     * 设置宝可梦的UUID
+     * @param uuid 宝可梦UUID
+     */
+    public abstract void setUUID(UUID uuid);
+
+    /**
+     * 获取血量
+     *
+     * @return 血量
+     */
+    public abstract int getHealth();
+
+    /**
+     * 设置血量
+     * @param health 血量
+     */
+    public abstract void setHealth(int health);
 }

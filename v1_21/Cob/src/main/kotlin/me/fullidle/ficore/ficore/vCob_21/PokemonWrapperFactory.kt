@@ -1,12 +1,16 @@
 package me.fullidle.ficore.ficore.vCob_21
 
+import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
+import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import me.fullidle.ficore.ficore.common.api.data.FIData
+import me.fullidle.ficore.ficore.common.api.pokemon.Gender
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper
@@ -95,7 +99,9 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
         }
 
         override fun getStorage(): IPokeStorageWrapper<*>? {
-            TODO("Not yet implemented")
+            return this.original.storeCoordinates.get()?.store?.let {
+                PokeStorageManager.PokeStorageWrapper(it as PokemonStore<StorePosition>)
+            }
         }
 
         override fun getStoragePos(): StoragePos? {
@@ -111,6 +117,54 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             return false
         }
 
+        override fun isShiny(): Boolean {
+            return this.original.shiny
+        }
+
+        override fun setShiny(shiny: Boolean) {
+            this.original.shiny = shiny
+        }
+
+        override fun getIVs(): Map<Stats, Int> {
+            return asMap(this.original.ivs)
+        }
+
+        override fun getEVs(): Map<Stats, Int> {
+            return asMap(this.original.evs)
+        }
+
+        override fun setEV(type: Stats, value: Int) {
+            this.original.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(type.id)] = value
+        }
+
+        override fun setIV(type: Stats, value: Int) {
+            this.original.evs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(type.id)] = value
+        }
+
+        override fun getGender(): Gender? {
+            return asGender(this.original.gender)
+        }
+
+        override fun setGender(gender: Gender) {
+            this.original.gender = asGender(gender)
+        }
+
+        override fun getUUID(): UUID? {
+            return this.original.uuid
+        }
+
+        override fun setUUID(uuid: UUID?) {
+            this.original.uuid = uuid
+        }
+
+        override fun getHealth(): Int {
+            return this.original.currentHealth
+        }
+
+        override fun setHealth(health: Int) {
+            this.original.currentHealth = health
+        }
+
         override fun getType(): Class<Pokemon> {
             return Pokemon::class.java
         }
@@ -122,6 +176,30 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
                     is PCPosition -> StoragePos(pos.box, pos.slot)
                     else -> throw IllegalArgumentException("Unknown position type: $pos")
                 }
+            }
+
+            fun asGender(gender: com.cobblemon.mod.common.pokemon.Gender): Gender {
+                return when(gender) {
+                    com.cobblemon.mod.common.pokemon.Gender.MALE -> Gender.MALE
+                    com.cobblemon.mod.common.pokemon.Gender.FEMALE -> Gender.FEMALE
+                    com.cobblemon.mod.common.pokemon.Gender.GENDERLESS -> Gender.GENDERLESS
+                }
+            }
+
+            fun asGender(gender: Gender): com.cobblemon.mod.common.pokemon.Gender {
+                return when(gender) {
+                    Gender.MALE -> com.cobblemon.mod.common.pokemon.Gender.MALE
+                    Gender.FEMALE -> com.cobblemon.mod.common.pokemon.Gender.FEMALE
+                    Gender.GENDERLESS -> com.cobblemon.mod.common.pokemon.Gender.GENDERLESS
+                }
+            }
+
+            fun asMap(stats: PokemonStats): Map<Stats, Int> {
+                return stats.mapNotNull {entry->
+                    Stats.fromString(entry.key.showdownId)?.let {
+                        it to entry.value
+                    }
+                }.toMap()
             }
         }
     }

@@ -3,11 +3,13 @@ package me.fullidle.ficore.ficore.v1_21;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
+import com.pixelmonmod.pixelmon.api.pokemon.stats.IStatStore;
 import com.pixelmonmod.pixelmon.api.storage.StoragePosition;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
@@ -22,6 +24,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -134,6 +137,66 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
+        public boolean isShiny() {
+            return this.getOriginal().isShiny();
+        }
+
+        @Override
+        public void setShiny(boolean shiny) {
+            this.getOriginal().setShiny(shiny);
+        }
+
+        @Override
+        public Map<Stats, Integer> getIVs() {
+            return asMap(BattleStatsType.getEVIVStatValues(),this.getOriginal().getIVs());
+        }
+
+        @Override
+        public Map<Stats, Integer> getEVs() {
+            return asMap(BattleStatsType.getEVIVStatValues(),this.getOriginal().getEVs());
+        }
+
+        @Override
+        public void setEV(Stats type, int value) {
+            this.getOriginal().getEVs().setStat(BattleStatsType.getStatsEffect(type.name()), value);
+        }
+
+        @Override
+        public void setIV(Stats type, int value) {
+            this.getOriginal().getIVs().setStat(BattleStatsType.getStatsEffect(type.name()), value);
+        }
+
+        @Override
+        public Gender getGender() {
+            return asGender(this.getOriginal().getGender());
+        }
+
+        @Override
+        public void setGender(Gender gender) {
+            this.getOriginal().setGender(asGender(gender));
+        }
+
+        @Override
+        public UUID getUUID() {
+            return this.getOriginal().getUUID();
+        }
+
+        @Override
+        public void setUUID(UUID uuid) {
+            this.getOriginal().setUUID(uuid);
+        }
+
+        @Override
+        public int getHealth() {
+            return this.getOriginal().getHealth();
+        }
+
+        @Override
+        public void setHealth(int health) {
+            this.getOriginal().setHealth(health);
+        }
+
+        @Override
         public Class<Pokemon> getType() {
             return Pokemon.class;
         }
@@ -141,5 +204,27 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
     public static StoragePos asPos(StoragePosition pos) {
         return new StoragePos(pos.box, pos.order);
+    }
+
+    public static Gender asGender(com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender gender) {
+        return switch (gender) {
+            case MALE -> Gender.MALE;
+            case FEMALE -> Gender.FEMALE;
+            case NONE -> Gender.GENDERLESS;
+        };
+    }
+
+    public static com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender asGender(Gender gender) {
+        return switch (gender) {
+            case MALE -> com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender.MALE;
+            case FEMALE -> com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender.FEMALE;
+            case GENDERLESS -> com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender.NONE;
+        };
+    }
+
+    public static Map<Stats, Integer> asMap(BattleStatsType[] types, IStatStore store) {
+        val map = new HashMap<Stats, Integer>();
+        for (BattleStatsType type : types) map.put(Stats.fromString(type.name()), store.getStat(type));
+        return Collections.unmodifiableMap(map);
     }
 }
