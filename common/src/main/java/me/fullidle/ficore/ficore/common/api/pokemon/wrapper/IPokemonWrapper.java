@@ -32,9 +32,9 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      *
      * @return 如果不存在则会空
      */
-    public abstract Entity getEntity();
+    public abstract PokeEntityWrapper<?> getEntity();
 
-    public abstract Entity spawnEntity(Location location);
+    public abstract PokeEntityWrapper<?> spawnEntity(Location location);
 
     /**
      * 获取指定物种包装
@@ -87,7 +87,7 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 非玩家也可以是主人
      */
     @Nullable
-    public abstract UUID getUniqueId();
+    public abstract UUID getOwnerUUID();
 
     /**
      * 获取所在存储 TODO暂时不实现!
@@ -185,4 +185,20 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * @param health 血量
      */
     public abstract void setHealth(int health);
+
+    /**
+     * 是否在牧场内 大概也就1.12.2重铸有了
+     * @return 是否在牧场内
+     */
+    public boolean inRanch() {
+        return false;
+    }
+
+    /**
+     * 是否有主人
+     * @return 是否有主人
+     */
+    public boolean hasOwner() {
+        return this.getOwnerUUID() != null;
+    }
 }

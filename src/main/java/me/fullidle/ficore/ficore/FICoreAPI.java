@@ -4,6 +4,7 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import org.bukkit.plugin.Plugin;
 
 public class FICoreAPI {
@@ -29,11 +30,24 @@ public class FICoreAPI {
         return FIData.V1_version.getSpeciesWrapperFactory();
     }
 
+    /**
+     * 宝可梦包裹工厂
+     */
     public static IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
         return FIData.V1_version.getPokemonWrapperFactory();
     }
 
+    /**
+     * 存储管理器
+     */
     public static IPokeStorageManager getPokeStorageManager() {
         return FIData.V1_version.getPokeStorageManager();
+    }
+
+    /**
+     * 宝可梦实体包裹工厂
+     */
+    public static PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
+        return FIData.V1_version.getPokeEntityWrapperFactory();
     }
 }

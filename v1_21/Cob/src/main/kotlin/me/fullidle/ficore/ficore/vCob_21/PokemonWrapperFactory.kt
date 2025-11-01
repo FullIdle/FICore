@@ -16,6 +16,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapper
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
 import net.minecraft.server.level.ServerLevel
@@ -38,19 +39,19 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
     }
 
     class PokemonWrapper(original: Pokemon) : IPokemonWrapper<Pokemon>(original) {
-        override fun getEntity(): Entity? {
+        override fun getEntity(): PokeEntityWrapper<*>? {
             return original.entity?.let {
-                CraftEntity.getEntity(it)
+                (FIData.V1_version.pokeEntityWrapperFactory as PokeEntityWrapperFactoryImpl).create(it)
             }
         }
 
-        override fun spawnEntity(location: Location): Entity {
+        override fun spawnEntity(location: Location): PokeEntityWrapper<*>? {
             return this.original.sendOut(
                 CraftWorld.getHandle(location.world) as ServerLevel,
                 Vec3(location.x, location.y, location.z),
                 null
             )!!.let {
-                CraftEntity.getEntity(it)
+                (FIData.V1_version.pokeEntityWrapperFactory as PokeEntityWrapperFactoryImpl).create(it)
             }
         }
 
@@ -92,7 +93,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             return Bukkit.getOfflinePlayers().find { p -> p.uniqueId == this.original.getOwnerUUID() }
         }
 
-        override fun getUniqueId(): UUID? {
+        override fun getOwnerUUID(): UUID? {
             return this.original.getOwnerUUID()
         }
 

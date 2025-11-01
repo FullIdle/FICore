@@ -12,10 +12,7 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -53,15 +50,17 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
-        public Entity getEntity() {
-            return CraftEntity.getEntity(this.getOriginal().getPixelmonEntity().orElse(null));
+        public PokeEntityWrapper<?> getEntity() {
+            val en = this.getOriginal().getPixelmonEntity();
+            return en.map(entity -> ((VPokeEntityWrapperFactory) FIData.V1_version.getPokeEntityWrapperFactory()).create(entity)).orElse(null);
         }
 
         @Override
-        public Entity spawnEntity(Location location) {
-            val entity = CraftEntity.getEntity(this.getOriginal().getOrSpawnPixelmon(null));
+        public PokeEntityWrapper<?> spawnEntity(Location location) {
+            val pixelmon = this.getOriginal().getOrSpawnPixelmon(null);
+            val entity = CraftEntity.getEntity(pixelmon);
             entity.teleport(location);
-            return entity;
+            return ((VPokeEntityWrapperFactory) FIData.V1_version.getPokeEntityWrapperFactory()).create(pixelmon);
         }
 
         @Override
@@ -119,7 +118,7 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Nullable
         @Override
-        public UUID getUniqueId() {
+        public UUID getOwnerUUID() {
             val uuid = this.getOriginal().getOwnerPlayerUUID();
             return uuid == null ? this.getOriginal().getOwnerTrainerUUID() : null;
         }

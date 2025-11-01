@@ -8,6 +8,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.ListenerList;
@@ -116,5 +117,10 @@ public class V1_16 extends V1_version {
     @Override
     public IPokeStorageManager getPokeStorageManager() {
         return PokeStorageManager.INSTANCE;
+    }
+
+    @Override
+    public PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
+        return VPokeEntityWrapperFactory.INSTANCE;
     }
 }

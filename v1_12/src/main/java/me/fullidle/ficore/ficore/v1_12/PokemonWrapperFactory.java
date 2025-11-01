@@ -11,15 +11,11 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,15 +42,16 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
-        public Entity getEntity() {
-            return CraftEntity.getEntity(this.getOriginal().getPixelmonIfExists());
+        public PokeEntityWrapper<?> getEntity() {
+            val exists = this.getOriginal().getPixelmonIfExists();
+            return exists == null ? null : ((VPokeEntityWrapperFactory) FIData.V1_version.getPokeEntityWrapperFactory()).create(exists);
         }
 
         @Override
-        public Entity spawnEntity(Location location) {
-            val entity = CraftEntity.getEntity(this.getOriginal().getOrSpawnPixelmon(null));
-            entity.teleport(location);
-            return entity;
+        public PokeEntityWrapper<?> spawnEntity(Location location) {
+            val entity = this.getOriginal().getOrSpawnPixelmon(null);
+            CraftEntity.getEntity(entity).teleport(location);
+            return ((VPokeEntityWrapperFactory) FIData.V1_version.getPokeEntityWrapperFactory()).create(entity);
         }
 
         @Override
@@ -111,7 +108,7 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Nullable
         @Override
-        public UUID getUniqueId() {
+        public UUID getOwnerUUID() {
             val uuid = this.getOriginal().getOwnerPlayerUUID();
             return uuid == null ? this.getOriginal().getOwnerTrainerUUID() : null;
         }
@@ -190,6 +187,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public void setHealth(int health) {
             this.getOriginal().setHealth(health);
+        }
+
+        @Override
+        public boolean inRanch() {
+            return this.getOriginal().isInRanch();
         }
 
         @Override

@@ -7,6 +7,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory
 
 object VCob_21 : V1_version() {
     init {
@@ -41,5 +42,9 @@ object VCob_21 : V1_version() {
 
     override fun getPokeStorageManager(): IPokeStorageManager? {
         return PokeStorageManager
+    }
+
+    override fun getPokeEntityWrapperFactory(): PokeEntityWrapperFactory<*>? {
+        return PokeEntityWrapperFactoryImpl
     }
 }
