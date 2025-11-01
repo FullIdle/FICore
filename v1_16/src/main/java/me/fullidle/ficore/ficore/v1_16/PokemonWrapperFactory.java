@@ -120,7 +120,7 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public UUID getOwnerUUID() {
             val uuid = this.getOriginal().getOwnerPlayerUUID();
-            return uuid == null ? this.getOriginal().getOwnerTrainerUUID() : null;
+            return uuid == null ? this.getOriginal().getOwnerTrainerUUID() : uuid;
         }
 
         @Override
