@@ -35,4 +35,9 @@ public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
      * 是否是究极异兽
      */
     public abstract boolean isUltra();
+
+    /**
+     * 宝可梦编号
+     */
+    public abstract int getDex();
 }

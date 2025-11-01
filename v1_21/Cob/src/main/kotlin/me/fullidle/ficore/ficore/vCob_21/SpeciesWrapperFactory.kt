@@ -70,6 +70,10 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
             return this.original.labels.contains(CobblemonPokemonLabels.ULTRA_BEAST)
         }
 
+        override fun getDex(): Int {
+            return this.original.nationalPokedexNumber
+        }
+
         override fun getType(): Class<Species> {
             return Species::class.java
         }

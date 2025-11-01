@@ -77,6 +77,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
         }
 
         @Override
+        public int getDex() {
+            return this.getOriginal().getNationalPokedexInteger();
+        }
+
+        @Override
         public Class<EnumSpecies> getType() {
             return EnumSpecies.class;
         }

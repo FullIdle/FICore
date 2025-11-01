@@ -81,6 +81,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
         }
 
         @Override
+        public int getDex() {
+            return this.getOriginal().getDex();
+        }
+
+        @Override
         public Class<Species> getType() {
             return Species.class;
         }
