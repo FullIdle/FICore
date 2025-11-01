@@ -50,7 +50,7 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
 
         @Override
         public String getName() {
-            return this.getOriginal().getUnlocalizedName();
+            return this.getOriginal().getPokemonName();
         }
 
         @Override

@@ -45,7 +45,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             }
         }
 
-        override fun spawnEntity(location: Location): PokeEntityWrapper<*>? {
+        override fun spawnEntity(location: Location): PokeEntityWrapper<*> {
             return this.original.sendOut(
                 CraftWorld.getHandle(location.world) as ServerLevel,
                 Vec3(location.x, location.y, location.z),
@@ -71,7 +71,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             player.uniqueId.getPlayer()!!.party().add(this.original)
         }
 
-        override fun getStats(): Map<Stats?, Int?>? {
+        override fun getStats(): Map<Stats, Int> {
             return com.cobblemon.mod.common.api.pokemon.stats.Stats.PERMANENT.associate {
                 Stats.fromString(it.showdownId) to this.original.getStat(it)
             }
@@ -140,7 +140,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             this.original.evs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(type.id)] = value
         }
 
-        override fun getGender(): Gender? {
+        override fun getGender(): Gender {
             return asGender(this.original.gender)
         }
 
@@ -148,11 +148,11 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             this.original.gender = asGender(gender)
         }
 
-        override fun getUUID(): UUID? {
+        override fun getUUID(): UUID {
             return this.original.uuid
         }
 
-        override fun setUUID(uuid: UUID?) {
+        override fun setUUID(uuid: UUID) {
             this.original.uuid = uuid
         }
 
