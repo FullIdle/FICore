@@ -43,13 +43,16 @@ public class TabExec implements TabExecutor {
                 //只有ArgTabExec才有实际作用
                 finalExec.writeArg(context, arg);
             }
+            context.rawArgs = args;
             finalExec.exec.exec(context);
             return true;
         }
         //根无参执行
-        this.exec.exec(new Context(
+        val context = new Context(
                 sender, command, Collections.emptyMap()
-        ));
+        );
+        context.rawArgs = args;
+        this.exec.exec(context);
         return true;
     }
 

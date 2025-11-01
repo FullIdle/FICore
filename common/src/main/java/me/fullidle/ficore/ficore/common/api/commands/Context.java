@@ -9,6 +9,7 @@ public class Context {
     public CommandSender sender;
     public Command command;
     public Map<String, String> args;
+    public String[] rawArgs;
 
     public Context(CommandSender sender, Command command, Map<String, String> args) {
         this.sender = sender;
