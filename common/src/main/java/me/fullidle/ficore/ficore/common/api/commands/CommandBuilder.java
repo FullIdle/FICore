@@ -9,7 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommandBuilder {
     private final String name;

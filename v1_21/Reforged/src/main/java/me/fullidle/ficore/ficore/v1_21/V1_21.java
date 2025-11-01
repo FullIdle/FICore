@@ -1,8 +1,8 @@
 package me.fullidle.ficore.ficore.v1_21;
 
 import lombok.SneakyThrows;
-import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
@@ -11,7 +11,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFacto
 import org.bukkit.plugin.Plugin;
 
 public class V1_21 extends V1_version {
-    public V1_21(){
+    public V1_21() {
         FIData.V1_version = this;
     }
 

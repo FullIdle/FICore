@@ -4,7 +4,6 @@ import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
@@ -26,8 +25,7 @@ import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
-import java.util.UUID
-import kotlin.concurrent.thread
+import java.util.*
 
 object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
     override fun create(original: Pokemon): IPokemonWrapper<Pokemon> {
@@ -179,7 +177,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             }
 
             fun asGender(gender: com.cobblemon.mod.common.pokemon.Gender): Gender {
-                return when(gender) {
+                return when (gender) {
                     com.cobblemon.mod.common.pokemon.Gender.MALE -> Gender.MALE
                     com.cobblemon.mod.common.pokemon.Gender.FEMALE -> Gender.FEMALE
                     com.cobblemon.mod.common.pokemon.Gender.GENDERLESS -> Gender.GENDERLESS
@@ -187,7 +185,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             }
 
             fun asGender(gender: Gender): com.cobblemon.mod.common.pokemon.Gender {
-                return when(gender) {
+                return when (gender) {
                     Gender.MALE -> com.cobblemon.mod.common.pokemon.Gender.MALE
                     Gender.FEMALE -> com.cobblemon.mod.common.pokemon.Gender.FEMALE
                     Gender.GENDERLESS -> com.cobblemon.mod.common.pokemon.Gender.GENDERLESS
@@ -195,7 +193,7 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             }
 
             fun asMap(stats: PokemonStats): Map<Stats, Int> {
-                return stats.mapNotNull {entry->
+                return stats.mapNotNull { entry ->
                     Stats.fromString(entry.key.showdownId)?.let {
                         it to entry.value
                     }

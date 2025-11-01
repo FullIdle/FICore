@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.List;
 
 @Getter
 public class NBTList {
@@ -64,8 +63,8 @@ public class NBTList {
         for (Method method : v1_NBTTagList_Class.getDeclaredMethods()) {
             method.setAccessible(true);
             if (method.getReturnType().equals(Void.TYPE)
-                && method.getParameterTypes().length == 1
-                    && method.getParameterTypes()[0] == NBTTagCompound.v1_NBTTagCompound_Class.getSuperclass()){
+                    && method.getParameterTypes().length == 1
+                    && method.getParameterTypes()[0] == NBTTagCompound.v1_NBTTagCompound_Class.getSuperclass()) {
                 method_Add = method;
                 continue;
             }

@@ -15,6 +15,7 @@ public class CompositePool implements SpeciesWrapperPool {
     public CompositePool(SpeciesWrapperPool... pools) {
         this.pools = Lists.newArrayList(pools);
     }
+
     public CompositePool(Collection<SpeciesWrapperPool> pools) {
         this.pools = new ArrayList<>(pools);
     }

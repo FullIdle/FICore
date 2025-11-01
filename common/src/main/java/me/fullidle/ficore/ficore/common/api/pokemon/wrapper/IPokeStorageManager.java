@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public interface IPokeStorageManager {
     IPokeStorageWrapper<?> getParty(UUID uuid);
+
     IPokeStorageWrapper<?> getPC(UUID uuid);
 
     default IPokeStorageWrapper<?> getParty(Player player) {

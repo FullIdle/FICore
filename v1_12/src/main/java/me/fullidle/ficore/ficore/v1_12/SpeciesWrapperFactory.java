@@ -1,7 +1,6 @@
 package me.fullidle.ficore.ficore.v1_12;
 
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
-import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;

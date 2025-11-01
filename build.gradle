@@ -93,7 +93,7 @@ dependencies {
 
 jar {
     archiveFileName = "${project.name}-${project.version}.jar"
-    from(subprojects.collect {it.sourceSets.main.output})
+    from(subprojects.collect { it.sourceSets.main.output })
 }
 
 java {

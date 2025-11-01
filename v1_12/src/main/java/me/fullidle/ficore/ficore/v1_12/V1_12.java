@@ -1,9 +1,8 @@
 package me.fullidle.ficore.ficore.v1_12;
 
 import lombok.SneakyThrows;
-import me.fullidle.ficore.ficore.common.api.data.FIData;
-import me.fullidle.ficore.ficore.common.SomeMethod;
 import me.fullidle.ficore.ficore.common.V1_version;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
@@ -23,18 +22,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class V1_12 extends V1_version {
-    public V1_12(){
+    public V1_12() {
         FIData.V1_version = this;
     }
 
     @Override
     public String getVersion() {
-        return "1.12.2"; 
+        return "1.12.2";
     }
+
     @Override
     @SneakyThrows
-    public void registerForgeEvent(){
-        if (!VersionUtil.getMinecraftVersion().equalsIgnoreCase("1.12.2")){
+    public void registerForgeEvent() {
+        if (!VersionUtil.getMinecraftVersion().equalsIgnoreCase("1.12.2")) {
             throw new RuntimeException("注册Forge事件失败,如果你不需要用到,可以不在意这个报错");
         }
         Field field = ListenerList.class.getDeclaredField("lists");
@@ -44,23 +44,23 @@ public class V1_12 extends V1_version {
         ForgeEventListener listener = new ForgeEventListener();
         for (int i = 0; i < lists.length; i++) {
             Object list = lists[i];
-            if (method != null){
-                method.invoke(list,EventPriority.NORMAL, listener);
+            if (method != null) {
+                method.invoke(list, EventPriority.NORMAL, listener);
                 Map<Integer, ArrayList<Object>> objects = FIData.listenerList.computeIfAbsent(FIData.plugin, k -> new HashMap<>());
                 ArrayList<Object> objects1 = objects.computeIfAbsent(i, k -> new ArrayList<>());
                 objects1.add(listener);
-            }else{
+            } else {
                 method = list.getClass().getDeclaredMethod("register", EventPriority.class, IEventListener.class);
                 method.setAccessible(true);
             }
         }
         //总线上需要单独注册
-        register(FIData.plugin,MinecraftForge.EVENT_BUS,EventPriority.NORMAL,listener);
+        register(FIData.plugin, MinecraftForge.EVENT_BUS, EventPriority.NORMAL, listener);
     }
 
     @Override
     @SneakyThrows
-    public void register(Plugin plugin,Object bus, Object target) {
+    public void register(Plugin plugin, Object bus, Object target) {
         boolean isStatic = target.getClass() == Class.class;
         Class<?> cas = (isStatic ? ((Class<?>) target) : target.getClass());
         Method[] methods = cas.getDeclaredMethods();
@@ -81,7 +81,7 @@ public class V1_12 extends V1_version {
                     EventPriority priority = annotation.priority();
 
                     register(plugin, (EventBus) bus, priority, event -> {
-                        if (eventType.isInstance(event)){
+                        if (eventType.isInstance(event)) {
                             try {
                                 method.invoke(target);
                             } catch (IllegalAccessException | InvocationTargetException e) {
@@ -95,7 +95,7 @@ public class V1_12 extends V1_version {
     }
 
     @SneakyThrows
-    private static void register(Plugin plugin,EventBus bus, EventPriority eventPriority, IEventListener listener){
+    private static void register(Plugin plugin, EventBus bus, EventPriority eventPriority, IEventListener listener) {
         {
             Field busIDF = EventBus.class.getDeclaredField("busID");
             busIDF.setAccessible(true);
@@ -108,7 +108,7 @@ public class V1_12 extends V1_version {
     }
 
     @SneakyThrows
-    private static ListenerList listenerList(){
+    private static ListenerList listenerList() {
         Field listeners = Event.class.getDeclaredField("listeners");
         listeners.setAccessible(true);
         return (ListenerList) listeners.get(Event.class);
@@ -116,7 +116,7 @@ public class V1_12 extends V1_version {
 
     @Override
     @SneakyThrows
-    public void unregisterAllListener(Plugin plugin){
+    public void unregisterAllListener(Plugin plugin) {
         Map<Integer, ArrayList<Object>> list = FIData.listenerList.get(plugin);
         if (list == null) {
             return;

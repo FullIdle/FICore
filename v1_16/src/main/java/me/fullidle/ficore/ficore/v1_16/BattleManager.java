@@ -100,7 +100,7 @@ public class BattleManager implements IBattleManager {
         BattleController battle = new BattleController(team1, team2, new BattleRules(BattleType.SINGLE));
         val method = BattleRegistry.class.getDeclaredMethod("canParticipantsBattle", BattleController.class);
         method.setAccessible(true);
-        if (!(boolean) method.invoke(null,battle)) {
+        if (!(boolean) method.invoke(null, battle)) {
             throw new RuntimeException("Players cannot battle");
         }
         return battle;

@@ -34,7 +34,7 @@ public class TabExec implements TabExecutor {
             val context = new Context(sender, command, new HashMap<>());
             TabExec finalExec = this;
             for (String arg : args) {
-                val first = finalExec.thenExecs.stream().filter(e -> e.match(context,arg)).findFirst();
+                val first = finalExec.thenExecs.stream().filter(e -> e.match(context, arg)).findFirst();
                 if (!first.isPresent()) {
                     CommandBuilder.WRONG_FORMAT_EXEC.exec(new Context(sender, command, Collections.emptyMap()));
                     return true;
@@ -66,7 +66,7 @@ public class TabExec implements TabExecutor {
         val temp = new Context(sender, command, Collections.emptyMap());
         for (int i = 0; i < args.length - 1; i++) {
             val arg = args[i];
-            val first = finalExec.thenExecs.stream().filter(e -> e.match(temp,arg)).findFirst();
+            val first = finalExec.thenExecs.stream().filter(e -> e.match(temp, arg)).findFirst();
             if (!first.isPresent()) return Collections.emptyList();
             finalExec = first.get();
         }

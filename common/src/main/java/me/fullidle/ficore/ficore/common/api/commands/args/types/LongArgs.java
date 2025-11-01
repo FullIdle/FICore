@@ -4,7 +4,7 @@ import me.fullidle.ficore.ficore.common.api.commands.Context;
 
 import java.util.Collection;
 
-public class LongArgs extends TypeArgs<Long>{
+public class LongArgs extends TypeArgs<Long> {
     public LongArgs(Collection<Long> args) {
         super(args);
     }

@@ -25,7 +25,7 @@ public class CraftWorld {
     static {
         try {
             NMS_CRAFT_WORLD_CLASS = Class.forName(VersionUtil.formatCraftBukkitClass("CraftWorld"));
-            val collect = Arrays.stream(NMS_CRAFT_WORLD_CLASS.getDeclaredMethods()).collect(Collectors.toMap(Method::getName, method -> method,(a, b)-> a));
+            val collect = Arrays.stream(NMS_CRAFT_WORLD_CLASS.getDeclaredMethods()).collect(Collectors.toMap(Method::getName, method -> method, (a, b) -> a));
             GET_HANDLE_METHOD = collect.get("getHandle");
 
             if (GET_HANDLE_METHOD == null)

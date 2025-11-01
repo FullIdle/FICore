@@ -210,18 +210,24 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
     public static Gender asGender(com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender gender) {
         switch (gender) {
-            case Male: return Gender.MALE;
-            case Female: return Gender.FEMALE;
-            case None: return Gender.GENDERLESS;
+            case Male:
+                return Gender.MALE;
+            case Female:
+                return Gender.FEMALE;
+            case None:
+                return Gender.GENDERLESS;
         }
         return null;
     }
 
     public static com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender asGender(Gender gender) {
         switch (gender) {
-            case MALE: return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.Male;
-            case FEMALE: return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.Female;
-            case GENDERLESS: return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.None;
+            case MALE:
+                return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.Male;
+            case FEMALE:
+                return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.Female;
+            case GENDERLESS:
+                return com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender.None;
         }
         return null;
     }

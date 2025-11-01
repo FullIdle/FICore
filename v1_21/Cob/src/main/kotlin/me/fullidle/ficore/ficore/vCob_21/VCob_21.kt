@@ -1,12 +1,12 @@
 package me.fullidle.ficore.ficore.vCob_21
 
 import me.fullidle.ficore.ficore.common.V1_version
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
 
 object VCob_21 : V1_version() {
     init {

@@ -52,6 +52,7 @@ public class ConfigPool implements SpeciesWrapperPool {
      *  直接写编号 = 指定物种
      *  {gen(slot)} = 指定世代的宝可梦  ==> {gen(1)} = 第一世代的宝可梦
      * </pre>
+     *
      * @throws IllegalArgumentException 当无法解析时抛出
      */
     public static SpeciesWrapperPool baseParse(String info) {

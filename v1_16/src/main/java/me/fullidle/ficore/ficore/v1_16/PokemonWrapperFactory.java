@@ -1,13 +1,11 @@
 package me.fullidle.ficore.ficore.v1_16;
 
-import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.IStatStore;
 import com.pixelmonmod.pixelmon.api.storage.StoragePosition;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
-import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class UltraPool implements SpeciesWrapperPool {
     public static final UltraPool INSTANCE = new UltraPool();
+
     @Override
     public Collection<ISpeciesWrapper<?>> values() {
         return FIData.V1_version.getSpeciesWrapperFactory().getAll()

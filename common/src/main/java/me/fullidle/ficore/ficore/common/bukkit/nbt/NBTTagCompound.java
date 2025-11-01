@@ -9,7 +9,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Getter
@@ -138,7 +139,7 @@ public class NBTTagCompound {
         return this.invoke(key);
     }
 
-    public NBTList getList(String key, int type){
+    public NBTList getList(String key, int type) {
         return new NBTList(this.invoke(key, type));
     }
 
@@ -221,8 +222,7 @@ public class NBTTagCompound {
                     parameterTypes.length == 2
                             && returnType.getSimpleName().toLowerCase().contains("list")
                             && parameterTypes[0].equals(String.class)
-                            && (parameterTypes[1].equals(int.class) || parameterTypes[1].equals(Integer.class)))
-            {
+                            && (parameterTypes[1].equals(int.class) || parameterTypes[1].equals(Integer.class))) {
                 methods.put("getList", method);
             }
         }
@@ -318,7 +318,7 @@ public class NBTTagCompound {
                 if (value.isJsonArray()) {
                     JsonArray array = value.getAsJsonArray();
                     if (array.size() == 0) {
-                        nbt.set(key,new NBTTagCompound());
+                        nbt.set(key, new NBTTagCompound());
                         continue;
                     }
                     JsonElement vv = array.get(0);
@@ -326,10 +326,10 @@ public class NBTTagCompound {
                         NBTList nbtList = new NBTList();
                         for (JsonElement e : array) {
                             NBTTagCompound nbtt = new NBTTagCompound();
-                            write(nbtt,e.getAsJsonObject());
+                            write(nbtt, e.getAsJsonObject());
                             nbtList.add(nbtt.nbtTagCompound);
                         }
-                        nbt.set(key,nbtList);
+                        nbt.set(key, nbtList);
                         continue;
                     }
                     if (vv.isJsonPrimitive()) {
@@ -356,8 +356,8 @@ public class NBTTagCompound {
                 }
                 if (value.isJsonObject()) {
                     NBTTagCompound nbtt = new NBTTagCompound();
-                    write(nbtt,value.getAsJsonObject());
-                    nbt.set(key,nbtt);
+                    write(nbtt, value.getAsJsonObject());
+                    nbt.set(key, nbtt);
                 }
             }
         }

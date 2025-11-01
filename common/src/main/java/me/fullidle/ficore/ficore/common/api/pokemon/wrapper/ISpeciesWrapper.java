@@ -15,14 +15,17 @@ public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
      * 宝可梦物种名
      */
     public abstract String getName();
+
     /**
      * 是否是神兽
      */
     public abstract boolean isLegend();
+
     /**
      * 是否是幻兽
      */
     public abstract boolean isMythical();
+
     /**
      * 获取其是第几世代
      */

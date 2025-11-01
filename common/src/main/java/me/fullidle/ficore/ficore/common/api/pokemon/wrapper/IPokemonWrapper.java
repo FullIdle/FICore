@@ -146,24 +146,28 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
 
     /**
      * 获取性别
+     *
      * @return 性别
      */
     public abstract Gender getGender();
 
     /**
      * 设置性别
+     *
      * @param gender 性别
      */
     public abstract void setGender(Gender gender);
 
     /**
      * 该宝可梦的UUID
+     *
      * @return 宝可梦UUID
      */
     public abstract UUID getUUID();
 
     /**
      * 设置宝可梦的UUID
+     *
      * @param uuid 宝可梦UUID
      */
     public abstract void setUUID(UUID uuid);
@@ -177,6 +181,7 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
 
     /**
      * 设置血量
+     *
      * @param health 血量
      */
     public abstract void setHealth(int health);

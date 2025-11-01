@@ -12,11 +12,11 @@ import java.util.Map;
 public final class CommManager {
     private static final Map<Class<? extends IMessage>, HashSet<? extends IHandler<? extends IMessage>>> MESSAGE_SUBSCRIPTIONS = new HashMap<>();
 
-    private static <T extends IMessage,E extends IHandler<T>> HashSet<E> getHandlers(final Class<T> type) {
+    private static <T extends IMessage, E extends IHandler<T>> HashSet<E> getHandlers(final Class<T> type) {
         return (HashSet<E>) MESSAGE_SUBSCRIPTIONS.computeIfAbsent(type, k -> new HashSet<IHandler<T>>());
     }
 
-    public static <T extends IMessage,E extends IHandler<T>> SubscriptionObject<T> subscribe(final Class<T> clazz,final E handler){
+    public static <T extends IMessage, E extends IHandler<T>> SubscriptionObject<T> subscribe(final Class<T> clazz, final E handler) {
         val handlers = getHandlers(clazz);
         if (handlers.contains(handler)) throw new IllegalArgumentException("Handler already subscribed!");
         handlers.add(handler);
@@ -37,7 +37,8 @@ public final class CommManager {
     public static <T extends IMessage> void receive(final ByteArrayDataInput byteIn) {
         try {
             publish(receive(((Class<T>) Class.forName(byteIn.readUTF())).newInstance(), byteIn));
-        } catch (ClassCastException | ClassNotFoundException | InstantiationException | IllegalAccessException ignored) {
+        } catch (ClassCastException | ClassNotFoundException | InstantiationException |
+                 IllegalAccessException ignored) {
         }
     }
 
@@ -53,7 +54,7 @@ public final class CommManager {
         return formatMessage(ByteStreams.newDataOutput(), message);
     }
 
-    private static ByteArrayDataOutput formatMessage(ByteArrayDataOutput byteOut,IMessage message) {
+    private static ByteArrayDataOutput formatMessage(ByteArrayDataOutput byteOut, IMessage message) {
         byteOut.writeUTF(message.getClass().getName());
         message.encode(byteOut);
         return byteOut;

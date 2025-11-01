@@ -11,7 +11,7 @@ public class ForgeEventListener implements IEventListener {
         try {
             ForgeEvent forgeEvent = new ForgeEvent(event);
             Bukkit.getPluginManager().callEvent(forgeEvent);
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
         }
     }
 }

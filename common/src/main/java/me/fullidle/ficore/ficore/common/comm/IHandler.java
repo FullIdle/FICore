@@ -6,6 +6,7 @@ package me.fullidle.ficore.ficore.common.comm;
 public interface IHandler<T extends IMessage> {
     /**
      * 处理指定的信息类
+     *
      * @param message 处理的信息类
      */
     void handle(T message);

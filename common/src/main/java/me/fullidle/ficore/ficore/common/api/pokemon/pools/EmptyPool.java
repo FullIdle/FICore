@@ -7,6 +7,7 @@ import java.util.Collections;
 
 public class EmptyPool implements SpeciesWrapperPool {
     public static final EmptyPool INSTANCE = new EmptyPool();
+
     @Override
     public Collection<ISpeciesWrapper<?>> values() {
         return Collections.emptyList();

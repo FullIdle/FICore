@@ -4,9 +4,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
-import java.util.List;
-import java.util.Map;
-
 @Getter
 public class ForgeEvent extends org.bukkit.event.Event {
     private static final HandlerList handlers = new HandlerList();

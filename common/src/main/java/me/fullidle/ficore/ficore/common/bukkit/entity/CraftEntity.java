@@ -37,7 +37,7 @@ public class CraftEntity {
     static {
         try {
             NMS_CRAFT_ENTITY_CLASS = Class.forName(VersionUtil.formatCraftBukkitClass("entity.CraftEntity"));
-            val collect = Arrays.stream(NMS_CRAFT_ENTITY_CLASS.getDeclaredMethods()).collect(Collectors.toMap(Method::getName, method -> method,(a,b)-> a));
+            val collect = Arrays.stream(NMS_CRAFT_ENTITY_CLASS.getDeclaredMethods()).collect(Collectors.toMap(Method::getName, method -> method, (a, b) -> a));
             GET_ENTITY_METHOD = collect.get("getEntity");
             GET_HANDLE_METHOD = collect.get("getHandle");
 

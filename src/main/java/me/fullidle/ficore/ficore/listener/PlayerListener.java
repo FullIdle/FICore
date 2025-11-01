@@ -13,40 +13,46 @@ import java.util.function.Consumer;
 
 public class PlayerListener implements Listener {
     @EventHandler
-    public void onInvOpen(InventoryOpenEvent e){
+    public void onInvOpen(InventoryOpenEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder))return;
+        if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryOpenEvent> consumer = invHolder.getOpen();
-        if (consumer != null){
+        if (consumer != null) {
             consumer.accept(e);
         }
     }
+
     @EventHandler
-    public void onInvClick(InventoryClickEvent e){
+    public void onInvClick(InventoryClickEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder))return;
+        if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryClickEvent> consumer = invHolder.getClick();
-        if (consumer != null){
+        if (consumer != null) {
             consumer.accept(e);
-        }    }
+        }
+    }
+
     @EventHandler
-    public void onInvDrag(InventoryDragEvent e){
+    public void onInvDrag(InventoryDragEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder))return;
+        if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryDragEvent> consumer = invHolder.getDrag();
-        if (consumer != null){
+        if (consumer != null) {
             consumer.accept(e);
-        }    }
+        }
+    }
+
     @EventHandler
-    public void onClose(InventoryCloseEvent e){
+    public void onClose(InventoryCloseEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder))return;
+        if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryCloseEvent> consumer = invHolder.getClose();
-        if (consumer != null){
+        if (consumer != null) {
             consumer.accept(e);
-        }    }
+        }
+    }
 }

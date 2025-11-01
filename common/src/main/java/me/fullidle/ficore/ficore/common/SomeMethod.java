@@ -16,7 +16,7 @@ public class SomeMethod {
     /**
      * @return 获取minecraft的版本
      */
-    public static String getMinecraftVersion(){
+    public static String getMinecraftVersion() {
         return Bukkit.getServer().getVersion().split("MC: ")[1].replace(")", "");
     }
 
@@ -27,12 +27,13 @@ public class SomeMethod {
     public static String getColorMsg(String msg) {
         return msg.replace("§", "&");
     }
-    public static void setLangMsgUtil(Object util, ConfigurationSection section,String spiltSign){
-        LangMsgUtil.langMsgUtil(util,section,spiltSign);
+
+    public static void setLangMsgUtil(Object util, ConfigurationSection section, String spiltSign) {
+        LangMsgUtil.langMsgUtil(util, section, spiltSign);
     }
 
-    public static String getNmsVersion(){
-        if (nmsVersion == null){
+    public static String getNmsVersion() {
+        if (nmsVersion == null) {
             String name = new ItemStack(Material.GRASS).getItemMeta().getClass().getName();
             nmsVersion = name.split("\\.")[3];
         }

@@ -7,15 +7,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @apiNote 文件工具,可以把yaml数据存在里面方便处理，自定义多个文件也方便
+ * @apiNote 文件工具, 可以把yaml数据存在里面方便处理，自定义多个文件也方便
  * 或许用不习惯，用的时候只需要
  * <pre>{@code
  * FileUtil fileUtil = FileUtil.getInstance(file);
@@ -33,12 +29,13 @@ import java.util.Map;
 public class FileUtil {
     private final File file;
     private final FileConfiguration configuration;
-    public static final Map<File,FileUtil> cache = new HashMap<>();
+    public static final Map<File, FileUtil> cache = new HashMap<>();
+
     /**
      * @param file 不能是文件夹
      */
     @SneakyThrows
-    private FileUtil(File file){
+    private FileUtil(File file) {
         checkFile(file);
         this.file = file;
         this.configuration = YamlConfiguration.loadConfiguration(file);
@@ -48,41 +45,42 @@ public class FileUtil {
      * @apiNote 用了后会直接把你改过的yaml数据保存到文件
      */
     @SneakyThrows
-    public void save(){
+    public void save() {
         this.configuration.save(this.file);
     }
 
     /**
      * 清理缓存
      */
-    public static void clearCache(){
+    public static void clearCache() {
         cache.clear();
     }
+
     /**
-     * @param file 非文件夹
+     * @param file  非文件夹
      * @param isNew 是否是新的
-     * @apiNote 如果缓存内没有则会创建一个新的,如果有的话用isNew判断是否用缓存(缓存内没有则自动补上)
      * @return FileUtil
+     * @apiNote 如果缓存内没有则会创建一个新的, 如果有的话用isNew判断是否用缓存(缓存内没有则自动补上)
      */
-    public static FileUtil getInstance(File file,boolean isNew) {
+    public static FileUtil getInstance(File file, boolean isNew) {
         if (isNew) {
             FileUtil fileUtil = new FileUtil(file);
-            cache.put(file,fileUtil);
+            cache.put(file, fileUtil);
             return fileUtil;
         }
         return cache.computeIfAbsent(file, FileUtil::new);
     }
 
     @SneakyThrows
-    public static FileUtil getResourceInstance(Plugin plugin, String path, boolean isNew, boolean replace){
+    public static FileUtil getResourceInstance(Plugin plugin, String path, boolean isNew, boolean replace) {
         File file = new File(plugin.getDataFolder(), path);
-        plugin.saveResource(path,replace);
-        return getInstance(file,isNew);
+        plugin.saveResource(path, replace);
+        return getInstance(file, isNew);
     }
 
     @SneakyThrows
-    public static void checkFile(File file){
-        if (!file.exists()){
+    public static void checkFile(File file) {
+        if (!file.exists()) {
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
                 parentFile.mkdirs();

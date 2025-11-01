@@ -148,12 +148,12 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Override
         public Map<Stats, Integer> getIVs() {
-            return asMap(BattleStatsType.getEVIVStatValues(),this.getOriginal().getIVs());
+            return asMap(BattleStatsType.getEVIVStatValues(), this.getOriginal().getIVs());
         }
 
         @Override
         public Map<Stats, Integer> getEVs() {
-            return asMap(BattleStatsType.getEVIVStatValues(),this.getOriginal().getEVs());
+            return asMap(BattleStatsType.getEVIVStatValues(), this.getOriginal().getEVs());
         }
 
         @Override

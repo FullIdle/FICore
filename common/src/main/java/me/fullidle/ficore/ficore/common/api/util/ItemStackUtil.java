@@ -35,7 +35,7 @@ public class ItemStackUtil {
      * 只读3项
      */
     public static ItemStack parseSimpleMap(Map<String, Object> map) {
-        val section = new YamlConfiguration().createSection("item",map);
+        val section = new YamlConfiguration().createSection("item", map);
         return parseSimpleYaml(section);
     }
 }

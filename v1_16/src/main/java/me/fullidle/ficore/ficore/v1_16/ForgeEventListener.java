@@ -18,7 +18,7 @@ public class ForgeEventListener implements IEventListener, Consumer<Event> {
         post(event);
     }
 
-    public void post(Event event){
+    public void post(Event event) {
         ForgeEvent forgeEvent = new ForgeEvent(event);
         Bukkit.getPluginManager().callEvent(forgeEvent);
     }

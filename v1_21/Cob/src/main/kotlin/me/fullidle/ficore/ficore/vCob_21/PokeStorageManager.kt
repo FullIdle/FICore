@@ -27,7 +27,7 @@ object PokeStorageManager : IPokeStorageManager {
 
     class PokeStorageWrapper(
         original: PokemonStore<StorePosition>
-    ): IPokeStorageWrapper<PokemonStore<StorePosition>>(original) {
+    ) : IPokeStorageWrapper<PokemonStore<StorePosition>>(original) {
         override fun get(pos: StoragePos): IPokemonWrapper<*>? {
             return this.original[asPos(pos, this.original)]?.let {
                 (FIData.V1_version.pokemonWrapperFactory as PokemonWrapperFactory).create(it)

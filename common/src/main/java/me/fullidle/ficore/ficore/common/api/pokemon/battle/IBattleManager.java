@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public interface IBattleManager {
     /**
      * 开始一场对局 是直接开始
+     *
      * @param p1 参与者1
      * @param p2 参与者2
      */
@@ -22,10 +23,11 @@ public interface IBattleManager {
      * 创建一个对局
      */
     @NotNull
-    IPokeBattle create(Player p1,Player p2);
+    IPokeBattle create(Player p1, Player p2);
 
     /**
      * 获取一场对局
+     *
      * @param player 参与者
      */
     @Nullable

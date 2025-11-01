@@ -31,7 +31,11 @@ object BattleManager : IBattleManager {
         val uuid2 = p2.uniqueId
         val team1 = uuid1.getPlayer()!!.party().toBattleTeam()
         val team2 = uuid2.getPlayer()!!.party().toBattleTeam()
-        val pb = PokemonBattle(BattleFormat.GEN_9_SINGLES, BattleSide(PlayerBattleActor(uuid1, team1)), BattleSide(PlayerBattleActor(uuid2, team2)))
+        val pb = PokemonBattle(
+            BattleFormat.GEN_9_SINGLES,
+            BattleSide(PlayerBattleActor(uuid1, team1)),
+            BattleSide(PlayerBattleActor(uuid2, team2))
+        )
         return PokeBattle(pb)
     }
 
@@ -72,7 +76,7 @@ object BattleManager : IBattleManager {
             val preBattleEvent = BattleStartedPreEvent(original)
             CobblemonEvents.BATTLE_STARTED_PRE.postThen(preBattleEvent) {
                 start()
-                CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(original,))
+                CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(original))
                 return
             }
             return

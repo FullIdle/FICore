@@ -5,6 +5,7 @@ public abstract class Wrapper<T> {
      * 获取包裹器原对象
      */
     public abstract T getOriginal();
+
     public abstract Class<T> getType();
 
     @Override
