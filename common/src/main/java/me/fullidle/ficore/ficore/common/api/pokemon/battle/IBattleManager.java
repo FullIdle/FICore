@@ -32,4 +32,12 @@ public interface IBattleManager {
      */
     @Nullable
     IPokeBattle getBattle(Player player);
+
+    /**
+     * 创建PVP对局查询界面 (如: 规则定义界面等，如果没有环境下不支持该方法，则该方法视作 {@link #start(Player, Player)})
+     * 该方法是即刻的，一旦执行玩家将直接看到界面
+     */
+    default void createQuery(Player p1, Player p2) {
+        start(p1, p2);
+    }
 }

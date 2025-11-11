@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
@@ -49,5 +50,12 @@ public class FICoreAPI {
      */
     public static PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
         return FIData.V1_version.getPokeEntityWrapperFactory();
+    }
+
+    /**
+     * 获取环境下的对局管理器
+     */
+    public static IBattleManager getBattleManager() {
+        return FIData.V1_version.getBattleManager();
     }
 }
