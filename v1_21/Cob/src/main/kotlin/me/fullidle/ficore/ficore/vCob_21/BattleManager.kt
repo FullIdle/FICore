@@ -22,11 +22,11 @@ import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 
-object BattleManager : IBattleManager {
+object BattleManager : IBattleManager<PokemonBattle> {
     override fun create(
         p1: Player,
         p2: Player
-    ): IPokeBattle {
+    ): IPokeBattle<PokemonBattle> {
         val uuid1 = p1.uniqueId
         val uuid2 = p2.uniqueId
         val team1 = uuid1.getPlayer()!!.party().toBattleTeam()
@@ -39,16 +39,20 @@ object BattleManager : IBattleManager {
         return PokeBattle(pb)
     }
 
-    override fun getBattle(player: Player): IPokeBattle? {
+    override fun getBattle(player: Player): IPokeBattle<PokemonBattle>? {
         return BattleRegistry.getBattleByParticipatingPlayerId(player.uniqueId)?.let {
             PokeBattle(it)
         }
     }
 
+    override fun wrapper(battle: PokemonBattle): IPokeBattle<PokemonBattle> {
+        return PokeBattle(battle)
+    }
+
 
     class PokeBattle(
         private val original: PokemonBattle
-    ) : IPokeBattle, Wrapper<PokemonBattle>() {
+    ) : IPokeBattle<PokemonBattle>() {
         override fun getPlayers(): Collection<Player>? {
             return original.sides.flatMap { side ->
                 side.actors

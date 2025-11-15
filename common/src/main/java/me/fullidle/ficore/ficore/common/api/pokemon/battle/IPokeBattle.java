@@ -1,16 +1,24 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.battle;
 
+import me.fullidle.ficore.ficore.common.api.Wrapper;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-public interface IPokeBattle {
-    Collection<Player> getPlayers();
+public abstract class IPokeBattle<T> extends Wrapper<T> {
+    /**
+     * 参与的玩家
+     * @return 参与的玩家
+     */
+    public abstract Collection<Player> getPlayers();
 
     /**
      * 停止对局
      */
-    void end();
+    public abstract void end();
 
-    void start();
+    /**
+     * 开始对战
+     */
+    public abstract void start();
 }

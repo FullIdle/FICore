@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.vCob_21
 
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import me.fullidle.ficore.ficore.common.V1_version
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
@@ -36,7 +37,7 @@ object VCob_21 : V1_version() {
         throw UnsupportedOperationException()
     }
 
-    override fun getBattleManager(): IBattleManager? {
+    override fun getBattleManager(): IBattleManager<PokemonBattle> {
         return BattleManager
     }
 

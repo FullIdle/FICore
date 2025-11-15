@@ -47,7 +47,7 @@ public abstract class V1_version {
     /**
      * 获取对局管理器
      */
-    abstract public IBattleManager getBattleManager();
+    abstract public IBattleManager<?> getBattleManager();
 
     /*** 宝可梦存储管理器*/
     abstract public IPokeStorageManager getPokeStorageManager();

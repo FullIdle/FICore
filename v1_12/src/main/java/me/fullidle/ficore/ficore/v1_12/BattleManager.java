@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class BattleManager implements IBattleManager {
+public class BattleManager implements IBattleManager<BattleControllerBase> {
     public static BattleManager INSTANCE = new BattleManager();
 
     /**
@@ -39,30 +39,35 @@ public class BattleManager implements IBattleManager {
      */
     @NotNull
     @Override
-    public IPokeBattle create(Player p1, Player p2) {
+    public IPokeBattle<BattleControllerBase> create(Player p1, Player p2) {
         val pokemonList1 = Lists.newArrayList(Pixelmon.storageManager.getParty(p1.getUniqueId()).getAll());
         val pokemonList2 = Lists.newArrayList(Pixelmon.storageManager.getParty(p2.getUniqueId()).getAll());
         pokemonList1.removeIf(Objects::isNull);
         pokemonList2.removeIf(Objects::isNull);
         val pp1 = new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(p1)), pokemonList1, 1);
-        val pp2 = new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(p2)), pokemonList2, 2);
+        val pp2 = new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(p2)), pokemonList2, 1);
         val bc = createBattle(pp1.getParticipantList(), pp2.getParticipantList());
         return new PokeBattle(bc);
     }
 
     @Nullable
     @Override
-    public IPokeBattle getBattle(Player player) {
+    public IPokeBattle<BattleControllerBase> getBattle(Player player) {
         return getBattle((EntityPlayerMP) CraftEntity.getHandle(player));
     }
 
-    public IPokeBattle getBattle(EntityPlayerMP player) {
+    @Override
+    public IPokeBattle<BattleControllerBase> wrapper(BattleControllerBase battle) {
+        return new PokeBattle(Objects.requireNonNull(battle));
+    }
+
+    public IPokeBattle<BattleControllerBase> getBattle(EntityPlayerMP player) {
         val battle = BattleRegistry.getBattle(player);
         return battle == null ? null : new PokeBattle(battle);
     }
 
     @Getter
-    public static class PokeBattle extends Wrapper<BattleControllerBase> implements IPokeBattle {
+    public static class PokeBattle extends IPokeBattle<BattleControllerBase> {
         private final BattleControllerBase original;
 
         public PokeBattle(BattleControllerBase bc) {
@@ -91,7 +96,6 @@ public class BattleManager implements IBattleManager {
         public Class<BattleControllerBase> getType() {
             return BattleControllerBase.class;
         }
-
     }
 
     /**
@@ -129,7 +133,7 @@ public class BattleManager implements IBattleManager {
 
         val bp = battle.participants.get(0);
 
-        BattleStartedEvent battleStartedEvent = new BattleStartedEvent(battle, battle.getTeam(bp).toArray(new BattleParticipant[0]), bp.getOpponents().toArray(new BattleParticipant[0]));
+        BattleStartedEvent battleStartedEvent = new BattleStartedEvent(battle, battle.getTeam(bp).toArray(new BattleParticipant[0]), battle.getOpponents(bp).toArray(new BattleParticipant[0]));
         Pixelmon.EVENT_BUS.post(battleStartedEvent);
         if (!battleStartedEvent.isCanceled()) {
             BattleRegistry.registerBattle(battle);

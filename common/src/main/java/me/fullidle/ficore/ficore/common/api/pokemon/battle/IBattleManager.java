@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface IBattleManager {
+public interface IBattleManager<T> {
     /**
      * 开始一场对局 是直接开始
      *
@@ -13,7 +13,7 @@ public interface IBattleManager {
      * @param p2 参与者2
      */
     @NotNull
-    default IPokeBattle start(Player p1, Player p2) {
+    default IPokeBattle<T> start(Player p1, Player p2) {
         val pb = create(p1, p2);
         pb.start();
         return pb;
@@ -21,17 +21,23 @@ public interface IBattleManager {
 
     /**
      * 创建一个对局
+     * 注意:这个是创建不是包裹
      */
     @NotNull
-    IPokeBattle create(Player p1, Player p2);
-
+    IPokeBattle<T> create(Player p1, Player p2);
     /**
      * 获取一场对局
      *
      * @param player 参与者
      */
     @Nullable
-    IPokeBattle getBattle(Player player);
+    IPokeBattle<T> getBattle(Player player);
+
+    /**
+     * 包裹一个环境下的对局
+     * 注意:包裹有条件，必须是1v1且是pvp的对局其他对局包裹后对后续操作容易出现问题
+     */
+    IPokeBattle<T> wrapper(T battle);
 
     /**
      * 创建PVP对局查询界面 (如: 规则定义界面等，如果没有环境下不支持该方法，则该方法视作 {@link #start(Player, Player)})

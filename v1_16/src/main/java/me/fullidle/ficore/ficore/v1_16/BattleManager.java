@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class BattleManager implements IBattleManager {
+public class BattleManager implements IBattleManager<BattleController> {
     public static BattleManager INSTANCE = new BattleManager();
 
     /**
@@ -34,30 +34,35 @@ public class BattleManager implements IBattleManager {
      */
     @NotNull
     @Override
-    public IPokeBattle create(Player p1, Player p2) {
+    public IPokeBattle<BattleController> create(Player p1, Player p2) {
         val pokemonList1 = Lists.newArrayList(StorageProxy.getParty(p1.getUniqueId()).getAll());
         val pokemonList2 = Lists.newArrayList(StorageProxy.getParty(p2.getUniqueId()).getAll());
         pokemonList1.removeIf(Objects::isNull);
         pokemonList2.removeIf(Objects::isNull);
         val pp1 = new PlayerParticipant(((ServerPlayerEntity) CraftEntity.getHandle(p1)), pokemonList1, 1);
-        val pp2 = new PlayerParticipant(((ServerPlayerEntity) CraftEntity.getHandle(p2)), pokemonList2, 2);
+        val pp2 = new PlayerParticipant(((ServerPlayerEntity) CraftEntity.getHandle(p2)), pokemonList2, 1);
         val bc = createBattle(new BattleParticipant[]{pp1}, new BattleParticipant[]{pp2});
         return new PokeBattle(bc);
     }
 
     @Nullable
     @Override
-    public IPokeBattle getBattle(Player player) {
+    public IPokeBattle<BattleController> getBattle(Player player) {
         return getBattle((ServerPlayerEntity) CraftEntity.getHandle(player));
     }
 
-    public IPokeBattle getBattle(ServerPlayerEntity player) {
+    @Override
+    public IPokeBattle<BattleController> wrapper(BattleController battle) {
+        return new PokeBattle(battle);
+    }
+
+    public IPokeBattle<BattleController> getBattle(ServerPlayerEntity player) {
         val battle = BattleRegistry.getBattle(player);
         return battle == null ? null : new PokeBattle(battle);
     }
 
     @Getter
-    public static class PokeBattle extends Wrapper<BattleController> implements IPokeBattle {
+    public static class PokeBattle extends  IPokeBattle<BattleController> {
         private final BattleController original;
 
         public PokeBattle(BattleController bc) {
@@ -112,7 +117,7 @@ public class BattleManager implements IBattleManager {
         val method = BattleRegistry.class.getDeclaredMethod("performPreBattleChecksAndEvents", BattleController.class, BattleParticipant[].class, BattleParticipant[].class);
         method.setAccessible(true);
         val array1 = battle.getTeam(pp).toArray(new BattleParticipant[0]);
-        val array2 = pp.getOpponents().toArray(new BattleParticipant[0]);
+        val array2 = battle.getOpponents(pp).toArray(new BattleParticipant[0]);
         val invoke = (boolean) method.invoke(null, battle, array1, array2);
         if (!invoke) return;
         BattleRegistry.registerBattle(battle);

@@ -1,5 +1,9 @@
 package me.fullidle.ficore.ficore.v1_16;
 
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
+import com.pixelmonmod.pixelmon.battles.controller.BattleController;
+import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
@@ -95,12 +99,12 @@ public class V1_16 extends V1_version {
     }
 
     @Override
-    public ISpeciesWrapperFactory<?> getSpeciesWrapperFactory() {
+    public ISpeciesWrapperFactory<Species> getSpeciesWrapperFactory() {
         return SpeciesWrapperFactory.INSTANCE;
     }
 
     @Override
-    public IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
+    public IPokemonWrapperFactory<Pokemon> getPokemonWrapperFactory() {
         return PokemonWrapperFactory.INSTANCE;
     }
 
@@ -110,7 +114,7 @@ public class V1_16 extends V1_version {
     }
 
     @Override
-    public IBattleManager getBattleManager() {
+    public IBattleManager<BattleController> getBattleManager() {
         return BattleManager.INSTANCE;
     }
 
@@ -120,7 +124,7 @@ public class V1_16 extends V1_version {
     }
 
     @Override
-    public PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
+    public PokeEntityWrapperFactory<PixelmonEntity> getPokeEntityWrapperFactory() {
         return VPokeEntityWrapperFactory.INSTANCE;
     }
 }
