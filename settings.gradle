@@ -3,6 +3,10 @@ pluginManagement {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
         maven { url "https://files.minecraftforge.net/maven/" }
+        maven {
+            allowInsecureProtocol = true
+            url = 'http://localhost:31647/snapshots'
+        }
         gradlePluginPortal()
     }
 }
