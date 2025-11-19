@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.battles.BattleType;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
+import com.pixelmonmod.pixelmon.battles.BattleQuery;
 import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.battles.api.rules.BattleRules;
 import com.pixelmonmod.pixelmon.battles.controller.BattleController;
@@ -27,7 +28,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class BattleManager implements IBattleManager {
+public class BattleManager implements IBattleManager<BattleController> {
     public static BattleManager INSTANCE = new BattleManager();
 
     /**
@@ -35,7 +36,7 @@ public class BattleManager implements IBattleManager {
      */
     @NotNull
     @Override
-    public IPokeBattle create(Player p1, Player p2) {
+    public IPokeBattle<BattleController> create(Player p1, Player p2) {
         val pokemonList1 = Lists.newArrayList(StorageProxy.getPartyNow(p1.getUniqueId()).getAll());
         val pokemonList2 = Lists.newArrayList(StorageProxy.getPartyNow(p2.getUniqueId()).getAll());
         pokemonList1.removeIf(Objects::isNull);
@@ -48,18 +49,33 @@ public class BattleManager implements IBattleManager {
 
     @Nullable
     @Override
-    public IPokeBattle getBattle(Player player) {
+    public IPokeBattle<BattleController> getBattle(Player player) {
         return getBattle((ServerPlayer) CraftEntity.getHandle(player));
     }
 
     @Override
-    public IPokeBattle wrapper(Object battle) {
-        return null;
+    public IPokeBattle<BattleController> wrapper(BattleController battle) {
+        return new PokeBattle(battle);
     }
 
-    public IPokeBattle getBattle(ServerPlayer player) {
+    public IPokeBattle<BattleController> getBattle(ServerPlayer player) {
         val battle = BattleRegistry.getBattle(player);
         return battle == null ? null : new PokeBattle(battle);
+    }
+
+    @Override
+    public void createQuery(Player p1, Player p2) {
+        val player1 = (ServerPlayer) CraftEntity.getHandle(p1);
+        val player2 = (ServerPlayer) CraftEntity.getHandle(p2);
+        String errorT = "玩家没有可参与的宝可梦!";
+        val pokemon1 = Objects.requireNonNull(StorageProxy.getPartyNow(player1).getFirstAblePokemon(),errorT);
+        val pokemon2 = Objects.requireNonNull(StorageProxy.getPartyNow(player2).getFirstAblePokemon(),errorT);
+        BattleQuery.builder()
+                .teamOne(player1)
+                .teamTwo(player2)
+                .teamOnePokemon(pokemon1)
+                .teamTwoPokemon(pokemon2)
+                .build();
     }
 
     @Getter

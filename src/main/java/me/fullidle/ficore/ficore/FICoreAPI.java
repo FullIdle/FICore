@@ -55,7 +55,7 @@ public class FICoreAPI {
     /**
      * 获取环境下的对局管理器
      */
-    public static IBattleManager getBattleManager() {
+    public static IBattleManager<?> getBattleManager() {
         return FIData.V1_version.getBattleManager();
     }
 }

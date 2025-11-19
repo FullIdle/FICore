@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.battles.BattleType;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
+import com.pixelmonmod.pixelmon.battles.BattleQuery;
 import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.battles.api.rules.BattleRules;
 import com.pixelmonmod.pixelmon.battles.controller.BattleController;
@@ -59,6 +60,21 @@ public class BattleManager implements IBattleManager<BattleController> {
     public IPokeBattle<BattleController> getBattle(ServerPlayerEntity player) {
         val battle = BattleRegistry.getBattle(player);
         return battle == null ? null : new PokeBattle(battle);
+    }
+
+    @Override
+    public void createQuery(Player p1, Player p2) {
+        val player1 = (ServerPlayerEntity) CraftEntity.getHandle(p1);
+        val player2 = (ServerPlayerEntity) CraftEntity.getHandle(p2);
+        String errorT = "玩家没有可参与的宝可梦!";
+        val pokemon1 = Objects.requireNonNull(StorageProxy.getParty(player1).getFirstAblePokemon(),errorT);
+        val pokemon2 = Objects.requireNonNull(StorageProxy.getParty(player2).getFirstAblePokemon(),errorT);
+        new BattleQuery(
+                player1,
+                pokemon1.getOrSpawnPixelmon(player1),
+                player2,
+                pokemon2.getOrSpawnPixelmon(player2)
+        );
     }
 
     @Getter

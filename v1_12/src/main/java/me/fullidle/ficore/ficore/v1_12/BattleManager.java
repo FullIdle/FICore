@@ -6,6 +6,7 @@ import com.pixelmonmod.pixelmon.api.events.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.events.PokedexEvent;
 import com.pixelmonmod.pixelmon.api.events.npc.NPCEvent;
 import com.pixelmonmod.pixelmon.api.storage.PartyStorage;
+import com.pixelmonmod.pixelmon.battles.BattleQuery;
 import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.battles.controller.BattleControllerBase;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
@@ -18,7 +19,6 @@ import com.pixelmonmod.pixelmon.pokedex.EnumPokedexRegisterStatus;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import lombok.Getter;
 import lombok.val;
-import me.fullidle.ficore.ficore.common.api.Wrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
@@ -64,6 +64,21 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
     public IPokeBattle<BattleControllerBase> getBattle(EntityPlayerMP player) {
         val battle = BattleRegistry.getBattle(player);
         return battle == null ? null : new PokeBattle(battle);
+    }
+
+    @Override
+    public void createQuery(Player p1, Player p2) {
+        val player1 = (EntityPlayerMP) CraftEntity.getHandle(p1);
+        val player2 = (EntityPlayerMP) CraftEntity.getHandle(p2);
+        String errorT = "玩家没有可参与的宝可梦!";
+        val pokemon1 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player1).getFirstAblePokemon(),errorT);
+        val pokemon2 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player2).getFirstAblePokemon(),errorT);
+        new BattleQuery(
+                player1,
+                pokemon1.getOrSpawnPixelmon(player1),
+                player2,
+                pokemon2.getOrSpawnPixelmon(player2)
+        );
     }
 
     @Getter
