@@ -1,6 +1,5 @@
 architectury {
     platformSetupLoomIde()
-    fabric()
 }
 
 repositories {
@@ -10,10 +9,5 @@ repositories {
 }
 
 dependencies {
-    def file = rootProject.file('./.gradle/loom-cache/remapped_mods/loom_mappings_1_21_1_layered_hash_40545_v2/com/cobblemon/mod/1.6.1+1.21.1')
-    if (!file.exists()) {
-        modCompileOnly "com.cobblemon:mod:1.6.1+1.21.1"
-    } else {
-        compileOnly fileTree(file)
-    }
+    modCompileOnly "com.cobblemon:mod:1.6.1+1.21.1"
 }

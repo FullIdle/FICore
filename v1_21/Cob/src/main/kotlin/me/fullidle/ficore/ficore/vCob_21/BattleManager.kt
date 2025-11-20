@@ -10,7 +10,6 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
-import me.fullidle.ficore.ficore.common.api.Wrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle
 import org.bukkit.Bukkit

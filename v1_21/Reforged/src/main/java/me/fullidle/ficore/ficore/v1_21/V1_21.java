@@ -1,6 +1,9 @@
 package me.fullidle.ficore.ficore.v1_21;
 
+import com.pixelmonmod.pixelmon.Pixelmon;
+import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.battles.controller.BattleController;
 import lombok.SneakyThrows;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
@@ -20,21 +23,11 @@ public class V1_21 extends V1_version {
     @SneakyThrows
     public V1_21() {
         FIData.V1_version = this;
-        for (ModContainer mod : ModList.get().getSortedMods()) {
-            System.out.println(mod.getModId());
-            val eventBus = mod.getEventBus();
-            if (eventBus != null) {
-                try {
-                    eventBus.register(this);
-                    System.out.println("注册成功");
-                    continue;
-                } catch (Exception e) {
-                    System.out.println("注册失败");
-                    continue;
-                }
-            }
-            System.out.println("注册失败");
-        }
+
+        //注册一个
+        val pixelmonEventBus = Pixelmon.EVENT_BUS;
+        pixelmonEventBus.addListener(BattleStartedEvent.Pre.class, PixelmonListener::onBattleStarted);
+        pixelmonEventBus.addListener(BattleEndEvent.class, PixelmonListener::onBattleEnd);
     }
 
     @SubscribeEvent
@@ -79,7 +72,7 @@ public class V1_21 extends V1_version {
     }
 
     @Override
-    public IBattleManager getBattleManager() {
+    public IBattleManager<BattleController> getBattleManager() {
         return BattleManager.INSTANCE;
     }
 

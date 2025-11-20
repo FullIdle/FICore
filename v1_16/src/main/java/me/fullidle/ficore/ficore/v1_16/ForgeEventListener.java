@@ -1,10 +1,16 @@
 package me.fullidle.ficore.ficore.v1_16;
 
+import com.pixelmonmod.pixelmon.api.battles.BattleEndCause;
+import com.pixelmonmod.pixelmon.api.battles.BattleResults;
+import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.event.ForgeEvent;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleEndEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleStartEvent;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,6 +22,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ForgeEventListener implements IEventListener, Consumer<Event> {
@@ -60,6 +68,16 @@ public class ForgeEventListener implements IEventListener, Consumer<Event> {
                         e.setCanceled(true);
                         return;
                     }
+                }
+            }
+            if (event.getForgeEvent() instanceof BattleEndEvent) {
+                val e = (BattleEndEvent) event.getForgeEvent();
+                if (e.getBattleController().isPvP() && e.getBattleController().playerNumber == 2 && !e.isAbnormal() && !e.getCause().equals(BattleEndCause.FORCE)) {
+                    val battleManager = ((V1_16) FIData.V1_version).getBattleManager();
+                    val map = new HashMap<Player, BattleResult>();
+                    for (Map.Entry<BattleParticipant, BattleResults> entry : e.getResults().entrySet())
+                        map.put(castPlayer(((PlayerParticipant) entry.getKey()).player), BattleResult.valueOf(entry.getValue().name()));
+                    Bukkit.getPluginManager().callEvent(new PVPBattleEndEvent(battleManager.wrapper(e.getBattleController()), map));
                 }
             }
         }
