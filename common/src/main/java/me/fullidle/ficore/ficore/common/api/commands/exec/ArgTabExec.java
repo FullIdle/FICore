@@ -21,7 +21,7 @@ public class ArgTabExec extends TabExec {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return this.args.prompts();
+        throw new UnsupportedOperationException();
     }
 
     @Override
