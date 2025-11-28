@@ -11,15 +11,30 @@ import org.bukkit.command.TabExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class CommandBuilder {
     private final String name;
+    private Function<Context, String> permission;
     private final Map<String, CommandBuilder> thenExecs = new HashMap<>();
     private Exec exec = WRONG_FORMAT_EXEC;
     private boolean built = false;
 
     public CommandBuilder(String name) {
         this.name = name;
+    }
+
+    public void permission(Function<Context, String> permission) {
+        this.permission = permission;
+    }
+
+    public Function<Context, String> permission() {
+        return this.permission;
+    }
+
+    public void permission(String permission) {
+        if (permission == null) this.permission = null;
+        this.permission = context -> permission;
     }
 
     public CommandBuilder then(CommandBuilder builder) {
@@ -40,7 +55,7 @@ public class CommandBuilder {
         val map = new HashMap<String, TabExec>();
         this.thenExecs.forEach((k, v) -> map.put(k, ((TabExec) v.build())));
         this.built = true;
-        return new TabExec(name, exec, map.values());
+        return new TabExec(name, permission, exec, map.values());
     }
 
     public PluginCommand getPluginCommand() {
@@ -75,12 +90,20 @@ public class CommandBuilder {
         @Override
         public TabExecutor build() {
             val build = ((TabExec) super.build());
-            return new ArgTabExec(build.name, build.exec, build.thenExecs, this.args);
+            return new ArgTabExec(build.name, build.permission, build.exec, build.thenExecs, this.args);
         }
     }
 
     public static final Exec WRONG_FORMAT_EXEC = context -> context.sender.sendMessage(
             String.format("§8[§r%s§8]§c Wrong format",
+                    context.command instanceof PluginCommand ?
+                            ((PluginCommand) context.command).getPlugin().getDescription().getName()
+                            : "Unknown"
+            )
+    );
+
+    public static final Exec NO_PERMISSION_EXEC = context -> context.sender.sendMessage(
+            String.format("§8[§r%s§8]§c There is no permission to use the command!",
                     context.command instanceof PluginCommand ?
                             ((PluginCommand) context.command).getPlugin().getDescription().getName()
                             : "Unknown"

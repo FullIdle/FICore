@@ -9,12 +9,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public class ArgTabExec extends TabExec {
     private final Args<?> args;
 
-    public ArgTabExec(String name, Exec exec, Collection<TabExec> thenExecs, Args<?> args) {
-        super(name, exec, thenExecs);
+    public ArgTabExec(String name, Function<Context, String> permission, Exec exec, Collection<TabExec> thenExecs, Args<?> args) {
+        super(name, permission, exec, thenExecs);
         this.args = args;
     }
 

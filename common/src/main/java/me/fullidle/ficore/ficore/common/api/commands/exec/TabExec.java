@@ -10,16 +10,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TabExec implements TabExecutor {
     public final String name;
+    public final Function<Context, String> permission;
     @NotNull
     public final Exec exec;
     public final List<TabExec> thenExecs = new ArrayList<>();
 
-    public TabExec(String name, @NotNull Exec exec, Collection<TabExec> thenExecs) {
+    public TabExec(String name, Function<Context, String> permission, @NotNull Exec exec, Collection<TabExec> thenExecs) {
         this.name = name;
+        this.permission = permission;
         this.exec = exec;
         this.thenExecs.addAll(thenExecs);
     }
@@ -44,6 +47,10 @@ public class TabExec implements TabExecutor {
                 finalExec.writeArg(context, arg);
             }
             context.rawArgs = args;
+            if (finalExec.permission != null && !sender.hasPermission(finalExec.permission.apply(context))) {
+                CommandBuilder.NO_PERMISSION_EXEC.exec(context);
+                return true;
+            }
             finalExec.exec.exec(context);
             return true;
         }
