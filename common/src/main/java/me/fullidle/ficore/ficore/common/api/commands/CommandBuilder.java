@@ -24,17 +24,18 @@ public class CommandBuilder {
         this.name = name;
     }
 
-    public void permission(Function<Context, String> permission) {
+    public CommandBuilder permission(Function<Context, String> permission) {
         this.permission = permission;
+        return this;
     }
 
     public Function<Context, String> permission() {
         return this.permission;
     }
 
-    public void permission(String permission) {
-        if (permission == null) this.permission = null;
-        this.permission = context -> permission;
+    public CommandBuilder permission(String permission) {
+        this.permission = permission == null ? null : context -> permission;
+        return this;
     }
 
     public CommandBuilder then(CommandBuilder builder) {
