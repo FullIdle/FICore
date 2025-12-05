@@ -11,6 +11,10 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFacto
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory
 
 object VCob_21 : V1_version() {
+    override fun hasPokemon(): Boolean {
+        return true
+    }
+
     init {
         FIData.V1_version = this
     }

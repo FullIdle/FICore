@@ -25,7 +25,7 @@ public class InvHolder implements InventoryHolder {
      * 没有初始化的构造
      */
     public InvHolder(InvConfig config) {
-        this(config, null);
+        this.config = config;
     }
 
     public void init(@Nullable OfflinePlayer player) {

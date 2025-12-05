@@ -45,7 +45,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInvDrag(InventoryDragEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof ListenerInvHolder) return;
+        if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryDragEvent> consumer = invHolder.getDrag();
         if (consumer != null) {

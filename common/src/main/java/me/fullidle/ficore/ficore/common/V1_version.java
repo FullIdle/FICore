@@ -10,6 +10,11 @@ import org.bukkit.plugin.Plugin;
 
 public abstract class V1_version {
     /**
+     * 有宝可梦
+     */
+    abstract public boolean hasPokemon();
+
+    /**
      * 获取版本
      */
     abstract public String getVersion();

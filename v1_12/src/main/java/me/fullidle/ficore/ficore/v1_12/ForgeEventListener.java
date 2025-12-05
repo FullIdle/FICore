@@ -45,33 +45,9 @@ public class ForgeEventListener implements IEventListener {
 
         @EventHandler
         public void on(ForgeEvent event) {
-            if (event.getForgeEvent() instanceof BattleStartedEvent) {
-                val e = (BattleStartedEvent) event.getForgeEvent();
-                if (e.bc.isPvP() && e.participant1.length == 1 && e.participant2.length == 1) {
-                    val battleManager = ((V1_12) FIData.V1_version).getBattleManager();
-                    val bEvent = new PVPBattleStartEvent(
-                            battleManager.wrapper(e.bc),
-                            castPlayer(((PlayerParticipant) e.participant1[0]).player),
-                            castPlayer(((PlayerParticipant) e.participant2[0]).player)
-                    );
-                    Bukkit.getPluginManager().callEvent(bEvent);
-                    if (bEvent.isCancelled()) e.setCanceled(true);
-                }
+            if (FIData.V1_version.hasPokemon()) {
+                PixelmonListener.on(event);
             }
-            if (event.getForgeEvent() instanceof BattleEndEvent) {
-                val e = (BattleEndEvent) event.getForgeEvent();
-                if (e.bc.isPvP() && e.bc.playerNumber == 2 && !e.abnormal && !e.cause.equals(EnumBattleEndCause.FORCE)) {
-                    val battleManager = ((V1_12) FIData.V1_version).getBattleManager();
-                    val map = new HashMap<Player, BattleResult>();
-                    for (Map.Entry<BattleParticipant, BattleResults> entry : e.results.entrySet())
-                        map.put(castPlayer(((PlayerParticipant) entry.getKey()).player), BattleResult.valueOf(entry.getValue().name()));
-                    Bukkit.getPluginManager().callEvent(new PVPBattleEndEvent(battleManager.wrapper(e.bc), map));
-                }
-            }
-        }
-
-        private static Player castPlayer(EntityPlayerMP pl) {
-            return (Player) CraftEntity.getEntity(pl);
         }
     }
 }

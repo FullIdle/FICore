@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.inventory.actions.InvAction;
 import me.fullidle.ficore.ficore.common.api.inventory.actions.InvActionFactories;
@@ -48,6 +49,10 @@ public class InvButton {
         Material material = Material.matchMaterial(materialStr);
         ItemStack itemStack = new ItemStack(material == null ? Material.STONE : material);
         ItemMeta itemMeta = itemStack.getItemMeta();
+        val name = section.getString("name", null);
+        if (name != null) itemMeta.setDisplayName(name);
+        val lore = section.getList("lore", null);
+        if (lore != null) itemMeta.setLore((List<String>) lore);
         itemStack.setItemMeta(itemMeta);
 
         int amount = section.getInt("amount", -1);

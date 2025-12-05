@@ -1,9 +1,5 @@
 package me.fullidle.ficore.ficore.v1_12;
 
-import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
-import com.pixelmonmod.pixelmon.battles.controller.BattleControllerBase;
-import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
-import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import lombok.SneakyThrows;
 import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
@@ -27,8 +23,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class V1_12 extends V1_version {
+    private boolean hasPokemon;
+
     public V1_12() {
         FIData.V1_version = this;
+        try {
+            Class.forName("com.pixelmonmod.pixelmon.Pixelmon");
+            hasPokemon = true;
+        }catch (ClassNotFoundException e) {
+            hasPokemon = false;
+        }
+    }
+
+    @Override
+    public boolean hasPokemon() {
+        return hasPokemon;
     }
 
     @Override
@@ -134,12 +143,12 @@ public class V1_12 extends V1_version {
     }
 
     @Override
-    public ISpeciesWrapperFactory<EnumSpecies> getSpeciesWrapperFactory() {
+    public ISpeciesWrapperFactory<?> getSpeciesWrapperFactory() {
         return SpeciesWrapperFactory.INSTANCE;
     }
 
     @Override
-    public IPokemonWrapperFactory<Pokemon> getPokemonWrapperFactory() {
+    public IPokemonWrapperFactory<?> getPokemonWrapperFactory() {
         return PokemonWrapperFactory.INSTANCE;
     }
 
@@ -149,7 +158,7 @@ public class V1_12 extends V1_version {
     }
 
     @Override
-    public IBattleManager<BattleControllerBase> getBattleManager() {
+    public IBattleManager<?> getBattleManager() {
         return BattleManager.INSTANCE;
     }
 
@@ -159,7 +168,7 @@ public class V1_12 extends V1_version {
     }
 
     @Override
-    public PokeEntityWrapperFactory<EntityPixelmon> getPokeEntityWrapperFactory() {
+    public PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
         return VPokeEntityWrapperFactory.INSTANCE;
     }
 }

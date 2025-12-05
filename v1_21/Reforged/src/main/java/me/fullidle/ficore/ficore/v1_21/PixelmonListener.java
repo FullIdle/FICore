@@ -23,7 +23,7 @@ public class PixelmonListener {
     public static void onBattleStarted(BattleStartedEvent.Pre e) {
         val bc = e.getBattleController();
         if (bc.isPvP() && e.getTeamOne().length == 1 && e.getTeamTwo().length == 1) {
-            val manager = ((V1_21) FIData.V1_version).getBattleManager();
+            val manager = ((BattleManager) FIData.V1_version.getBattleManager());
             val ev = new PVPBattleStartEvent(
                     manager.wrapper(bc),
                     castPlayer(((PlayerParticipant) e.getTeamOne()[0]).player),
@@ -38,7 +38,7 @@ public class PixelmonListener {
 
     public static void onBattleEnd(BattleEndEvent e) {
         if (e.getBattleController().isPvP() && e.getBattleController().playerNumber == 2 && !e.isAbnormal() && !e.getCause().equals(BattleEndCause.FORCE)) {
-            val battleManager = ((V1_21) FIData.V1_version).getBattleManager();
+            val battleManager = ((BattleManager) FIData.V1_version.getBattleManager());
             val map = new HashMap<Player, BattleResult>();
             for (Map.Entry<BattleParticipant, BattleResults> entry : e.getResults().entrySet())
                 map.put(castPlayer(((PlayerParticipant) entry.getKey()).player), BattleResult.valueOf(entry.getValue().name()));
