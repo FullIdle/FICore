@@ -48,6 +48,8 @@ allprojects {
         annotationProcessor('org.projectlombok:lombok:1.18.34')
 
         compileOnly "org.jetbrains.kotlin:kotlin-reflect:2.0.20"
+
+        compileOnly 'me.clip:placeholderapi:2.10.3'
     }
 
     tasks.withType(JavaCompile).configureEach {
@@ -84,7 +86,6 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
-
 
     compileOnly subprojects.findAll {
         it != project21 && !project21.subprojects.contains(it)

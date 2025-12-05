@@ -2,6 +2,9 @@ name: ${rootProject.name}
 main: ${rootProject.group}.Main
 version: ${rootProject.version}
 api-version: 1.16
+
+softdepend: [PlaceholderAPI]
+
 commands:
   ficore:
     description: ficore demo command

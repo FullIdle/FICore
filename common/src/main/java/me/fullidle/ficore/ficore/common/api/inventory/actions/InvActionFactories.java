@@ -1,5 +1,8 @@
 package me.fullidle.ficore.ficore.common.api.inventory.actions;
 
+import me.fullidle.ficore.ficore.common.api.inventory.actions.commands.CommandAction;
+import me.fullidle.ficore.ficore.common.api.inventory.actions.commands.ConsoleAction;
+import me.fullidle.ficore.ficore.common.api.inventory.actions.commands.OpAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,5 +32,7 @@ public class InvActionFactories {
 
     static {
         register(CommandAction.Factory.MATCHER, CommandAction.Factory.INSTANCE);
+        register(OpAction.Factory.MATCHER, OpAction.Factory.INSTANCE);
+        register(ConsoleAction.Factory.MATCHER, ConsoleAction.Factory.INSTANCE);
     }
 }

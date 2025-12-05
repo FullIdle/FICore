@@ -1,6 +1,8 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import lombok.Getter;
 import lombok.val;
+import me.fullidle.ficore.ficore.common.api.inventory.transformers.InvTransformer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,23 +12,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.BiFunction;
 
 /**
  * 容器配置将该配置对象用来构造的 {@link InvHolder} 所得到的 {@link InventoryHolder} 对象
  * 调用 {@link InventoryHolder#getInventory()} 得到的容器给玩家打开，可以正常使用实例化后的配置行为
  */
+@Getter
 public class InvConfig {
     private final String title;
     // layout[y][x]
     private final InvButton[][] layout;
     //标题，物品等在初始化的时候会调用该方法进行处理后赋予
-    private final BiFunction<OfflinePlayer, String, String> papiFun;
+    @NotNull
+    private final InvTransformer transformer;
 
-    public InvConfig(String title, InvButton[][] layout, BiFunction<OfflinePlayer, String, String> papiFun) {
+    public InvConfig(String title, InvButton[][] layout, InvTransformer transformer) {
         this.title = title;
         this.layout = layout;
-        this.papiFun = papiFun == null ? (p, s) -> s : papiFun;
+        this.transformer = transformer == null ? InvTransformer.NO_OPERATION : transformer;
     }
 
     public InvConfig(String title, InvButton[][] layout) {
@@ -34,18 +37,14 @@ public class InvConfig {
     }
 
     public Inventory createInv(InventoryHolder holder, @Nullable OfflinePlayer papiTarget) {
-        Inventory inv = Bukkit.createInventory(holder, layout.length * 9, papi(title, papiTarget));
+        Inventory inv = Bukkit.createInventory(holder, layout.length * 9, transformer.title(this, holder, papiTarget, title));
         for (int y = 0; y < layout.length; y++)
             for (int x = 0; x < layout[y].length; x++) {
                 val invButton = layout[y][x];
                 if (invButton == null) continue;
-                inv.setItem(y * 9 + x, invButton.getIcon(papiFun, papiTarget));
+                inv.setItem(y * 9 + x, invButton.getIcon(this, holder, papiTarget, transformer));
             }
         return inv;
-    }
-
-    private String papi(String title, OfflinePlayer papiTarget) {
-        return papiFun.apply(papiTarget, title);
     }
 
     public InvButton getButton(int slot) {
@@ -60,8 +59,8 @@ public class InvConfig {
         return new InvConfig(text, combined(layout, buttonMap));
     }
 
-    public static InvConfig of(String text, List<String> layout, Map<Character, InvButton> buttonMap, BiFunction<OfflinePlayer, String, String> papiFun) {
-        return new InvConfig(text, combined(layout, buttonMap), papiFun);
+    public static InvConfig of(String text, List<String> layout, Map<Character, InvButton> buttonMap, InvTransformer transformer) {
+        return new InvConfig(text, combined(layout, buttonMap), transformer);
     }
 
     public static InvButton[][] combined(List<String> layout, Map<Character, InvButton> buttonMap) {
@@ -101,14 +100,14 @@ public class InvConfig {
      * @see org.bukkit.event.inventory.ClickType
      * @see me.fullidle.ficore.ficore.common.api.inventory.actions.InvActionFactories
      */
-    public static InvConfig parseYaml(@NotNull ConfigurationSection config) {
+    public static InvConfig parseYaml(@NotNull ConfigurationSection config, InvTransformer transformer) {
         ConfigurationSection section = config.getConfigurationSection("buttons");
         HashMap<Character, InvButton> map = new HashMap<>();
         if (section != null) for (String s : section.getKeys(false)) {
             if (s.length() != 1) throw new IllegalArgumentException("Button name must be a single character");
             map.put(s.charAt(0), InvButton.parseYaml(Objects.requireNonNull(section.getConfigurationSection(s))));
         }
-        return of(config.getString("title"), config.getStringList("layout"), map);
+        return of(config.getString("title"), config.getStringList("layout"), map, transformer);
     }
 
 
@@ -116,19 +115,19 @@ public class InvConfig {
         private final String title;
         private final List<String> layout = new ArrayList<>();
         private final Map<Character, InvButton> buttons = new HashMap<>();
-        private BiFunction<OfflinePlayer, String, String> papiFun;
+        private InvTransformer transformer;
 
         public Builder(String title) {
             this.title = title;
         }
 
-        public Builder papiFun(BiFunction<OfflinePlayer, String, String> papiFun) {
-            this.papiFun = papiFun;
+        public Builder transformer(InvTransformer transformer) {
+            this.transformer = transformer;
             return this;
         }
 
-        public BiFunction<OfflinePlayer, String, String> papiFun() {
-            return papiFun;
+        public InvTransformer transformer() {
+            return transformer;
         }
 
         public List<String> layout() {
@@ -159,7 +158,7 @@ public class InvConfig {
         }
 
         public InvConfig build() {
-            return InvConfig.of(this.title, this.layout, this.buttons, this.papiFun);
+            return InvConfig.of(this.title, this.layout, this.buttons, this.transformer);
         }
     }
 }

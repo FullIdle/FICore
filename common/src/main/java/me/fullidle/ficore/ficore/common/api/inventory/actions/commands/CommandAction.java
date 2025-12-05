@@ -1,11 +1,14 @@
-package me.fullidle.ficore.ficore.common.api.inventory.actions;
+package me.fullidle.ficore.ficore.common.api.inventory.actions.commands;
 
-import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.inventory.InvButton;
+import me.fullidle.ficore.ficore.common.api.inventory.actions.HeadMatcher;
+import me.fullidle.ficore.ficore.common.api.inventory.actions.InvAction;
+import me.fullidle.ficore.ficore.common.api.inventory.actions.InvActionFactory;
+import me.fullidle.ficore.ficore.common.api.inventory.transformers.InvTransformer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandAction implements InvAction {
     private final String command;
@@ -15,13 +18,12 @@ public class CommandAction implements InvAction {
     }
 
     @Override
-    public void run(InventoryClickEvent event, InvButton button) {
-        HumanEntity whoClicked = event.getWhoClicked();
-        if (!(whoClicked instanceof Player)) {
-            FIData.plugin.getLogger().warning("A non-player entity tried to run a command!");
-            return;
-        }
-        Bukkit.dispatchCommand(whoClicked, this.command);
+    public void run(InventoryClickEvent event, InvButton button, @NotNull InvTransformer transformer) {
+        exec(event, event.getWhoClicked(), button, transformer);
+    }
+
+    public void exec(InventoryClickEvent event, CommandSender sender, InvButton button, @NotNull InvTransformer transformer) {
+        Bukkit.dispatchCommand(sender, transformer.action(event, button, this, command));
     }
 
     public static class Factory implements InvActionFactory {

@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import me.fullidle.ficore.ficore.common.api.inventory.transformers.PapiTransformer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class InvHolderUseExample {
     public static void customInv() {
         String title = "example";
         InvConfig config = new InvConfig.Builder(title)
-                .papiFun((p,s)-> s.replace("{player}", p.getName()))
+                .transformer(PapiTransformer.INSTANCE)
                 //预先好布局
                 .layout(Arrays.asList(
                         "000000000",
@@ -24,11 +25,11 @@ public class InvHolderUseExample {
                         .displayName("我是边界") //可以用 Component 类型
                         .displayLore("看我干什么!")
                         //这里只对左键起作用
-                        .actions(ClickType.LEFT, (clickEvent, button) -> {
+                        .actions(ClickType.LEFT, (clickEvent, button, transformer) -> {
                             clickEvent.getWhoClicked().sendMessage("你左键我干什么!");
                         })
                         //这一个是所有动作的按钮，包裹了各种点击类型 actions 方法只增加，不覆盖!
-                        .actions((clickEvent, button) -> {
+                        .actions((clickEvent, button, transformer) -> {
                             clickEvent.getWhoClicked().sendMessage("你点我干什么!");
                         })
                         //当玩家点击0位置上的这些按钮 会提示 '你点我干什么!' 左键时会有两个提示，第一个是 '你左键我干什么!'
@@ -37,15 +38,15 @@ public class InvHolderUseExample {
                 .button('A', new InvButton.Builder()
                         .displayMaterial(Material.DIAMOND)
                         .displayName("我是钻石")
-                        .displayLore("我是什么?", "变量测试 {player} <<")
-                        .actions((clickEvent, button) ->
+                        .displayLore("我是什么?", "变量测试%player_name% <<")
+                        .actions((clickEvent, button, transformer) ->
                                 clickEvent.getWhoClicked().sendMessage("你点了钻石!")
                         ).build())
                 .button('B', new InvButton.Builder()
                         .displayMaterial(Material.GOLD_INGOT)
                         .displayName("我是金子")
                         .displayLore("我是什么?")
-                        .actions((clickEvent, button) ->
+                        .actions((clickEvent, button,transformer) ->
                                 clickEvent.getWhoClicked().sendMessage("你点了金子!")
                         ).build())
                 .build();

@@ -30,6 +30,6 @@ public class InvHolder implements InventoryHolder {
             return;
         InvButton button = this.getConfig().getButton(e.getSlot());
         if (button == null) return;
-        button.onClick(e);
+        button.onClick(e, this.config.getTransformer());
     }
 }
