@@ -9,19 +9,32 @@ import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class InvHolder implements InventoryHolder {
     @Getter
     private final InvConfig config;
-    private final Inventory inventory;
+    private Inventory inventory;
 
-    public InvHolder(InvConfig config, @Nullable OfflinePlayer papiTarget) {
+    public InvHolder(InvConfig config, @Nullable OfflinePlayer player) {
         this.config = config;
-        this.inventory = config.createInv(this, papiTarget);
+        this.init(player);
+    }
+
+    /**
+     * 没有初始化的构造
+     */
+    public InvHolder(InvConfig config) {
+        this(config, null);
+    }
+
+    public void init(@Nullable OfflinePlayer player) {
+        this.inventory = config.createInv(this, player);
     }
 
     @Override
     public @NotNull Inventory getInventory() {
-        return this.inventory;
+        return Objects.requireNonNull(this.inventory, "Inventory is not initialized yet!");
     }
 
     public void onClick(InventoryClickEvent e) {

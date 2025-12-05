@@ -24,12 +24,17 @@ public class InvConfig {
     private final InvButton[][] layout;
     //标题，物品等在初始化的时候会调用该方法进行处理后赋予
     @NotNull
-    private final InvTransformer transformer;
+    private InvTransformer transformer;
 
     public InvConfig(String title, InvButton[][] layout, InvTransformer transformer) {
         this.title = title;
         this.layout = layout;
         this.transformer = transformer == null ? InvTransformer.NO_OPERATION : transformer;
+    }
+
+    public InvTransformer updateTransformer(InvTransformer transformer) {
+        this.transformer = transformer;
+        return transformer;
     }
 
     public InvConfig(String title, InvButton[][] layout) {
