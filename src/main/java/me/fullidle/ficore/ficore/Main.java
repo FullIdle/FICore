@@ -3,12 +3,16 @@ package me.fullidle.ficore.ficore;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.inventory.InvHolderUseExample;
 import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import me.fullidle.ficore.ficore.listener.PlayerListener;
 import me.fullidle.ficore.ficore.listener.PluginListener;
 import me.fullidle.ficore.ficore.v1_12.V1_12;
 import me.fullidle.ficore.ficore.v1_16.V1_16;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -62,5 +66,16 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         if (FIData.V1_version == null) return;
         FIData.V1_version.unregisterAllListener(this);
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!sender.isOp()) {
+            sender.sendMessage("§c你没有权限使用这个命令!");
+            return true;
+        }
+        sender.sendMessage("调试GUI系统");
+        InvHolderUseExample.customInv();
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore.listener;
 
 import me.fullidle.ficore.ficore.common.api.ineventory.ListenerInvHolder;
+import me.fullidle.ficore.ficore.common.api.inventory.InvHolder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,18 +27,25 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInvClick(InventoryClickEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder)) return;
-        ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-        Consumer<InventoryClickEvent> consumer = invHolder.getClick();
-        if (consumer != null) {
-            consumer.accept(e);
+        if (holder instanceof ListenerInvHolder) {
+            ListenerInvHolder invHolder = (ListenerInvHolder) holder;
+            Consumer<InventoryClickEvent> consumer = invHolder.getClick();
+            if (consumer != null) {
+                consumer.accept(e);
+            }
+            return;
+        }
+
+        if (holder instanceof InvHolder) {
+            ((InvHolder) holder).onClick(e);
+            return;
         }
     }
 
     @EventHandler
     public void onInvDrag(InventoryDragEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder)) return;
+        if (holder instanceof ListenerInvHolder) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryDragEvent> consumer = invHolder.getDrag();
         if (consumer != null) {

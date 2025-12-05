@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -36,7 +37,11 @@ public class InvConfig {
     public Inventory createInv(InventoryHolder holder, @Nullable OfflinePlayer papiTarget) {
         Inventory inv = Bukkit.createInventory(holder, layout.length * 9, papi(title, papiTarget));
         for (int y = 0; y < layout.length; y++)
-            for (int x = 0; x < layout[y].length; x++) inv.setItem(y * 9 + x, layout[y][x].getIcon(papiTarget));
+            for (int x = 0; x < layout[y].length; x++) {
+                val invButton = layout[y][x];
+                if (invButton == null) continue;
+                inv.setItem(y * 9 + x, invButton.getIcon(papiTarget));
+            }
         return inv;
     }
 
