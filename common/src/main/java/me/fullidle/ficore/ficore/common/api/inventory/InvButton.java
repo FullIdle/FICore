@@ -76,10 +76,7 @@ public class InvButton {
             ArrayList<InvAction> actionsList = new ArrayList<>();
             for (Object obj : list) {
                 InvAction action = InvActionFactories.create(obj);
-                if (action == null) {
-                    logger.warning("Unknown action: " + obj);
-                    continue;
-                }
+                if (action == null) continue;
                 actionsList.add(action);
             }
             actions.put(clickType, actionsList);

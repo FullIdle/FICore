@@ -12,6 +12,7 @@ public class InvHolderUseExample {
     public static void customInv() {
         String title = "example";
         InvConfig config = new InvConfig.Builder(title)
+                .papiFun((p,s)-> s.replace("{player}", p.getName()))
                 //预先好布局
                 .layout(Arrays.asList(
                         "000000000",
@@ -36,7 +37,7 @@ public class InvHolderUseExample {
                 .button('A', new InvButton.Builder()
                         .displayMaterial(Material.DIAMOND)
                         .displayName("我是钻石")
-                        .displayLore("我是什么?")
+                        .displayLore("我是什么?", "变量测试 {player} <<")
                         .actions((clickEvent, button) ->
                                 clickEvent.getWhoClicked().sendMessage("你点了钻石!")
                         ).build())

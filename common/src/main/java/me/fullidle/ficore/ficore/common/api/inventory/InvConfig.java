@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * 容器配置将该配置对象用来构造的 {@link InvHolder} 所得到的 {@link InventoryHolder} 对象
@@ -22,12 +21,12 @@ public class InvConfig {
     // layout[y][x]
     private final InvButton[][] layout;
     //标题，物品等在初始化的时候会调用该方法进行处理后赋予
-    private final BiFunction<OfflinePlayer,String, String> papiFun;
+    private final BiFunction<OfflinePlayer, String, String> papiFun;
 
-    public InvConfig(String title, InvButton[][] layout, BiFunction<OfflinePlayer,String, String> papiFun) {
+    public InvConfig(String title, InvButton[][] layout, BiFunction<OfflinePlayer, String, String> papiFun) {
         this.title = title;
         this.layout = layout;
-        this.papiFun = papiFun == null ? (p,s)->s : papiFun;
+        this.papiFun = papiFun == null ? (p, s) -> s : papiFun;
     }
 
     public InvConfig(String title, InvButton[][] layout) {
@@ -40,7 +39,7 @@ public class InvConfig {
             for (int x = 0; x < layout[y].length; x++) {
                 val invButton = layout[y][x];
                 if (invButton == null) continue;
-                inv.setItem(y * 9 + x, invButton.getIcon(papiFun,papiTarget));
+                inv.setItem(y * 9 + x, invButton.getIcon(papiFun, papiTarget));
             }
         return inv;
     }
@@ -59,6 +58,10 @@ public class InvConfig {
 
     public static InvConfig of(String text, List<String> layout, Map<Character, InvButton> buttonMap) {
         return new InvConfig(text, combined(layout, buttonMap));
+    }
+
+    public static InvConfig of(String text, List<String> layout, Map<Character, InvButton> buttonMap, BiFunction<OfflinePlayer, String, String> papiFun) {
+        return new InvConfig(text, combined(layout, buttonMap), papiFun);
     }
 
     public static InvButton[][] combined(List<String> layout, Map<Character, InvButton> buttonMap) {
@@ -113,9 +116,19 @@ public class InvConfig {
         private final String title;
         private final List<String> layout = new ArrayList<>();
         private final Map<Character, InvButton> buttons = new HashMap<>();
+        private BiFunction<OfflinePlayer, String, String> papiFun;
 
         public Builder(String title) {
             this.title = title;
+        }
+
+        public Builder papiFun(BiFunction<OfflinePlayer, String, String> papiFun) {
+            this.papiFun = papiFun;
+            return this;
+        }
+
+        public BiFunction<OfflinePlayer, String, String> papiFun() {
+            return papiFun;
         }
 
         public List<String> layout() {
@@ -146,7 +159,7 @@ public class InvConfig {
         }
 
         public InvConfig build() {
-            return InvConfig.of(this.title, this.layout, this.buttons);
+            return InvConfig.of(this.title, this.layout, this.buttons, this.papiFun);
         }
     }
 }
