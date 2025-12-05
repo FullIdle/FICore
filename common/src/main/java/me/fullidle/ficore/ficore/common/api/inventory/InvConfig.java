@@ -40,7 +40,7 @@ public class InvConfig {
             for (int x = 0; x < layout[y].length; x++) {
                 val invButton = layout[y][x];
                 if (invButton == null) continue;
-                inv.setItem(y * 9 + x, invButton.getIcon(papiTarget));
+                inv.setItem(y * 9 + x, invButton.getIcon(papiFun,papiTarget));
             }
         return inv;
     }

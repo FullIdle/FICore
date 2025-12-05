@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.inventory.actions.InvAction;
 import me.fullidle.ficore.ficore.common.api.inventory.actions.InvActionFactories;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.logging.Logger;
 
 public class InvButton {
@@ -31,9 +33,17 @@ public class InvButton {
         return icon.clone();
     }
 
-    public ItemStack getIcon(OfflinePlayer papiTarget) {
-        //TODO 以后可能用到PlaceholderAPI
-        return icon.clone();
+    public ItemStack getIcon(BiFunction<OfflinePlayer,String, String> papiFun, OfflinePlayer papiTarget) {
+        val clone = icon.clone();
+        val itemMeta = clone.getItemMeta();
+        if (itemMeta.hasDisplayName()) itemMeta.setDisplayName(papiFun.apply(papiTarget, itemMeta.getDisplayName()));
+        if (itemMeta.hasLore()) {
+            val lore = new ArrayList<>(itemMeta.getLore());
+            lore.replaceAll(str -> papiFun.apply(papiTarget, str));
+            itemMeta.setLore(lore);
+        }
+        clone.setItemMeta(itemMeta);
+        return clone;
     }
 
     public void onClick(InventoryClickEvent event) {
