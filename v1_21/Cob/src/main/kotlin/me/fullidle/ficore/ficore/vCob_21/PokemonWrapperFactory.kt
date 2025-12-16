@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.vCob_21
 
+import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
@@ -130,11 +131,11 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
         }
 
         override fun setEV(type: Stats, value: Int) {
-            this.original.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(type.id)] = value
+            this.original.setEV(asStat(type),value)
         }
 
         override fun setIV(type: Stats, value: Int) {
-            this.original.evs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(type.id)] = value
+            this.original.setIV(asStat(type),value)
         }
 
         override fun getGender(): Gender {
@@ -199,6 +200,17 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
                     Gender.MALE -> com.cobblemon.mod.common.pokemon.Gender.MALE
                     Gender.FEMALE -> com.cobblemon.mod.common.pokemon.Gender.FEMALE
                     Gender.GENDERLESS -> com.cobblemon.mod.common.pokemon.Gender.GENDERLESS
+                }
+            }
+
+            fun asStat(stats: Stats): Stat {
+                return when (stats) {
+                    Stats.HP -> com.cobblemon.mod.common.api.pokemon.stats.Stats.HP
+                    Stats.ATTACK -> com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK
+                    Stats.DEFENCE -> com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE
+                    Stats.SPECIAL_ATTACK -> com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK
+                    Stats.SPECIAL_DEFENCE -> com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE
+                    Stats.SPEED -> com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED
                 }
             }
 
