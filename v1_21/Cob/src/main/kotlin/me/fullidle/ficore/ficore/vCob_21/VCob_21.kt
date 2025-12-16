@@ -1,11 +1,11 @@
 package me.fullidle.ficore.ficore.vCob_21
 
-import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import me.fullidle.ficore.ficore.common.V1_version
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonConfigManager
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory
@@ -41,7 +41,7 @@ object VCob_21 : V1_version() {
         throw UnsupportedOperationException()
     }
 
-    override fun getBattleManager(): IBattleManager<PokemonBattle> {
+    override fun getBattleManager(): IBattleManager<*> {
         return BattleManager
     }
 
@@ -51,5 +51,9 @@ object VCob_21 : V1_version() {
 
     override fun getPokeEntityWrapperFactory(): PokeEntityWrapperFactory<*>? {
         return PokeEntityWrapperFactoryImpl
+    }
+
+    override fun getPokemonConfigManager(): IPokemonConfigManager? {
+        return PokemonConfigManager
     }
 }

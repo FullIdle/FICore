@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StoragePosition;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.IStatStore;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
+import com.pixelmonmod.pixelmon.items.ItemPixelmonSprite;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
@@ -13,10 +14,12 @@ import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
+import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -192,6 +195,21 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public boolean inRanch() {
             return this.getOriginal().isInRanch();
+        }
+
+        @Override
+        public int getLevel() {
+            return this.getOriginal().getLevel();
+        }
+
+        @Override
+        public void setLevel(int level) {
+            this.getOriginal().setLevel(level);
+        }
+
+        @Override
+        public ItemStack createPhotoItem() {
+            return CraftItemStack.asBukkitCopy(ItemPixelmonSprite.getPhoto(this.getOriginal()));
         }
 
         @Override

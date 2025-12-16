@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
+import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
@@ -14,12 +15,14 @@ import me.fullidle.ficore.ficore.common.api.pokemon.Stats
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
+import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import java.util.*
 
 object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
@@ -156,6 +159,18 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
 
         override fun setHealth(health: Int) {
             this.original.currentHealth = health
+        }
+
+        override fun getLevel(): Int {
+            return this.original.level
+        }
+
+        override fun setLevel(level: Int) {
+            this.original.level = level
+        }
+
+        override fun createPhotoItem(): ItemStack {
+            return CraftItemStack.asBukkitCopy(PokemonItem.from(this.original))
         }
 
         override fun getType(): Class<Pokemon> {

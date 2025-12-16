@@ -5,10 +5,7 @@ import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.*;
@@ -170,5 +167,10 @@ public class V1_12 extends V1_version {
     @Override
     public PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory() {
         return VPokeEntityWrapperFactory.INSTANCE;
+    }
+
+    @Override
+    public IPokemonConfigManager getPokemonConfigManager() {
+        return PokemonConfigManager.INSTANCE;
     }
 }

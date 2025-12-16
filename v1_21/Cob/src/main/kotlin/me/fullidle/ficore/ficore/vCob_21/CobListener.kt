@@ -21,7 +21,7 @@ object CobListener {
 
     fun battleStartedPre(event: BattleStartedEvent.Pre) {
         if (!event.battle.isPvP || event.battle.players.size < 2) return
-        val wrapper = (FIData.V1_version as VCob_21).battleManager.wrapper(event.battle)
+        val wrapper = (FIData.V1_version.battleManager as BattleManager).wrapper(event.battle)
         val e = PVPBattleStartEvent(wrapper, castPlayer(event.battle.players[0]), castPlayer(event.battle.players[1]))
         Bukkit.getPluginManager().callEvent(e)
         if (e.isCancelled) event.cancel()
@@ -29,7 +29,7 @@ object CobListener {
 
     fun battleEnd(event: BattleVictoryEvent) {
         if (!event.battle.isPvP || event.battle.players.size < 2 || event.wasWildCapture) return
-        val wrapper = (FIData.V1_version as VCob_21).battleManager.wrapper(event.battle)
+        val wrapper = (FIData.V1_version.battleManager as BattleManager).wrapper(event.battle)
         Bukkit.getPluginManager().callEvent(PVPBattleEndEvent(wrapper, mapOf(
             Bukkit.getPlayer(event.winners.first().uuid) to BattleResult.VICTORY,
             Bukkit.getPlayer(event.losers.first().uuid) to BattleResult.DEFEAT

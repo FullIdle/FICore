@@ -2,10 +2,7 @@ package me.fullidle.ficore.ficore.common;
 
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import org.bukkit.plugin.Plugin;
 
 public abstract class V1_version {
@@ -61,4 +58,9 @@ public abstract class V1_version {
      * 宝可梦实体包裹工厂
      */
     abstract public PokeEntityWrapperFactory<?> getPokeEntityWrapperFactory();
+
+    /**
+     * 宝可梦相关配置管理器
+     */
+    abstract public IPokemonConfigManager getPokemonConfigManager();
 }

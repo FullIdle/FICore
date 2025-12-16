@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -201,4 +202,22 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
     public boolean hasOwner() {
         return this.getOwnerUUID() != null;
     }
+
+    /**
+     * 获取等级
+     * @return 当前等级
+     */
+    public abstract int getLevel();
+
+    /**
+     * 设置等级
+     * @param level 等级
+     */
+    public abstract void setLevel(int level);
+
+    /**
+     * 创建图片ItemStack
+     * @return 图片ItemStack
+     */
+    public abstract ItemStack createPhotoItem();
 }
