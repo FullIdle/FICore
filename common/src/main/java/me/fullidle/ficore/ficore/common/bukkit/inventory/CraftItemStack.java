@@ -2,6 +2,7 @@ package me.fullidle.ficore.ficore.common.bukkit.inventory;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import me.fullidle.ficore.ficore.common.api.util.VersionUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,7 +48,7 @@ public class CraftItemStack {
 
     static {
         try {
-            v1_CraftItemStack_Class = Class.forName("inventory.CraftItemStack");
+            v1_CraftItemStack_Class = Class.forName(VersionUtil.formatCraftBukkitClass("inventory.CraftItemStack"));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
