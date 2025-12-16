@@ -1,9 +1,10 @@
-subprojects {
+allprojects {
     apply plugin: 'architectury-plugin'
     apply plugin: 'dev.architectury.loom'
 
     architectury {
         minecraft = '1.21.1'
+        platformSetupLoomIde()
     }
 
     dependencies {

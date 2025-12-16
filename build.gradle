@@ -30,14 +30,18 @@ allprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
     repositories {
-        mavenCentral()
-        mavenLocal()
+        maven{url "https://maven.impactdev.net/repository/development/"}
+        maven{url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"}
+        maven{url "https://thedarkcolour.github.io/KotlinForForge/"}
+
         maven {url 'https://maven.neoforged.net/releases'}
         maven {
             allowInsecureProtocol = true
             url "http://localhost:31647/snapshots"
         }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        mavenCentral()
+        mavenLocal()
     }
 
     dependencies {
