@@ -2,8 +2,7 @@ package me.fullidle.ficore.ficore.vCob_21
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
+import com.cobblemon.mod.common.api.events.battles.BattleStartedEvent
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -76,10 +75,10 @@ object BattleManager : IBattleManager<PokemonBattle> {
                 }!!.call(original)
             }
 
-            val preBattleEvent = BattleStartedPreEvent(original)
+            val preBattleEvent = BattleStartedEvent.Pre(original)
             CobblemonEvents.BATTLE_STARTED_PRE.postThen(preBattleEvent) {
                 start()
-                CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(original))
+                CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedEvent.Post(original))
                 return
             }
             return

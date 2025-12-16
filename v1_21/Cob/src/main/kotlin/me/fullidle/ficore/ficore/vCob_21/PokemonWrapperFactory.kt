@@ -12,19 +12,13 @@ import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapper
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
-import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import java.util.*
 

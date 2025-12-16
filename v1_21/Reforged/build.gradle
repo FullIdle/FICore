@@ -4,10 +4,6 @@ architectury {
 }
 
 repositories {
-    maven {
-        name = 'NeoForged'
-        url = 'https://maven.neoforged.net/releases'
-    }
     maven {url "https://maven.mohistmc.com/"}
 }
 

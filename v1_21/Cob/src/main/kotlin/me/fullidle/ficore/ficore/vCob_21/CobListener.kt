@@ -2,7 +2,7 @@ package me.fullidle.ficore.ficore.vCob_21
 
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
+import com.cobblemon.mod.common.api.events.battles.BattleStartedEvent
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult
@@ -19,7 +19,7 @@ object CobListener {
         CobblemonEvents.BATTLE_VICTORY.subscribe(Priority.NORMAL,::battleEnd)
     }
 
-    fun battleStartedPre(event: BattleStartedPreEvent) {
+    fun battleStartedPre(event: BattleStartedEvent.Pre) {
         if (!event.battle.isPvP || event.battle.players.size < 2) return
         val wrapper = (FIData.V1_version as VCob_21).battleManager.wrapper(event.battle)
         val e = PVPBattleStartEvent(wrapper, castPlayer(event.battle.players[0]), castPlayer(event.battle.players[1]))
