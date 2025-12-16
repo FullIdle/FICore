@@ -8,7 +8,7 @@ public enum Stats {
     DEFENCE("def"),
     SPECIAL_ATTACK("spa"),
     SPECIAL_DEFENCE("spd"),
-    SPEED("spd");
+    SPEED("spe");
 
     @Getter
     private final String id;
