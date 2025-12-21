@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" factoryName="Application" name="Minecraft Server (:v1_21:Reforged)" type="Application">
-    <option name="MAIN_CLASS_NAME" value="dev.architectury.transformer.TransformerRuntime"/>
-    <module name="FICore.v1_21.Reforged.main"/>
+  <configuration default="false" factoryName="Application" name="Minecraft Server (:v1_21)" type="Application">
+    <option name="MAIN_CLASS_NAME" value="net.fabricmc.devlaunchinjector.Main"/>
+    <module name="FICore.v1_21.main"/>
     <option name="PROGRAM_PARAMETERS" value="nogui"/>
-    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=D:\IdeaProjects\FICore\v1_21\Reforged\.gradle\loom-cache\launch.cfg -Dfabric.dli.env=server -Dfabric.dli.main=net.fabricmc.loader.launch.knot.KnotServer -Darchitectury.main.class=D:\IdeaProjects\FICore\v1_21\Reforged\.gradle\architectury\.main_class -Darchitectury.runtime.transformer=D:\IdeaProjects\FICore\v1_21\Reforged\.gradle\architectury\.transforms -Darchitectury.properties=D:\IdeaProjects\FICore\v1_21\Reforged\.gradle\architectury\.properties -Djdk.attach.allowAttachSelf=true -javaagent:D:\IdeaProjects\FICore\.gradle\architectury\architectury-transformer-agent.jar"/>
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v1_21\Reforged/run/"/>
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=D:\IdeaProjects\FICore\v1_21\.gradle\loom-cache\launch.cfg -Dfabric.dli.env=server -Dfabric.dli.main=net.fabricmc.loader.launch.knot.KnotServer"/>
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v1_21/run/"/>
     <method v="2">
       <option enabled="true" name="Make"/>
     </method>

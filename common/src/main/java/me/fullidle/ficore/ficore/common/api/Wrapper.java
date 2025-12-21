@@ -15,4 +15,9 @@ public abstract class Wrapper<T> {
         if (getType().isInstance(obj)) return this.getOriginal().equals(obj);
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return 31 * getOriginal().hashCode() + getType().hashCode();
+    }
 }

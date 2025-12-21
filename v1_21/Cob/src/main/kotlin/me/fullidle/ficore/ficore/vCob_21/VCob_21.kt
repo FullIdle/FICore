@@ -1,7 +1,7 @@
 package me.fullidle.ficore.ficore.vCob_21
 
-import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
-import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import com.cobblemon.mod.common.api.spawning.BestSpawner
+import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import me.fullidle.ficore.ficore.common.V1_version
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
@@ -14,6 +14,7 @@ object VCob_21 : V1_version() {
     }
 
     init {
+        CobblemonSpawnPools
         FIData.V1_version = this
     }
 
