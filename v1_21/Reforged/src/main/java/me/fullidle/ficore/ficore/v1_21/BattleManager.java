@@ -14,7 +14,6 @@ import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipan
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.val;
-import me.fullidle.ficore.ficore.common.api.Wrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
@@ -28,6 +27,10 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @see BattleController
+ * @see BattleRegistry
+ */
 public class BattleManager implements IBattleManager<BattleController> {
     public static BattleManager INSTANCE = new BattleManager();
 
