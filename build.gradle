@@ -2,10 +2,10 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven {
-            allowInsecureProtocol = true
-            url = 'http://localhost:31647/snapshots'
-        }
+//        maven {
+//            allowInsecureProtocol = true
+//            url = 'http://localhost:31647/snapshots'
+//        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.+'
@@ -21,7 +21,7 @@ plugins {
 }
 
 group = 'me.fullidle.ficore.ficore'
-version = '1.3.7-SNAPSHOT'
+version = '1.3.8-SNAPSHOT'
 
 def common = project(':common')
 
@@ -30,18 +30,31 @@ allprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
     repositories {
+        maven {
+            name "cobblemonReleases"
+            url "https://artefacts.cobblemon.com/releases"
+        }
+        maven {
+            url "https://repo.extendedclip.com/releases"
+        }
+        maven { url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+        maven { url = "https://repo.papermc.io/repository/maven-public/" }
+
         maven{url "https://maven.impactdev.net/repository/development/"}
         maven{url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"}
         maven{url "https://thedarkcolour.github.io/KotlinForForge/"}
 
         maven {url 'https://maven.neoforged.net/releases'}
-        maven {
-            allowInsecureProtocol = true
-            url "http://localhost:31647/snapshots"
-        }
+
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         mavenCentral()
         mavenLocal()
+        repositories {
+            flatDir { dirs "libs" } // 放 Pixelmon jar 的目录
+        }
+
+
+
     }
 
     dependencies {
@@ -54,7 +67,7 @@ allprojects {
 
         compileOnly "org.jetbrains.kotlin:kotlin-reflect:2.2.0"
 
-        compileOnly 'me.clip:placeholderapi:2.10.3'
+        compileOnly "me.clip:placeholderapi:2.11.7"
     }
 
     tasks.withType(JavaCompile).configureEach {
@@ -77,15 +90,17 @@ publishing {
         }
     }
     repositories {
+        maven {url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+        maven { url = "https://repo.papermc.io/repository/maven-public/" }
         mavenLocal()
-        maven {
-            allowInsecureProtocol = true
-            url = uri(fistudioUrl)
-            credentials {
-                username = fistudioUsername
-                password = fistudioPassword
-            }
-        }
+//        maven {
+//            allowInsecureProtocol = true
+//            url = uri(fistudioUrl)
+//            credentials {
+//                username = fistudioUsername
+//                password = fistudioPassword
+//            }
+//        }
     }
 }
 
@@ -94,11 +109,14 @@ def project21 = project(":v1_21")
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
+    // https://mvnrepository.com/artifact/net.md-5/bungeecord-api
+    compileOnly 'net.md-5:bungeecord-api:1.21-R0.1'
 
     compileOnly subprojects.findAll {
         it != project21 && !project21.subprojects.contains(it)
     }
+
+
 }
 
 jar {

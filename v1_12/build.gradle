@@ -5,12 +5,10 @@ minecraft {
 }
 
 repositories {
+    maven {url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+    maven { url = "https://repo.papermc.io/repository/maven-public/" }
     mavenCentral()
     mavenLocal()
-    maven {
-        allowInsecureProtocol = true
-        url "http://localhost:31647/snapshots"
-    }
 }
 
 dependencies {
@@ -18,7 +16,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
     //宝可梦
-    compileOnly fg.deobf('com.pixelmonmod.pixelmon:Pixelmon:1.12.2-8.4.3')
+    compileOnly fg.deobf(files('libs/1.12.2Pixelmon-Server-Mod.jar'))
 
     //spigot
     compileOnly 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'

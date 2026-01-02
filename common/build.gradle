@@ -4,10 +4,10 @@ version = rootProject.version
 repositories {
     mavenCentral()
     mavenLocal()
-    maven {
-        allowInsecureProtocol = true
-        url "http://localhost:31647/snapshots"
-    }
+//    maven {
+//        allowInsecureProtocol = true
+//        url "http://localhost:31647/snapshots"
+//    }
 }
 
 dependencies {
