@@ -6,6 +6,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public abstract class IPokeStorageWrapper<T> extends Wrapper<T> {
@@ -26,4 +27,9 @@ public abstract class IPokeStorageWrapper<T> extends Wrapper<T> {
      * 获取所有宝可梦 非空!
      */
     abstract public List<IPokemonWrapper<?>> all();
+
+    /**
+     * 获取uuid 存储主人的uuid
+     */
+    abstract public UUID getUUID();
 }

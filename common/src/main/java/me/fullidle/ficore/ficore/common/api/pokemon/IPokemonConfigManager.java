@@ -1,4 +1,4 @@
-package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
+package me.fullidle.ficore.ficore.common.api.pokemon;
 
 public interface IPokemonConfigManager {
     /**
@@ -6,4 +6,6 @@ public interface IPokemonConfigManager {
      * @return 最大等级
      */
     int getPokeMaxLevel();
+
+    int getComputerBoxes();
 }

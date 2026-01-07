@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.v1_21;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.PokemonFactory;
 import com.pixelmonmod.pixelmon.api.pokemon.stats.BattleStatsType;
@@ -13,11 +14,15 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
+import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,6 +46,16 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
     public IPokemonWrapper<Pokemon> create(ISpeciesWrapper<?> speciesWrapper) {
         val pokemon = PokemonFactory.create(((SpeciesWrapperFactory.SpeciesWrapper) speciesWrapper).getOriginal());
         return create(pokemon);
+    }
+
+    @Override
+    public IPokemonWrapper<Pokemon> create(String context) {
+        val registryAccess = ((Level) CraftWorld.getHandle(Bukkit.getWorlds().getFirst())).registryAccess();
+        try {
+            return create(PokemonFactory.create(TagParser.parseTag(context), registryAccess));
+        } catch (CommandSyntaxException e) {
+            throw new IllegalArgumentException("上下文必须是NBT");
+        }
     }
 
     @Getter
@@ -219,6 +234,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public AbilityWrapper<?> getAbility() {
             return new me.fullidle.ficore.ficore.v1_21.AbilityWrapper(this.getOriginal().getAbility());
+        }
+
+        @Override
+        public NatureWrapper<?> getNature() {
+            return new me.fullidle.ficore.ficore.v1_21.NatureWrapper(this.getOriginal().getNature());
         }
 
         @Override

@@ -56,6 +56,10 @@ object PokeStorageManager : IPokeStorageManager {
             }.toMutableList()
         }
 
+        override fun getUUID(): UUID {
+            return this.original.uuid
+        }
+
         override fun getType(): Class<PokemonStore<StorePosition>> {
             return PokemonStore::class.java as Class<PokemonStore<StorePosition>>
         }

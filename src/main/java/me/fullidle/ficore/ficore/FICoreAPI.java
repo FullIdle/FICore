@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore;
 
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
@@ -57,5 +58,12 @@ public class FICoreAPI {
      */
     public static IBattleManager<?> getBattleManager() {
         return FIData.V1_version.getBattleManager();
+    }
+
+    /**
+     * 获取宝可梦配置
+     */
+    public static IPokemonConfigManager getPokemonConfigManager() {
+        return FIData.V1_version.getPokemonConfigManager();
     }
 }

@@ -10,16 +10,21 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
+import com.mojang.brigadier.exceptions.CommandSyntaxException
 import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.Element
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender
+import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack
+import net.minecraft.nbt.TagParser
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -36,6 +41,17 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
     override fun create(speciesWrapper: ISpeciesWrapper<*>): IPokemonWrapper<Pokemon> {
         val pokemon = (speciesWrapper as SpeciesWrapperFactory.SpeciesWrapper).original!!.create((1..50).random())
         return create(pokemon)
+    }
+
+    override fun create(context: String): IPokemonWrapper<Pokemon> {
+        val level = CraftWorld.getHandle(Bukkit.getWorlds()[0]) as Level
+        val registryAccess = level.registryAccess()
+        try {
+            val pokemon = Pokemon.loadFromNBT(registryAccess, TagParser.parseTag(context))
+            return create(pokemon)
+        } catch (e: CommandSyntaxException) {
+            throw IllegalArgumentException("上下文必须是NBT")
+        }
     }
 
     class PokemonWrapper(original: Pokemon) : IPokemonWrapper<Pokemon>(original) {
@@ -184,6 +200,10 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
 
         override fun getAbility(): AbilityWrapper<*> {
             return me.fullidle.ficore.ficore.vCob_21.AbilityWrapper(this.original.ability.template)
+        }
+
+        override fun getNature(): NatureWrapper<*> {
+            return me.fullidle.ficore.ficore.vCob_21.NatureWrapper(this.original.nature)
         }
 
         override fun getType(): Class<Pokemon> {

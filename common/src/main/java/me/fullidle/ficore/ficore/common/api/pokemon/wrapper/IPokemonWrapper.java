@@ -1,10 +1,7 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import me.fullidle.ficore.ficore.common.api.Wrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.Element;
-import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
-import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
+import me.fullidle.ficore.ficore.common.api.pokemon.*;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -226,4 +223,9 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 获取特性
      */
     public abstract AbilityWrapper<?> getAbility();
+
+    /**
+     * 获取性格
+     */
+    public abstract NatureWrapper<?> getNature();
 }

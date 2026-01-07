@@ -62,6 +62,11 @@ public class PokeStorageManager implements IPokeStorageManager {
         }
 
         @Override
+        public UUID getUUID() {
+            return this.getOriginal().getUniqueId();
+        }
+
+        @Override
         public Class<PokemonStorage> getType() {
             return PokemonStorage.class;
         }

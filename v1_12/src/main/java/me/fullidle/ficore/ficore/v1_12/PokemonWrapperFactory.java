@@ -9,20 +9,22 @@ import com.pixelmonmod.pixelmon.items.ItemPixelmonSprite;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.*;
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.Element;
-import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
-import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +41,15 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
     public IPokemonWrapper<Pokemon> create(ISpeciesWrapper<?> speciesWrapper) {
         val pokemon = Pixelmon.pokemonFactory.create(((SpeciesWrapperFactory.SpeciesWrapper) speciesWrapper).getOriginal());
         return create(pokemon);
+    }
+
+    @Override
+    public IPokemonWrapper<Pokemon> create(String context) {
+        try {
+            return create(Pixelmon.pokemonFactory.create(JsonToNBT.getTagFromJson(context)));
+        } catch (NBTException e) {
+            throw new IllegalArgumentException("上下文必须是nbt");
+        }
     }
 
     @Getter
@@ -223,6 +234,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public AbilityWrapper<?> getAbility() {
             return new me.fullidle.ficore.ficore.v1_12.AbilityWrapper(this.getOriginal().getAbility());
+        }
+
+        @Override
+        public NatureWrapper<?> getNature() {
+            return new me.fullidle.ficore.ficore.v1_12.NatureWrapper(this.getOriginal().getNature());
         }
 
         @Override
