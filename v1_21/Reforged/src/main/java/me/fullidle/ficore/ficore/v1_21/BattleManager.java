@@ -4,13 +4,15 @@ import com.google.common.collect.Lists;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.battles.BattleType;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
-import com.pixelmonmod.pixelmon.battles.BattleQuery;
+
 import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.battles.api.rules.BattleRules;
 import com.pixelmonmod.pixelmon.battles.controller.BattleController;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
+import com.pixelmonmod.pixelmon.battles.query.BattleQuery;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -44,8 +46,8 @@ public class BattleManager implements IBattleManager<BattleController> {
         val pokemonList2 = Lists.newArrayList(StorageProxy.getPartyNow(p2.getUniqueId()).getAll());
         pokemonList1.removeIf(Objects::isNull);
         pokemonList2.removeIf(Objects::isNull);
-        val pp1 = new PlayerParticipant(((ServerPlayer) CraftEntity.getHandle(p1)), pokemonList1, 1);
-        val pp2 = new PlayerParticipant(((ServerPlayer) CraftEntity.getHandle(p2)), pokemonList2, 1);
+        val pp1 = new PlayerParticipant(((ServerPlayer) CraftEntity.getHandle(p1)), pokemonList1.toArray(Pokemon[]::new));
+        val pp2 = new PlayerParticipant(((ServerPlayer) CraftEntity.getHandle(p2)), pokemonList2.toArray(Pokemon[]::new));
         val bc = createBattle(new BattleParticipant[]{pp1}, new BattleParticipant[]{pp2});
         return new PokeBattle(bc);
     }
@@ -73,12 +75,11 @@ public class BattleManager implements IBattleManager<BattleController> {
         String errorT = "玩家没有可参与的宝可梦!";
         val pokemon1 = Objects.requireNonNull(StorageProxy.getPartyNow(player1).getFirstAblePokemon(),errorT);
         val pokemon2 = Objects.requireNonNull(StorageProxy.getPartyNow(player2).getFirstAblePokemon(),errorT);
+
         BattleQuery.builder()
-                .teamOne(player1)
-                .teamTwo(player2)
-                .teamOnePokemon(pokemon1)
-                .teamTwoPokemon(pokemon2)
-                .build();
+                .opponent(player1)
+                .challenger(player2)
+                .sendQuery();
     }
 
     @Getter
@@ -115,12 +116,12 @@ public class BattleManager implements IBattleManager<BattleController> {
     /**
      * original
      *
-     * @see BattleRegistry#startBattle(BattleParticipant[], BattleParticipant[], BattleRules, HolderLookup.Provider)
+     * @see BattleRegistry#performPreBattleChecksAndEvents(BattleController,BattleParticipant[], BattleParticipant[])
      */
     @SneakyThrows
     @NotNull
     public static BattleController createBattle(BattleParticipant[] team1, BattleParticipant[] team2) {
-        BattleController battle = new BattleController(team1, team2, new BattleRules(BattleType.SINGLE), team1[0].getEntity().registryAccess());
+        BattleController battle = new BattleController(team1, team2, team1[0].getEntity().registryAccess());
         val method = BattleRegistry.class.getDeclaredMethod("canParticipantsBattle", BattleController.class);
         method.setAccessible(true);
         if (!(boolean) method.invoke(null, battle)) {
