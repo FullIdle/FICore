@@ -1,13 +1,13 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
-import me.fullidle.ficore.ficore.common.api.AbstractWrapper;
+import me.fullidle.ficore.ficore.common.api.Wrapper;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 /**
  * @param <T> 类型一般情况下一改是继承 minecraft 的 Entity 而非 {@link org.bukkit.entity.Entity}
  */
-public abstract class PokeEntityWrapper<T> extends AbstractWrapper<T> {
+public abstract class PokeEntityWrapper<T> extends Wrapper<T> {
     public PokeEntityWrapper(T wrapped) {
         super(wrapped);
     }

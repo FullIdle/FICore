@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.getByName
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.pokemon.Species
+import me.fullidle.ficore.ficore.common.api.pokemon.Element
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
 
@@ -72,6 +73,12 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
 
         override fun getDex(): Int {
             return this.original.nationalPokedexNumber
+        }
+
+        override fun getTypes(): List<Element> {
+            return this.original.types.map {
+                Element.fromString(it.name)
+            }
         }
 
         override fun getType(): Class<Species> {

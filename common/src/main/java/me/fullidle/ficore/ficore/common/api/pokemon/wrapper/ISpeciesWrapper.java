@@ -2,13 +2,14 @@ package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import lombok.Getter;
 import me.fullidle.ficore.ficore.common.api.Wrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.Element;
+
+import java.util.List;
 
 @Getter
 public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
-    private final T original;
-
     public ISpeciesWrapper(T original) {
-        this.original = original;
+        super(original);
     }
 
     /**
@@ -40,4 +41,9 @@ public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
      * 宝可梦编号
      */
     public abstract int getDex();
+
+    /**
+     * 获取物种的属性
+     */
+    public abstract List<Element> getTypes();
 }

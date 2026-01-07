@@ -3,13 +3,11 @@ package me.fullidle.ficore.ficore.v1_16;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonSpecies;
 import lombok.val;
+import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
@@ -83,6 +81,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
         @Override
         public int getDex() {
             return this.getOriginal().getDex();
+        }
+
+        @Override
+        public List<Element> getTypes() {
+            return this.getOriginal().getDefaultForm().getTypes().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
         }
 
         @Override

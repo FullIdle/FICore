@@ -5,12 +5,15 @@ import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
+import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import me.fullidle.ficore.ficore.common.api.data.FIData
+import me.fullidle.ficore.ficore.common.api.pokemon.Element
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
@@ -172,6 +175,12 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
 
         override fun createPhotoItem(): ItemStack {
             return CraftItemStack.asBukkitCopy(PokemonItem.from(this.original))
+        }
+
+        override fun getTypes(): List<Element> {
+            return this.original.types.map {
+                Element.fromString(it.name)
+            }
         }
 
         override fun getType(): Class<Pokemon> {

@@ -49,8 +49,8 @@ object BattleManager : IBattleManager<PokemonBattle> {
 
 
     class PokeBattle(
-        private val original: PokemonBattle
-    ) : IPokeBattle<PokemonBattle>() {
+        original: PokemonBattle
+    ) : IPokeBattle<PokemonBattle>(original) {
         override fun getPlayers(): Collection<Player>? {
             return original.sides.flatMap { side ->
                 side.actors

@@ -9,10 +9,8 @@ import java.util.List;
 
 @Getter
 public abstract class IPokeStorageWrapper<T> extends Wrapper<T> {
-    private final T original;
-
     public IPokeStorageWrapper(T original) {
-        this.original = original;
+        super(original);
     }
 
     abstract public IPokemonWrapper<?> get(StoragePos pos);

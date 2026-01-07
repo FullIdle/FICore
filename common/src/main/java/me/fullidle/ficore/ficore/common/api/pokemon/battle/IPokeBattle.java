@@ -6,6 +6,10 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 
 public abstract class IPokeBattle<T> extends Wrapper<T> {
+    public IPokeBattle(T original) {
+        super(original);
+    }
+
     /**
      * 参与的玩家
      * @return 参与的玩家

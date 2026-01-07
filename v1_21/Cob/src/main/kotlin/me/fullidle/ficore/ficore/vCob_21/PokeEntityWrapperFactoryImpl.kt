@@ -43,5 +43,8 @@ object PokeEntityWrapperFactoryImpl : PokeEntityWrapperFactory<PokemonEntity> {
             return this.original.battleId != null
         }
 
+        override fun getType(): Class<PokemonEntity> {
+            return PokemonEntity::class.java
+        }
     }
 }

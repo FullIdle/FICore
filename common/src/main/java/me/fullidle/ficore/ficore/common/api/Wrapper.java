@@ -1,10 +1,16 @@
 package me.fullidle.ficore.ficore.common.api;
 
+import lombok.Getter;
+
+import java.util.Objects;
+
+@Getter
 public abstract class Wrapper<T> {
-    /**
-     * 获取包裹器原对象
-     */
-    public abstract T getOriginal();
+    private final T original;
+
+    public Wrapper(T original) {
+        this.original = Objects.requireNonNull(original, "Wrapper original object cannot be null");
+    }
 
     public abstract Class<T> getType();
 

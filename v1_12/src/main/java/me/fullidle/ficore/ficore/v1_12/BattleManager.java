@@ -83,15 +83,13 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
 
     @Getter
     public static class PokeBattle extends IPokeBattle<BattleControllerBase> {
-        private final BattleControllerBase original;
-
         public PokeBattle(BattleControllerBase bc) {
-            this.original = bc;
+            super(bc);
         }
 
         @Override
         public Collection<Player> getPlayers() {
-            return this.original.getPlayers()
+            return this.getOriginal().getPlayers()
                     .stream()
                     .map(s -> ((Player) CraftEntity.getEntity(s.player)))
                     .collect(Collectors.toList());
@@ -99,12 +97,12 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
 
         @Override
         public void end() {
-            this.original.endBattle();
+            this.getOriginal().endBattle();
         }
 
         @Override
         public void start() {
-            startBattle(this.original);
+            startBattle(this.getOriginal());
         }
 
         @Override

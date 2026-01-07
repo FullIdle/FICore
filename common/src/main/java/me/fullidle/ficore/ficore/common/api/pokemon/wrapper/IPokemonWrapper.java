@@ -1,29 +1,23 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import me.fullidle.ficore.ficore.common.api.Wrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public abstract class IPokemonWrapper<T> extends Wrapper<T> {
-    private final T original;
-
     public IPokemonWrapper(T original) {
-        this.original = original;
-    }
-
-    @Override
-    public T getOriginal() {
-        return original;
+        super(original);
     }
 
     /*==>abstract<==*/
@@ -220,4 +214,10 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * @return 图片ItemStack
      */
     public abstract ItemStack createPhotoItem();
+
+
+    /**
+     * 获取物种的属性
+     */
+    public abstract List<Element> getTypes();
 }

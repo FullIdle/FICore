@@ -10,6 +10,7 @@ import com.pixelmonmod.pixelmon.api.util.helpers.SpriteItemHelper;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
@@ -26,10 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
     public static final PokemonWrapperFactory INSTANCE = new PokemonWrapperFactory();
@@ -211,6 +210,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public ItemStack createPhotoItem() {
             return CraftItemStack.asBukkitCopy(SpriteItemHelper.getPhoto(this.getOriginal()));
+        }
+
+        @Override
+        public List<Element> getTypes() {
+            return this.getOriginal().getTypes().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
         }
 
         @Override

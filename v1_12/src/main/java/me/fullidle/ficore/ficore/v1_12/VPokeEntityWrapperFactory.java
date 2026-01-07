@@ -33,6 +33,11 @@ public class VPokeEntityWrapperFactory implements PokeEntityWrapperFactory<Entit
         }
 
         @Override
+        public Class<EntityPixelmon> getType() {
+            return EntityPixelmon.class;
+        }
+
+        @Override
         public boolean isBoss() {
             return this.getOriginal().isBossPokemon();
         }
