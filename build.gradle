@@ -52,9 +52,10 @@ allprojects {
         repositories {
             flatDir { dirs "libs" } // 放 Pixelmon jar 的目录
         }
-
-
-
+        maven {
+            allowInsecureProtocol = true
+            url = 'http://localhost:31647/snapshots'
+        }
     }
 
     dependencies {

@@ -11,6 +11,7 @@ dependencies {
     neoForge "net.neoforged:neoforge:21.1.209"
 //    compileOnly 'com.pixelmonmod.pixelmon:Pixelmon:1.21.1-9.3.0'
     compileOnly files("libs/Pixelmon-1.21.1-9.3.13-server.jar")
+    compileOnly 'com.pixelmonmod.pixelmon:Pixelmon:1.21.1-9.3.13'
 /*
     compileOnly("com.mohistmc:youerdev:1.21.1")
 */

@@ -10,6 +10,7 @@ import com.pixelmonmod.pixelmon.api.util.helpers.SpriteItemHelper;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
@@ -20,7 +21,6 @@ import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -46,7 +46,6 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
     @Getter
     public static class PokemonWrapper extends IPokemonWrapper<Pokemon> {
-
         public PokemonWrapper(Pokemon original) {
             super(original);
         }
@@ -219,6 +218,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public List<Element> getTypes() {
             return this.getOriginal().getForm().getTypes().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
+        }
+
+        @Override
+        public AbilityWrapper<?> getAbility() {
+            return new me.fullidle.ficore.ficore.v1_16.AbilityWrapper(this.getOriginal().getAbility());
         }
 
         @Override

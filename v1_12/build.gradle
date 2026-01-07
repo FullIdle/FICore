@@ -17,6 +17,7 @@ dependencies {
 
     //宝可梦
     compileOnly fg.deobf(files('libs/1.12.2Pixelmon-Server-Mod.jar'))
+    compileOnly fg.deobf('com.pixelmonmod.pixelmon:Pixelmon:1.12.2-8.4.3')
 
     //spigot
     compileOnly 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'

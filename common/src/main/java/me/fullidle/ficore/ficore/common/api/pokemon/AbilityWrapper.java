@@ -7,4 +7,6 @@ public abstract class AbilityWrapper<T> extends Wrapper<T> {
     public AbilityWrapper(T original) {
         super(original);
     }
+
+    public abstract String getName();
 }

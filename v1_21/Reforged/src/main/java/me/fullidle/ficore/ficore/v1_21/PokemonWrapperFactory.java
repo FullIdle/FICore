@@ -10,19 +10,18 @@ import com.pixelmonmod.pixelmon.api.util.helpers.SpriteItemHelper;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld;
-import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
 import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -214,7 +213,12 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Override
         public List<Element> getTypes() {
-            return this.getOriginal().getTypes().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
+            return this.getOriginal().getTypes().stream().map(e->Element.fromString(e.value().name().getString())).collect(Collectors.toList());
+        }
+
+        @Override
+        public AbilityWrapper<?> getAbility() {
+            return new me.fullidle.ficore.ficore.v1_21.AbilityWrapper(this.getOriginal().getAbility());
         }
 
         @Override

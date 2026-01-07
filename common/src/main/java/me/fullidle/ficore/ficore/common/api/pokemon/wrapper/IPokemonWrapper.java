@@ -1,6 +1,7 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import me.fullidle.ficore.ficore.common.api.Wrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
@@ -220,4 +221,9 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 获取物种的属性
      */
     public abstract List<Element> getTypes();
+
+    /**
+     * 获取特性
+     */
+    public abstract AbilityWrapper<?> getAbility();
 }

@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.getByName
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.pokemon.Species
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.Element
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
@@ -78,6 +79,12 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
         override fun getTypes(): List<Element> {
             return this.original.types.map {
                 Element.fromString(it.name)
+            }
+        }
+
+        override fun getAbilities(): List<AbilityWrapper<*>> {
+            return this.original.abilities.map {
+                me.fullidle.ficore.ficore.vCob_21.AbilityWrapper(it.template)
             }
         }
 

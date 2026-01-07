@@ -2,6 +2,7 @@ package me.fullidle.ficore.ficore.v1_12;
 
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import lombok.val;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
@@ -85,6 +86,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
         @Override
         public List<Element> getTypes() {
             return this.getOriginal().getBaseStats().getTypeList().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
+        }
+
+        @Override
+        public List<AbilityWrapper<?>> getAbilities() {
+            return this.getOriginal().getBaseStats().getAllAbilities().stream().map(me.fullidle.ficore.ficore.v1_12.AbilityWrapper::new).collect(Collectors.toList());
         }
 
         @Override

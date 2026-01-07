@@ -9,6 +9,7 @@ import com.pixelmonmod.pixelmon.items.ItemPixelmonSprite;
 import lombok.Getter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender;
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats;
@@ -217,6 +218,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public List<Element> getTypes() {
             return this.getOriginal().getBaseStats().getTypeList().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
+        }
+
+        @Override
+        public AbilityWrapper<?> getAbility() {
+            return new me.fullidle.ficore.ficore.v1_12.AbilityWrapper(this.getOriginal().getAbility());
         }
 
         @Override

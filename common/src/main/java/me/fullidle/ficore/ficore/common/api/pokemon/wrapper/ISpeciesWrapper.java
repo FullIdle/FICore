@@ -2,6 +2,7 @@ package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
 
 import lombok.Getter;
 import me.fullidle.ficore.ficore.common.api.Wrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.Element;
 
 import java.util.List;
@@ -46,4 +47,9 @@ public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
      * 获取物种的属性
      */
     public abstract List<Element> getTypes();
+
+    /**
+     * 获取该物种的特性表
+     */
+    public abstract List<AbilityWrapper<?>> getAbilities();
 }

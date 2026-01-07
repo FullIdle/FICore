@@ -5,14 +5,13 @@ import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.PokemonStats
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import me.fullidle.ficore.ficore.common.api.data.FIData
+import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.Element
 import me.fullidle.ficore.ficore.common.api.pokemon.Gender
 import me.fullidle.ficore.ficore.common.api.pokemon.Stats
@@ -181,6 +180,10 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             return this.original.types.map {
                 Element.fromString(it.name)
             }
+        }
+
+        override fun getAbility(): AbilityWrapper<*> {
+            return me.fullidle.ficore.ficore.vCob_21.AbilityWrapper(this.original.ability.template)
         }
 
         override fun getType(): Class<Pokemon> {
