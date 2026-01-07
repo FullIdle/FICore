@@ -137,7 +137,7 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Override
         public IPokeStorageWrapper<?> getStorage() {
-            throw new UnsupportedOperationException();
+            return new PokeStorageManager.PokeStorageWrapper(this.getOriginal().getStorage());
         }
 
         @Override
