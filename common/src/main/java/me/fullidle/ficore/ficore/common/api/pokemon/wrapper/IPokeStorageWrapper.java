@@ -32,4 +32,9 @@ public abstract class IPokeStorageWrapper<T> extends Wrapper<T> {
      * 获取uuid 存储主人的uuid
      */
     abstract public UUID getUUID();
+
+    /**
+     * 查找空槽位的
+     */
+    abstract public StoragePos findEmptyPos();
 }

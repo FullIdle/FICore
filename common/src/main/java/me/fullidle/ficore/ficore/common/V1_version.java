@@ -67,4 +67,9 @@ public abstract class V1_version {
      * 宝可梦相关配置管理器
      */
     abstract public IPokemonConfigManager getPokemonConfigManager();
+
+     /**
+     * 宝可梦NPC实体包裹工厂
+     */
+    abstract public PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory();
 }

@@ -23,6 +23,7 @@ import me.fullidle.ficore.ficore.common.bukkit.CraftWorld;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -239,6 +240,19 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public NatureWrapper<?> getNature() {
             return new me.fullidle.ficore.ficore.v1_21.NatureWrapper(this.getOriginal().getNature());
+        }
+
+        @Override
+        public IPokemonWrapper<?> copy() {
+            val access = ((Level) CraftWorld.getHandle(Bukkit.getWorlds().getFirst())).registryAccess();
+            val copy = PokemonFactory.create(this.getOriginal().writeToNBT(new CompoundTag(), access), access);
+            copy.setUUID(UUID.randomUUID());
+            return new PokemonWrapper(copy);
+        }
+
+        @Override
+        public String serialize() {
+            return this.getOriginal().writeToNBT(new CompoundTag(), ((ServerLevel) CraftWorld.getHandle(Bukkit.getWorlds().getFirst())).registryAccess()).toString();
         }
 
         @Override

@@ -18,6 +18,7 @@ import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -239,6 +240,18 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public NatureWrapper<?> getNature() {
             return new me.fullidle.ficore.ficore.v1_12.NatureWrapper(this.getOriginal().getNature());
+        }
+
+        @Override
+        public IPokemonWrapper<?> copy() {
+            val copy = Pixelmon.pokemonFactory.create(this.getOriginal().writeToNBT(new NBTTagCompound()));
+            copy.setUUID(UUID.randomUUID());
+            return new PokemonWrapper(copy);
+        }
+
+        @Override
+        public String serialize() {
+            return this.getOriginal().writeToNBT(new NBTTagCompound()).toString();
         }
 
         @Override

@@ -67,6 +67,13 @@ public class PokeStorageManager implements IPokeStorageManager {
         }
 
         @Override
+        public StoragePos findEmptyPos() {
+            val pos = this.getOriginal().getFirstEmptyPosition();
+            if (pos == null) return null;
+            return new StoragePos(pos.box, pos.order);
+        }
+
+        @Override
         public Class<PokemonStorage> getType() {
             return PokemonStorage.class;
         }

@@ -21,6 +21,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import me.fullidle.ficore.ficore.common.bukkit.inventory.CraftItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -241,6 +242,18 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public NatureWrapper<?> getNature() {
             return new me.fullidle.ficore.ficore.v1_16.NatureWrapper(this.getOriginal().getNature());
+        }
+
+        @Override
+        public IPokemonWrapper<?> copy() {
+            val copy = PokemonFactory.create(this.getOriginal().writeToNBT(new CompoundNBT()));
+            copy.setUUID(UUID.randomUUID());
+            return new PokemonWrapper(copy);
+        }
+
+        @Override
+        public String serialize() {
+            return this.getOriginal().writeToNBT(new CompoundNBT()).toString();
         }
 
         @Override

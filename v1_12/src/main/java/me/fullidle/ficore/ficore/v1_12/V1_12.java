@@ -177,4 +177,9 @@ public class V1_12 extends V1_version {
     public IPokemonConfigManager getPokemonConfigManager() {
         return PokemonConfigManager.INSTANCE;
     }
+
+    @Override
+    public PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory() {
+        return PokeNPCEntityWrapperFactoryImpl.INSTANCE;
+    }
 }

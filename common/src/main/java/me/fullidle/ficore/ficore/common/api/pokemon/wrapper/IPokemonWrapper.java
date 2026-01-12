@@ -213,7 +213,6 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      */
     public abstract ItemStack createPhotoItem();
 
-
     /**
      * 获取物种的属性
      */
@@ -228,4 +227,14 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 获取性格
      */
     public abstract NatureWrapper<?> getNature();
+
+    /**
+     * 复制宝可梦成不同对象
+     */
+    public abstract IPokemonWrapper<?> copy();
+
+    /**
+     * 序列化成字符串
+     */
+    public abstract String serialize();
 }

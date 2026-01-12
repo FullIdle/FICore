@@ -3,10 +3,7 @@ package me.fullidle.ficore.ficore;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageManager;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import org.bukkit.plugin.Plugin;
 
 public class FICoreAPI {
@@ -65,5 +62,9 @@ public class FICoreAPI {
      */
     public static IPokemonConfigManager getPokemonConfigManager() {
         return FIData.V1_version.getPokemonConfigManager();
+    }
+
+    public static PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory() {
+        return FIData.V1_version.getPokeNPCEntityWrapperFactory();
     }
 }

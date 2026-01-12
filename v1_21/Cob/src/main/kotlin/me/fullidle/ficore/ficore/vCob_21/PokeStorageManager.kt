@@ -3,6 +3,7 @@ package me.fullidle.ficore.ficore.vCob_21
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
+import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -60,13 +61,29 @@ object PokeStorageManager : IPokeStorageManager {
             return this.original.uuid
         }
 
+        override fun findEmptyPos(): StoragePos? {
+            return this.original.getFirstAvailablePosition()?.let {
+                asPos(it)
+            }
+        }
+
         override fun getType(): Class<PokemonStore<StorePosition>> {
             return PokemonStore::class.java as Class<PokemonStore<StorePosition>>
         }
 
         companion object {
             fun asPos(pos: StoragePos, store: PokemonStore<StorePosition>): StorePosition {
-                return if (store is PCStore) PCPosition(pos.box, pos.slot) else PartyPosition(pos.slot)
+                return when (store) {
+                    is PCStore -> PCPosition(pos.box, pos.slot)
+                    is PartyStore -> PartyPosition(pos.slot)
+                    else -> throw IllegalArgumentException("Unknown store type: $store")
+                }
+            }
+
+            fun asPos(pos: StorePosition): StoragePos {
+                if (pos is PartyPosition) return StoragePos(-1, pos.slot)
+                if (pos is PCPosition) return StoragePos(pos.box, pos.slot)
+                throw IllegalArgumentException("Unknown position type: $pos")
             }
         }
     }

@@ -206,6 +206,15 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
             return me.fullidle.ficore.ficore.vCob_21.NatureWrapper(this.original.nature)
         }
 
+        override fun copy(): IPokemonWrapper<*> {
+            return PokemonWrapper(this.original.clone(true))
+        }
+
+        override fun serialize(): String {
+            return this.original.saveToNBT((CraftWorld.getHandle(Bukkit.getWorlds().first()) as Level).registryAccess())
+                .toString()
+        }
+
         override fun getType(): Class<Pokemon> {
             return Pokemon::class.java
         }
