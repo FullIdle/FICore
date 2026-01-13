@@ -5,30 +5,34 @@ import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.events.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.events.PokedexEvent;
 import com.pixelmonmod.pixelmon.api.events.npc.NPCEvent;
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.storage.PartyStorage;
 import com.pixelmonmod.pixelmon.battles.BattleQuery;
 import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.battles.controller.BattleControllerBase;
-import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
-import com.pixelmonmod.pixelmon.battles.controller.participants.PixelmonWrapper;
-import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
-import com.pixelmonmod.pixelmon.battles.controller.participants.TrainerParticipant;
+import com.pixelmonmod.pixelmon.battles.controller.participants.*;
 import com.pixelmonmod.pixelmon.battles.rules.BattleRules;
+import com.pixelmonmod.pixelmon.entities.npcs.NPCTrainer;
+import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import com.pixelmonmod.pixelmon.enums.battle.EnumBattleType;
 import com.pixelmonmod.pixelmon.pokedex.EnumPokedexRegisterStatus;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import lombok.Getter;
 import lombok.val;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BattleManager implements IBattleManager<BattleControllerBase> {
@@ -40,14 +44,27 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
     @NotNull
     @Override
     public IPokeBattle<BattleControllerBase> create(Player p1, Player p2) {
-        val pokemonList1 = Lists.newArrayList(Pixelmon.storageManager.getParty(p1.getUniqueId()).getAll());
-        val pokemonList2 = Lists.newArrayList(Pixelmon.storageManager.getParty(p2.getUniqueId()).getAll());
-        pokemonList1.removeIf(Objects::isNull);
-        pokemonList2.removeIf(Objects::isNull);
+        val pokemonList1 = createPlayerTeam(p1.getUniqueId());
+        val pokemonList2 = createPlayerTeam(p1.getUniqueId());
         val pp1 = new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(p1)), pokemonList1, 1);
         val pp2 = new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(p2)), pokemonList2, 1);
         val bc = createBattle(pp1.getParticipantList(), pp2.getParticipantList());
         return new PokeBattle(bc);
+    }
+
+    private static List<Pokemon> createPlayerTeam(UUID uuid) {
+        val list = Lists.newArrayList(Pixelmon.storageManager.getParty(uuid).getAll());
+        list.removeIf(Objects::isNull);
+        return list;
+    }
+
+    @Override
+    public IPokeBattle<BattleControllerBase> create(Actor<?>[] side1, Actor<?>[] side2) {
+        val bp1 = new BattleParticipant[side1.length];
+        val bp2 = new BattleParticipant[side2.length];
+        for (int i = 0; i < side1.length; i++) bp1[i] = ((BattleParticipant) side1[i].getOriginal());
+        for (int i = 0; i < side2.length; i++) bp2[i] = ((BattleParticipant) side2[i].getOriginal());
+        return new PokeBattle(createBattle(bp1, bp2));
     }
 
     @Nullable
@@ -57,7 +74,12 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
     }
 
     @Override
-    public IPokeBattle<BattleControllerBase> wrapper(BattleControllerBase battle) {
+    public @NotNull IPokeBattle<BattleControllerBase> getBattle(Actor<?> actor) {
+        return new PokeBattle(((BattleParticipant) actor.getOriginal()).bc);
+    }
+
+    @Override
+    public @NotNull IPokeBattle<BattleControllerBase> wrapper(BattleControllerBase battle) {
         return new PokeBattle(Objects.requireNonNull(battle));
     }
 
@@ -71,14 +93,19 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
         val player1 = (EntityPlayerMP) CraftEntity.getHandle(p1);
         val player2 = (EntityPlayerMP) CraftEntity.getHandle(p2);
         String errorT = "玩家没有可参与的宝可梦!";
-        val pokemon1 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player1).getFirstAblePokemon(),errorT);
-        val pokemon2 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player2).getFirstAblePokemon(),errorT);
+        val pokemon1 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player1).getFirstAblePokemon(), errorT);
+        val pokemon2 = Objects.requireNonNull(Pixelmon.storageManager.getParty(player2).getFirstAblePokemon(), errorT);
         new BattleQuery(
                 player1,
                 pokemon1.getOrSpawnPixelmon(player1),
                 player2,
                 pokemon2.getOrSpawnPixelmon(player2)
         );
+    }
+
+    @Override
+    public ActorManager<?> getActorManager() {
+        return V12ActorManager.INSTANCE;
     }
 
     @Getter
@@ -96,6 +123,26 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
         }
 
         @Override
+        public Collection<Actor<?>> getPlayerActors() {
+            val actorManager = ((V12ActorManager) FIData.V1_version.getBattleManager().getActorManager());
+            val actors = new ArrayList<Actor<?>>();
+            for (BattleParticipant p : this.getOriginal().participants)
+                if (p.getType() == ParticipantType.Player) actors.add(actorManager.wrap(p));
+            return actors;
+        }
+
+        @Override
+        public Collection<Actor<?>> getActors() {
+            val actors = new ArrayList<Actor<?>>();
+            val actorManager = ((V12ActorManager) FIData.V1_version.getBattleManager().getActorManager());
+            for (BattleParticipant participant : getOriginal().participants) {
+                if (participant == null) continue;
+                actors.add(actorManager.wrap(participant));
+            }
+            return actors;
+        }
+
+        @Override
         public void end() {
             this.getOriginal().endBattle();
         }
@@ -108,6 +155,77 @@ public class BattleManager implements IBattleManager<BattleControllerBase> {
         @Override
         public Class<BattleControllerBase> getType() {
             return BattleControllerBase.class;
+        }
+    }
+
+    public static class V12ActorManager implements ActorManager<BattleParticipant> {
+        public static final V12ActorManager INSTANCE = new V12ActorManager();
+
+        @Override
+        public @NotNull Actor<?> create(Entity entity) throws UnsupportedOperationException {
+            if (entity instanceof Player)
+                return new V12Actor(new PlayerParticipant(((EntityPlayerMP) CraftEntity.getHandle(entity)), createPlayerTeam(entity.getUniqueId()), 1));
+            {
+                val factory = FIData.V1_version.getPokeEntityWrapperFactory();
+                if (factory.isPokeEntity(entity))
+                    return new V12Actor(new WildPixelmonParticipant(((EntityPixelmon) factory.asPokeEntity(entity).getOriginal())));
+            }
+            val factory = FIData.V1_version.getPokeNPCEntityWrapperFactory();
+            if (factory.isPokeNPCEntity(entity)) {
+                val npc = factory.asPokeNPCEntity(entity);
+                if (npc.getOriginal() instanceof NPCTrainer)
+                    return new V12Actor(new TrainerParticipant((NPCTrainer) npc.getOriginal(), 1));
+            }
+            throw new UnsupportedOperationException("不支持该类型的实体 >> " + entity.getType().name());
+        }
+
+        @Override
+        public @NotNull Actor<BattleParticipant> wrap(BattleParticipant bp) {
+            return new V12Actor(bp);
+        }
+
+        @Override
+        public @Nullable Actor<?> getActor(Entity entity) {
+            return null;
+        }
+    }
+
+    public static class V12Actor extends Actor<BattleParticipant> {
+        public V12Actor(BattleParticipant original) {
+            super(original);
+        }
+
+        @Override
+        public Entity getEntity() {
+            val entity = getOriginal().getEntity();
+            return entity == null ? null : CraftEntity.getEntity(entity);
+        }
+
+        @Override
+        public Collection<IPokemonWrapper<?>> getTeam() {
+            val list = new ArrayList<IPokemonWrapper<?>>();
+            val factory = ((PokemonWrapperFactory) FIData.V1_version.getPokemonWrapperFactory());
+            for (PixelmonWrapper wrapper : getOriginal().allPokemon) {
+                if (wrapper == null) continue;
+                list.add(factory.create(wrapper.pokemon));
+            }
+            return list;
+        }
+
+        @Override
+        public Collection<IPokemonWrapper<?>> getCurrents() {
+            val list = new ArrayList<IPokemonWrapper<?>>();
+            val factory = ((PokemonWrapperFactory) FIData.V1_version.getPokemonWrapperFactory());
+            for (PixelmonWrapper wrapper : getOriginal().controlledPokemon) {
+                if (wrapper == null) continue;
+                list.add(factory.create(wrapper.pokemon));
+            }
+            return list;
+        }
+
+        @Override
+        public Class<BattleParticipant> getType() {
+            return BattleParticipant.class;
         }
     }
 

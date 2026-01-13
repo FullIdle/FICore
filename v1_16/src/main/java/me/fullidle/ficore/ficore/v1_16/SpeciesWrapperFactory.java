@@ -12,8 +12,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
-    public static final SpeciesWrapperFactory INSTANCE = new SpeciesWrapperFactory();
     private final static Map<Species, SpeciesWrapper> cache = new HashMap<>();
+    private final static Map<String, Species> translated = new HashMap<>();
+    public static final SpeciesWrapperFactory INSTANCE = new SpeciesWrapperFactory();
+
+    public SpeciesWrapperFactory() {
+        for (Species species : PixelmonSpecies.getAll()) {
+            getCacheOrCreate(species);
+            translated.put(species.getLocalizedName(), species);
+        }
+    }
 
     public static SpeciesWrapper getCacheOrCreate(Species es) {
         return cache.computeIfAbsent(es, SpeciesWrapper::new);
@@ -21,7 +29,7 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
 
     @Override
     public SpeciesWrapper create(String name) throws IllegalArgumentException {
-        val es = PixelmonSpecies.fromName(name).getValueUnsafe();
+        val es = translated.getOrDefault(name, PixelmonSpecies.fromName(name).getValueUnsafe());
         if (es == null) throw new IllegalArgumentException("Unknown species name: " + name);
         return getCacheOrCreate(es);
     }

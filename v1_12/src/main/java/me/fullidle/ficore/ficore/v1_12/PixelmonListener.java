@@ -10,8 +10,11 @@ import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.event.ForgeEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleEndEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleStartEvent;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokeBattleStartEvent;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import org.bukkit.Bukkit;
@@ -24,15 +27,32 @@ public class PixelmonListener {
     public static void on(ForgeEvent event) {
         if (event.getForgeEvent() instanceof BattleStartedEvent) {
             val e = (BattleStartedEvent) event.getForgeEvent();
+            val battleManager = ((BattleManager) FIData.V1_version.getBattleManager());
+            val bc = battleManager.wrapper(e.bc);
+            val side1 = new Actor<?>[e.participant1.length];
+            val side2 = new Actor<?>[e.participant1.length];
+            for (int i = 0; i < e.participant1.length; i++)
+                side1[i] = ((ActorManager<BattleParticipant>) battleManager.getActorManager()).wrap(e.participant1[i]);
+            for (int i = 0; i < e.participant2.length; i++)
+                side2[i] = ((ActorManager<BattleParticipant>) battleManager.getActorManager()).wrap(e.participant2[i]);
+            val startEvent = new PokeBattleStartEvent(bc, side1, side2);
+            Bukkit.getPluginManager().callEvent(startEvent);
+            if (startEvent.isCancelled()) {
+                e.setCanceled(true);
+                return;
+            }
+
             if (e.bc.isPvP() && e.participant1.length == 1 && e.participant2.length == 1) {
-                val battleManager = ((BattleManager) FIData.V1_version.getBattleManager());
                 val bEvent = new PVPBattleStartEvent(
-                        battleManager.wrapper(e.bc),
+                        bc,
                         castPlayer(((PlayerParticipant) e.participant1[0]).player),
                         castPlayer(((PlayerParticipant) e.participant2[0]).player)
                 );
                 Bukkit.getPluginManager().callEvent(bEvent);
-                if (bEvent.isCancelled()) e.setCanceled(true);
+                if (bEvent.isCancelled()) {
+                    e.setCanceled(true);
+                    return;
+                }
             }
         }
         if (event.getForgeEvent() instanceof BattleEndEvent) {

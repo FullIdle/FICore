@@ -1,6 +1,8 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.battle;
 
 import lombok.val;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +27,13 @@ public interface IBattleManager<T> {
      */
     @NotNull
     IPokeBattle<T> create(Player p1, Player p2);
+
+    /**
+     * 创建一个对局
+     * 注意:这个是创建不是包裹
+     */
+    IPokeBattle<T> create(Actor<?>[] side1, Actor<?>[] side2);
+
     /**
      * 获取一场对局
      *
@@ -34,9 +43,15 @@ public interface IBattleManager<T> {
     IPokeBattle<T> getBattle(Player player);
 
     /**
-     * 包裹一个环境下的对局
-     * 注意:包裹有条件，必须是1v1且是pvp的对局其他对局包裹后对后续操作容易出现问题
+     * 对局角色
      */
+    @NotNull
+    IPokeBattle<T> getBattle(Actor<?> actor);
+
+    /**
+     * 包裹一个环境下的对局
+     */
+    @NotNull
     IPokeBattle<T> wrapper(T battle);
 
     /**
@@ -46,4 +61,7 @@ public interface IBattleManager<T> {
     default void createQuery(Player p1, Player p2) {
         start(p1, p2);
     }
+
+
+    ActorManager<?> getActorManager();
 }

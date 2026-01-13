@@ -3,33 +3,41 @@ package me.fullidle.ficore.ficore.common.api.pokemon.event.battle;
 import lombok.Getter;
 import lombok.Setter;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
-import org.bukkit.entity.Player;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 只针对 1v1 且  pvp 对局开始前事件触发
- * @deprecated 该事件已被弃用，建议使用 {@link PokeBattleStartEvent} 事件
+ * 宝可梦对战事件
+ * 开始前触发
  */
 @Getter
 @Setter
-@Deprecated
-public class PVPBattleStartEvent extends Event implements Cancellable {
+public class PokeBattleStartEvent extends Event implements Cancellable {
     @Getter
     public static final HandlerList handlerList = new HandlerList();
 
-
     private boolean cancelled = false;
-    private final IPokeBattle<?> battle;
-    private final Player player1;
-    private final Player player2;
 
-    public PVPBattleStartEvent(IPokeBattle<?> battle, Player player1, Player player2) {
+    /**
+     * 对战的战斗
+     */
+    private final IPokeBattle<?> battle;
+    /**
+     * 对战的方1
+     */
+    private final Actor<?>[] side1;
+    /**
+     * 对战的方2
+     */
+    private final Actor<?>[] side2;
+
+    public PokeBattleStartEvent(IPokeBattle<?> battle, Actor<?>[] side1, Actor<?>[] side2) {
         this.battle = battle;
-        this.player1 = player1;
-        this.player2 = player2;
+        this.side1 = side1;
+        this.side2 = side2;
     }
 
     @NotNull

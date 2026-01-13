@@ -3,33 +3,40 @@ package me.fullidle.ficore.ficore.common.api.pokemon.event.battle;
 import lombok.Getter;
 import lombok.Setter;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
+import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 /**
- * 只针对 1v1 且  pvp 对局开始前事件触发
- * @deprecated 该事件已被弃用，建议使用 {@link PokeBattleStartEvent} 事件
+ * 宝可梦对战事件
+ * 结束时触发
  */
 @Getter
 @Setter
-@Deprecated
-public class PVPBattleStartEvent extends Event implements Cancellable {
+public class PokeBattleEndEvent extends Event {
     @Getter
     public static final HandlerList handlerList = new HandlerList();
 
-
-    private boolean cancelled = false;
+    /**
+     * 对战的战斗
+     */
     private final IPokeBattle<?> battle;
-    private final Player player1;
-    private final Player player2;
+    /**
+     * 胜利者
+     */
+    private final Collection<Actor<?>> winners;
+    /**
+     * 失败者
+     */
+    private final Collection<Actor<?>> losers;
 
-    public PVPBattleStartEvent(IPokeBattle<?> battle, Player player1, Player player2) {
+    public PokeBattleEndEvent(IPokeBattle<?> battle, Collection<Actor<?>> winners, Collection<Actor<?>> losers) {
         this.battle = battle;
-        this.player1 = player1;
-        this.player2 = player2;
+        this.winners = winners;
+        this.losers = losers;
     }
 
     @NotNull

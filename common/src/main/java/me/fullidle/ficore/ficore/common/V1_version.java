@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common;
 
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
@@ -10,6 +11,10 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import org.bukkit.plugin.Plugin;
 
 public abstract class V1_version {
+    public static V1_version getInstance() {
+        return FIData.V1_version;
+    }
+
     /**
      * 有宝可梦
      */

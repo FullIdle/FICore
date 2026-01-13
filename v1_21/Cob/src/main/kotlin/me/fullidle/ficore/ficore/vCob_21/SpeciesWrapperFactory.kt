@@ -1,7 +1,6 @@
 package me.fullidle.ficore.ficore.vCob_21
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.getByName
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.pokemon.Species
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper
@@ -10,9 +9,15 @@ import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory
 
 object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
+    private val cache: MutableMap<Species, SpeciesWrapper> = HashMap<Species, SpeciesWrapper>()
+    private val translated = PokemonSpecies.species.associateBy {
+        getCacheOrCreate(it)
+        it.translatedName.string
+    }.toMutableMap()
+
     @Throws(IllegalArgumentException::class)
     override fun create(name: String): SpeciesWrapper {
-        val species = getByName(name)
+        val species = translated.getOrDefault(name, PokemonSpecies.getByName(name))
         requireNotNull(species) { "Unknown species name: $name" }
         return getCacheOrCreate(species)
     }
@@ -32,8 +37,6 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
         if (PokemonSpecies.species.size <= cache.size) return ArrayList<SpeciesWrapper>(cache.values)
         return PokemonSpecies.species.map { getCacheOrCreate(it) }
     }
-
-    private val cache: MutableMap<Species, SpeciesWrapper> = HashMap<Species, SpeciesWrapper>()
 
     fun getCacheOrCreate(es: Species): SpeciesWrapper {
         return cache.computeIfAbsent(es) { original: Species -> SpeciesWrapper(original) }

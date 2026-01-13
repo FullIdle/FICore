@@ -8,8 +8,17 @@ import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 
 object VCob_21 : V1_version() {
+    var hasPokemon = run {
+        try {
+            Class.forName("com.cobblemon.mod.common.Cobblemon")
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
+
     override fun hasPokemon(): Boolean {
-        return true
+        return hasPokemon
     }
 
     init {
@@ -20,7 +29,9 @@ object VCob_21 : V1_version() {
         return "1.21.1"
     }
 
-    override fun registerForgeEvent() {}
+    override fun registerForgeEvent() {
+        if (hasPokemon()) CobListener.register()
+    }
 
     override fun register(plugin: org.bukkit.plugin.Plugin, bus: Any?, target: Any?) {}
 

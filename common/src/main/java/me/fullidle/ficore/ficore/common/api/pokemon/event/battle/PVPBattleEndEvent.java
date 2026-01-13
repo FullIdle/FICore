@@ -15,9 +15,11 @@ import java.util.Map;
 /**
  * 只针对 1v1 且  pvp 对局结束时事件触发
  * 暂时没有考虑平局的情况
+ * @deprecated 该事件已被弃用，建议使用 {@link PokeBattleEndEvent} 事件
  */
 @Getter
 @Setter
+@Deprecated
 public class PVPBattleEndEvent extends Event {
     @Getter
     public static final HandlerList handlerList = new HandlerList();
