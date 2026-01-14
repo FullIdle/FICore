@@ -37,7 +37,7 @@ public class PapiTransformer implements InvTransformer {
         return papi(needTransformed, papiTarget);
     }
 
-    private String papi(String str, OfflinePlayer target) {
+    protected String papi(String str, OfflinePlayer target) {
         return PlaceholderAPI.setPlaceholders(target, str);
     }
 }

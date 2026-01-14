@@ -49,11 +49,13 @@ public class InvButton {
         Material material = Material.matchMaterial(materialStr);
         ItemStack itemStack = new ItemStack(material == null ? Material.STONE : material);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        val name = section.getString("name", null);
-        if (name != null) itemMeta.setDisplayName(name);
-        val lore = section.getList("lore", null);
-        if (lore != null) itemMeta.setLore((List<String>) lore);
-        itemStack.setItemMeta(itemMeta);
+        if (itemMeta != null) {
+            val name = section.getString("name", null);
+            if (name != null) itemMeta.setDisplayName(name);
+            val lore = section.getList("lore", null);
+            if (lore != null) itemMeta.setLore((List<String>) lore);
+            itemStack.setItemMeta(itemMeta);
+        }
 
         int amount = section.getInt("amount", -1);
         if (amount != -1) itemStack.setAmount(amount);
@@ -89,13 +91,17 @@ public class InvButton {
         return null;
     }
 
+    public InvButton copy() {
+        return new InvButton(this.icon, new HashMap<>(this.actions));
+    }
+
     /**
      * 对 {@link #display} 只有简单的一些处理
      * 实在不行可以考虑使用 {@link #display(ItemStack)}
      */
     public static class Builder {
         private ItemStack display = new ItemStack(Material.STONE);
-        private Map<ClickType, List<InvAction>> actions = new HashMap<>();
+        private final Map<ClickType, List<InvAction>> actions = new HashMap<>();
 
         public ItemStack display() {
             return this.display;
@@ -113,15 +119,19 @@ public class InvButton {
 
         public Builder displayName(String name) {
             ItemMeta itemMeta = this.display.getItemMeta();
-            itemMeta.setDisplayName(name);
-            this.display.setItemMeta(itemMeta);
+            if (itemMeta != null) {
+                itemMeta.setDisplayName(name);
+                this.display.setItemMeta(itemMeta);
+            }
             return this;
         }
 
         public Builder displayLore(String... lore) {
             ItemMeta itemMeta = this.display.getItemMeta();
-            itemMeta.setLore(Arrays.asList(lore));
-            this.display.setItemMeta(itemMeta);
+            if (itemMeta != null) {
+                itemMeta.setLore(Arrays.asList(lore));
+                this.display.setItemMeta(itemMeta);
+            }
             return this;
         }
 

@@ -30,6 +30,7 @@ public interface InvTransformer {
     default ItemStack button(InvConfig config, InventoryHolder holder, InvButton invButton, OfflinePlayer papiTarget) {
         val icon = invButton.getIcon();
         val itemMeta = icon.getItemMeta();
+        if (itemMeta == null) return icon;
         if (itemMeta.hasDisplayName())
             itemMeta.setDisplayName(buttonStr(config, holder, invButton, papiTarget, itemMeta.getDisplayName()));
         if (itemMeta.hasLore()) {

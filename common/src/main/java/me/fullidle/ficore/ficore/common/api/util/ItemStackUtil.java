@@ -24,10 +24,11 @@ public class ItemStackUtil {
         if (amount != -1) itemStack.setAmount(amount);
 
         val itemMeta = itemStack.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.setDisplayName(section.getString("name"));
-        itemMeta.setLore(section.getStringList("lore"));
-        itemStack.setItemMeta(itemMeta);
+        if (itemMeta != null) {
+            itemMeta.setDisplayName(section.getString("name"));
+            itemMeta.setLore(section.getStringList("lore"));
+            itemStack.setItemMeta(itemMeta);
+        }
         return itemStack;
     }
 

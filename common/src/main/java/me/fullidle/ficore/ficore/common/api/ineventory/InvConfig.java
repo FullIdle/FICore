@@ -64,15 +64,16 @@ public class InvConfig {
                     val clone = invButton.getDisplayItem().clone();
                     if (buttonStrFun != null) {
                         val itemMeta = clone.getItemMeta();
-                        assert itemMeta != null;
-                        if (itemMeta.hasDisplayName())
-                            itemMeta.setDisplayName(buttonStrFun.apply(invButton, itemMeta.getDisplayName()));
-                        if (itemMeta.hasLore()) {
-                            val lore = itemMeta.getLore();
-                            assert lore != null;
-                            itemMeta.setLore(lore.stream().map(s -> buttonStrFun.apply(invButton, s)).collect(Collectors.toList()));
+                        if (itemMeta != null) {
+                            if (itemMeta.hasDisplayName())
+                                itemMeta.setDisplayName(buttonStrFun.apply(invButton, itemMeta.getDisplayName()));
+                            if (itemMeta.hasLore()) {
+                                val lore = itemMeta.getLore();
+                                assert lore != null;
+                                itemMeta.setLore(lore.stream().map(s -> buttonStrFun.apply(invButton, s)).collect(Collectors.toList()));
+                            }
+                            clone.setItemMeta(itemMeta);
                         }
-                        clone.setItemMeta(itemMeta);
                     }
                     inv.setItem(x + y * 9, clone);
                 }

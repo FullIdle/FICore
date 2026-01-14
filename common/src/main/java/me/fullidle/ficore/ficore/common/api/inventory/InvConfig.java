@@ -1,6 +1,8 @@
 package me.fullidle.ficore.ficore.common.api.inventory;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.inventory.transformers.InvTransformer;
 import org.bukkit.Bukkit;
@@ -19,14 +21,16 @@ import java.util.*;
  */
 @Getter
 public class InvConfig {
-    private final String title;
+    @NotNull
+    @Setter
+    private String title;
     // layout[y][x]
     private final InvButton[][] layout;
     //标题，物品等在初始化的时候会调用该方法进行处理后赋予
     @NotNull
     private InvTransformer transformer;
 
-    public InvConfig(String title, InvButton[][] layout, InvTransformer transformer) {
+    public InvConfig(@NotNull String title, InvButton[][] layout, InvTransformer transformer) {
         this.title = title;
         this.layout = layout;
         this.transformer = transformer == null ? InvTransformer.NO_OPERATION : transformer;
@@ -115,6 +119,15 @@ public class InvConfig {
         return of(config.getString("title"), config.getStringList("layout"), map, transformer);
     }
 
+    public InvConfig copy() {
+        val clone = this.layout.clone();
+        for (int i = 0; i < clone.length; i++)
+            for (int i1 = 0; i1 < clone[i].length; i1++) {
+                val button = clone[i][i1];
+                if (button != null) clone[i][i1] = button.copy();
+            }
+        return new InvConfig(this.title, clone, this.transformer);
+    }
 
     public static class Builder {
         private final String title;
