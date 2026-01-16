@@ -9,6 +9,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/runConfigurations/
 *.iws
 *.iml
 *.ipr
@@ -40,5 +41,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-.idea/runConfigurations
