@@ -2,10 +2,7 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-//        maven {
-//            allowInsecureProtocol = true
-//            url = 'http://localhost:31647/snapshots'
-//        }
+        maven {url = 'https://repo.figsq.top/snapshots'}
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.+'
@@ -30,32 +27,19 @@ allprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
     repositories {
-        maven {
-            name "cobblemonReleases"
-            url "https://artefacts.cobblemon.com/releases"
-        }
-        maven {
-            url "https://repo.extendedclip.com/releases"
-        }
-        maven { url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-        maven { url = "https://repo.papermc.io/repository/maven-public/" }
-
-        maven{url "https://maven.impactdev.net/repository/development/"}
-        maven{url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"}
-        maven{url "https://thedarkcolour.github.io/KotlinForForge/"}
-
-        maven {url 'https://maven.neoforged.net/releases'}
-
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         mavenCentral()
         mavenLocal()
-        repositories {
-            flatDir { dirs "libs" } // 放 Pixelmon jar 的目录
-        }
-        maven {
-            allowInsecureProtocol = true
-            url = 'http://localhost:31647/snapshots'
-        }
+        maven { url "https://maven.architectury.dev/" }
+        maven {url 'https://maven.neoforged.net/releases'}
+        maven {url "https://artefacts.cobblemon.com/releases"}
+        maven{url "https://maven.impactdev.net/repository/development/"}
+        maven { url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url = "https://repo.papermc.io/repository/maven-public/" }
+        maven {url "https://repo.extendedclip.com/releases"}
+        maven{url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"}
+        maven{url "https://thedarkcolour.github.io/KotlinForForge/"}
+        maven {url = 'https://repo.figsq.top/snapshots'}
     }
 
     dependencies {
@@ -95,7 +79,6 @@ publishing {
         maven { url = "https://repo.papermc.io/repository/maven-public/" }
         mavenLocal()
 //        maven {
-//            allowInsecureProtocol = true
 //            url = uri(fistudioUrl)
 //            credentials {
 //                username = fistudioUsername
