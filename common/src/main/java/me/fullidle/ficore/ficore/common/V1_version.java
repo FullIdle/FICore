@@ -4,6 +4,8 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
@@ -77,4 +79,9 @@ public abstract class V1_version {
      * 宝可梦NPC实体包裹工厂
      */
     abstract public PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory();
+
+    /**
+     * 宝可梦球实体包裹管理器
+     */
+    abstract public PokeBallEntityManager<?> getPokeBallEntityManager();
 }

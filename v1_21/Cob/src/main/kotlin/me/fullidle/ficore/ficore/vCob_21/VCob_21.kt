@@ -5,20 +5,13 @@ import me.fullidle.ficore.ficore.common.api.data.FIData
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory
+import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 
 object VCob_21 : V1_version() {
-    var hasPokemon = run {
-        try {
-            Class.forName("com.cobblemon.mod.common.Cobblemon")
-            true
-        } catch (_: Exception) {
-            false
-        }
-    }
-
     override fun hasPokemon(): Boolean {
-        return hasPokemon
+        return true
     }
 
     init {
@@ -33,9 +26,12 @@ object VCob_21 : V1_version() {
         if (hasPokemon()) CobListener.register()
     }
 
-    override fun register(plugin: org.bukkit.plugin.Plugin, bus: Any?, target: Any?) {}
+    override fun register(plugin: org.bukkit.plugin.Plugin, bus: Any, target: Any) {
+    }
 
-    override fun unregisterAllListener(plugin: org.bukkit.plugin.Plugin) {}
+    override fun unregisterAllListener(plugin: org.bukkit.plugin.Plugin) {
+        if (FIData.plugin.equals(plugin)) CobListener.unregister()
+    }
 
     override fun getSpeciesWrapperFactory(): ISpeciesWrapperFactory<*>? {
         return SpeciesWrapperFactory
@@ -67,5 +63,9 @@ object VCob_21 : V1_version() {
 
     override fun getPokeNPCEntityWrapperFactory(): PokeNPCEntityWrapperFactory<*> {
         return PokeNPCEntityWrapperFactoryImpl
+    }
+
+    override fun getPokeBallEntityManager(): PokeBallEntityManager<*> {
+        return VCobPokeBallEntityManager
     }
 }

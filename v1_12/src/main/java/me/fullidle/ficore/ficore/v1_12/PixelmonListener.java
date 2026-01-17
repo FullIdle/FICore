@@ -1,20 +1,26 @@
 package me.fullidle.ficore.ficore.v1_12;
 
 import com.pixelmonmod.pixelmon.api.events.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
+import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
+import com.pixelmonmod.pixelmon.entities.pokeballs.EntityPokeBall;
 import com.pixelmonmod.pixelmon.enums.battle.BattleResults;
 import com.pixelmonmod.pixelmon.enums.battle.EnumBattleEndCause;
 import lombok.val;
+import me.fullidle.ficore.ficore.common.V1_version;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.event.ForgeEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
-import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleEndEvent;
-import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleStartEvent;
-import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokeBattleStartEvent;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.*;
+import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import org.bukkit.Bukkit;
@@ -63,6 +69,23 @@ public class PixelmonListener {
                 for (Map.Entry<BattleParticipant, BattleResults> entry : e.results.entrySet())
                     map.put(castPlayer(((PlayerParticipant) entry.getKey()).player), BattleResult.valueOf(entry.getValue().name()));
                 Bukkit.getPluginManager().callEvent(new PVPBattleEndEvent(battleManager.wrapper(e.bc), map));
+            }
+        }
+        if (event.getForgeEvent() instanceof CaptureEvent) {
+            val e = ((CaptureEvent) event.getForgeEvent());
+            val version = V1_version.getInstance();
+            val pokeBallEntity = ((PokeBallEntityManager<EntityPokeBall>) version.getPokeBallEntityManager()).wrap(e.pokeball);
+            val pluginManager = Bukkit.getPluginManager();
+
+            if (e instanceof CaptureEvent.StartCapture) {
+                val captureEvent = new PokePreCaptureEvent(((PokeEntityWrapperFactory<EntityPixelmon>) version.getPokeEntityWrapperFactory()).create(e.getPokemon()), pokeBallEntity, () -> !e.isCanceled(), r -> e.setCanceled(!r));
+                pluginManager.callEvent(captureEvent);
+                return;
+            }
+
+            if (e instanceof CaptureEvent.SuccessfulCapture) {
+                pluginManager.callEvent(new PokeCapturedEvent(((IPokemonWrapperFactory<Pokemon>) version.getPokemonWrapperFactory()).create(e.getPokemon().getPokemonData()), pokeBallEntity));
+                return;
             }
         }
     }

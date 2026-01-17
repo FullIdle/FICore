@@ -3,8 +3,8 @@ package me.fullidle.ficore.ficore.v1_12;
 import com.pixelmonmod.pixelmon.entities.npcs.EntityNPC;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCTrainer;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeNPCEntityWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeNPCEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapper;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 

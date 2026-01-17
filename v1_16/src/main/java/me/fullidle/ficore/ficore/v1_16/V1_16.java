@@ -6,6 +6,8 @@ import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.breeds.IBreedLogic;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
@@ -23,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class V1_16 extends V1_version {
@@ -61,8 +64,8 @@ public class V1_16 extends V1_version {
             Object list = lists[i];
             if (method != null) {
                 method.invoke(list, EventPriority.NORMAL, listener);
-                Map<Integer, ArrayList<Object>> objects = FIData.listenerList.computeIfAbsent(FIData.plugin, k -> new HashMap<>());
-                ArrayList<Object> objects1 = objects.computeIfAbsent(i, k -> new ArrayList<>());
+                Map<Integer, List<Object>> objects = FIData.listenerList.computeIfAbsent(FIData.plugin, k -> new HashMap<>());
+                List<Object> objects1 = objects.computeIfAbsent(i, k -> new ArrayList<>());
                 objects1.add(listener);
             } else {
                 method = list.getClass().getDeclaredMethod("register", EventPriority.class, IEventListener.class);
@@ -78,23 +81,23 @@ public class V1_16 extends V1_version {
     public void register(Plugin plugin, Object bus, Object target) {
         EventBus eventBus = (EventBus) bus;
         eventBus.register(target);
-        Map<Integer, ArrayList<Object>> listMap = FIData.listenerList.computeIfAbsent(plugin, k -> new HashMap<>());
+        Map<Integer, List<Object>> listMap = FIData.listenerList.computeIfAbsent(plugin, k -> new HashMap<>());
         Field field = EventBus.class.getDeclaredField("busID");
         field.setAccessible(true);
         int busID = (int) field.get(bus);
-        ArrayList<Object> objects = listMap.computeIfAbsent(busID, k -> new ArrayList<>());
+        List<Object> objects = listMap.computeIfAbsent(busID, k -> new ArrayList<>());
         objects.add(target);
     }
 
     @Override
     public void unregisterAllListener(Plugin plugin) {
-        Map<Integer, ArrayList<Object>> listMap = FIData.listenerList.get(plugin);
+        Map<Integer, List<Object>> listMap = FIData.listenerList.get(plugin);
         if (listMap == null) {
             return;
         }
-        for (Map.Entry<Integer, ArrayList<Object>> entry : listMap.entrySet()) {
+        for (Map.Entry<Integer, List<Object>> entry : listMap.entrySet()) {
             int busID = entry.getKey();
-            ArrayList<Object> listeners = entry.getValue();
+            List<Object> listeners = entry.getValue();
             for (Object obj : listeners) {
                 if (obj instanceof IEventListener) {
                     ListenerList.unregisterAll(busID, (IEventListener) obj);
@@ -146,5 +149,10 @@ public class V1_16 extends V1_version {
     @Override
     public PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory() {
         return PokeNPCEntityWrapperFactoryImpl.INSTANCE;
+    }
+
+    @Override
+    public PokeBallEntityManager<?> getPokeBallEntityManager() {
+        return V16PokeBallEntityManager.INSTANCE;
     }
 }

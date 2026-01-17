@@ -5,8 +5,8 @@ import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.npc.NPCPlayerModelType
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeNPCEntityWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeNPCEntityWrapperFactory
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapper
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
 import org.bukkit.entity.Entity
 import java.net.URI

@@ -3,6 +3,8 @@ package me.fullidle.ficore.ficore;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.IPokemonConfigManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import org.bukkit.plugin.Plugin;
 
@@ -64,7 +66,17 @@ public class FICoreAPI {
         return FIData.V1_version.getPokemonConfigManager();
     }
 
+    /**
+     * 宝可梦NPC实体包裹工厂
+     */
     public static PokeNPCEntityWrapperFactory<?> getPokeNPCEntityWrapperFactory() {
         return FIData.V1_version.getPokeNPCEntityWrapperFactory();
+    }
+
+    /**
+     * 宝可梦球实体包裹管理器
+     */
+     public static PokeBallEntityManager<?> getPokeBallEntityManager() {
+        return FIData.V1_version.getPokeBallEntityManager();
     }
 }

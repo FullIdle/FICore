@@ -1,5 +1,6 @@
-package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
+package me.fullidle.ficore.ficore.common.api.pokemon.npc;
 
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
 import me.fullidle.ficore.ficore.common.bukkit.entity.EntityWrapper;
 
 public abstract class PokeNPCEntityWrapper<T> extends EntityWrapper<T> {

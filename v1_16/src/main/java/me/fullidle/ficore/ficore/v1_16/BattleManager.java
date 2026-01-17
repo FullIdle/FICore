@@ -23,6 +23,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.battle.IBattleManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.IPokeBattle;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.LivingEntity;

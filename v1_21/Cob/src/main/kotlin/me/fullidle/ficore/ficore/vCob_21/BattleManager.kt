@@ -25,7 +25,7 @@ import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeNPCEntityWrapperFactory
+import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
 import net.minecraft.world.entity.LivingEntity
 import org.bukkit.Bukkit

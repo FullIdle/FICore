@@ -1,4 +1,4 @@
-package me.fullidle.ficore.ficore.common.api.pokemon.wrapper;
+package me.fullidle.ficore.ficore.common.api.pokemon.npc;
 
 import org.bukkit.entity.Entity;
 
