@@ -16,6 +16,8 @@ public class IntArgs extends TypeArgs<Integer> {
 
     @Override
     public Integer parse(Context context, String arg) {
-        return Integer.parseInt(arg);
+        try {
+            return Integer.parseInt(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }

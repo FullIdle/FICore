@@ -16,6 +16,8 @@ public class DoubleArgs extends TypeArgs<Double> {
 
     @Override
     public Double parse(Context context, String arg) {
-        return Double.parseDouble(arg);
+        try {
+            return Double.parseDouble(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }

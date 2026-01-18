@@ -16,6 +16,8 @@ public class ShortArgs extends TypeArgs<Short>{
 
     @Override
     public Short parse(Context tempContext, String arg) {
-        return Short.valueOf(arg);
+        try {
+            return Short.valueOf(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }

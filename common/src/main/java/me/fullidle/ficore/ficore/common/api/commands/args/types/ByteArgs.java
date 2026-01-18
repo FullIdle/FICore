@@ -16,6 +16,8 @@ public class ByteArgs extends TypeArgs<Byte> {
 
     @Override
     public Byte parse(Context tempContext, String arg) {
-        return Byte.parseByte(arg);
+        try {
+            return Byte.parseByte(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }

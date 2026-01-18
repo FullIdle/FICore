@@ -16,6 +16,8 @@ public class FloatArgs extends TypeArgs<Float>{
 
     @Override
     public Float parse(Context tempContext, String arg) {
-        return Float.parseFloat(arg);
+        try {
+            return Float.parseFloat(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }

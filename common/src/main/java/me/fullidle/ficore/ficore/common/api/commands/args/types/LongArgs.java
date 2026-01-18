@@ -16,6 +16,8 @@ public class LongArgs extends TypeArgs<Long> {
 
     @Override
     public Long parse(Context context, String arg) {
-        return Long.parseLong(arg);
+        try {
+            return Long.parseLong(arg);
+        } catch (NumberFormatException e) {return null;}
     }
 }
