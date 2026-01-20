@@ -56,11 +56,13 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder)) return;
-        ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-        Consumer<InventoryCloseEvent> consumer = invHolder.getClose();
-        if (consumer != null) {
-            consumer.accept(e);
+        if (holder instanceof ListenerInvHolder) {
+            ListenerInvHolder invHolder = (ListenerInvHolder) holder;
+            Consumer<InventoryCloseEvent> consumer = invHolder.getClose();
+            if (consumer != null) consumer.accept(e);
+        }
+        if (holder instanceof InvHolder) {
+            ((InvHolder) holder).onClose(e);
         }
     }
 }

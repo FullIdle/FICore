@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
@@ -44,5 +45,9 @@ public class InvHolder implements InventoryHolder {
         InvButton button = this.getConfig().getButton(e.getSlot());
         if (button == null) return;
         button.onClick(e, this.config.getTransformer());
+    }
+
+    public void onClose(InventoryCloseEvent e){
+        //CLOSE HANDLE
     }
 }
