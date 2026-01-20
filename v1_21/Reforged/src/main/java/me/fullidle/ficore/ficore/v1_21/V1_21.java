@@ -62,7 +62,7 @@ public class V1_21 extends V1_version {
 
     @Override
     public void unregisterAllListener(Plugin plugin) {
-        if (FIData.plugin.equals(plugin)) PixelmonListener.unregister();
+        if (FIData.plugin.equals(plugin) && hasPokemon()) PixelmonListener.unregister();
         val remove = FIData.listenerList.remove(plugin);
         if (remove != null) {
             val list = remove.get(0);
