@@ -8,7 +8,6 @@ import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
-import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import com.pixelmonmod.pixelmon.entities.pokeballs.PokeBallEntity;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.V1_version;
@@ -20,7 +19,6 @@ import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokeCapturedEve
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokePreCaptureEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.Event;
@@ -50,22 +48,22 @@ public class PixelmonListener {
         }
     }
 
-    public static void onCapture(CaptureEvent e) {
-        if (!(e instanceof CaptureEvent.StartCapture || e instanceof CaptureEvent.SuccessfulCapture)) return;
-
+    public static void onStartCapture(CaptureEvent.StartCapture e) {
         val version = V1_version.getInstance();
         val pokemon = ((IPokemonWrapperFactory<Pokemon>) version.getPokemonWrapperFactory()).create(e.getPokemon());
         val pokeBallEntity = ((PokeBallEntityManager<PokeBallEntity>) version.getPokeBallEntityManager()).wrap(e.getPokeBallEntity());
         val pluginManager = Bukkit.getPluginManager();
 
-        if (e instanceof CaptureEvent.StartCapture event) {
-            val captureEvent = new PokePreCaptureEvent(pokemon.getEntity(), pokeBallEntity, () -> !event.isCanceled(), r -> event.setCanceled(!r));
-            pluginManager.callEvent(captureEvent);
-            return;
-        }
+        val captureEvent = new PokePreCaptureEvent(pokemon.getEntity(), pokeBallEntity, () -> !e.isCanceled(), r -> e.setCanceled(!r));
+        pluginManager.callEvent(captureEvent);
+    }
 
-        if (e instanceof CaptureEvent.SuccessfulCapture)
-            pluginManager.callEvent(new PokeCapturedEvent(pokemon, pokeBallEntity));
+    public static void onCaptureSuccessful(CaptureEvent.SuccessfulCapture e) {
+        val version = V1_version.getInstance();
+        val pokemon = ((IPokemonWrapperFactory<Pokemon>) version.getPokemonWrapperFactory()).create(e.getPokemon());
+        val pokeBallEntity = ((PokeBallEntityManager<PokeBallEntity>) version.getPokeBallEntityManager()).wrap(e.getPokeBallEntity());
+        val pluginManager = Bukkit.getPluginManager();
+        pluginManager.callEvent(new PokeCapturedEvent(pokemon, pokeBallEntity));
     }
 
     public static void onBattleEnd(BattleEndEvent e) {
@@ -93,7 +91,8 @@ public class PixelmonListener {
         val pixelmonEventBus = com.pixelmonmod.pixelmon.Pixelmon.EVENT_BUS;
         pixelmonEventBus.addListener(com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent.Pre.class, add(PixelmonListener::onBattleStarted));
         pixelmonEventBus.addListener(com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent.class, add(PixelmonListener::onBattleEnd));
-        pixelmonEventBus.addListener(CaptureEvent.class, add(PixelmonListener::onCapture));
+        pixelmonEventBus.addListener(CaptureEvent.StartCapture.class, add(PixelmonListener::onStartCapture));
+        pixelmonEventBus.addListener(CaptureEvent.SuccessfulCapture.class, add(PixelmonListener::onCaptureSuccessful));
     }
 
     public static void unregister() {

@@ -1,7 +1,26 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
 dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.6+kotlin.2.2.20")
     modImplementation("com.cobblemon:mod:1.7.1+1.21.1")
 /*
     modImplementation("com.cobblemon:mod:1.7.1+1.21.1:sources")
 */
+}
+
+shadowJar {
+    relocate 'me.fullidle.ficore.ficore.vCob_21', 'me.fullidle.ficore.ficore.vCob_21_dev'
+    configurations = []
+    archiveBaseName.set("${project.name}-dev")
+    archiveClassifier.set('')
+}
+
+tasks.register('fullPlatformJar', Jar) {
+    dependsOn(remapJar, shadowJar)
+    mustRunAfter(remapJar,shadowJar)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(zipTree(remapJar.archiveFile), zipTree(shadowJar.archiveFile))
+    archiveFileName = "${project.name}-all.jar"
 }

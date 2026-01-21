@@ -24,7 +24,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         String version = VersionUtil.getMinecraftVersion();
-        getLogger().info("§3Your version: " + version);
+        val logger = getLogger();
+        logger.info("§3Your version: " + version);
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
 
 
@@ -33,7 +34,14 @@ public class Main extends JavaPlugin {
         try {
             try {
                 Class.forName("com.cobblemon.mod.common.Cobblemon");
-                val field = Class.forName("me.fullidle.ficore.ficore.vCob_21.VCob_21").getDeclaredField("INSTANCE");
+                String endPack;
+                try {
+                    Class.forName("net.neoforged.neoforge.common.NeoForge");
+                    endPack = "vCob_21_dev";
+                } catch (ClassNotFoundException e) {
+                    endPack = "vCob_21";
+                }
+                val field = Class.forName("me.fullidle.ficore.ficore." + endPack + ".VCob_21").getDeclaredField("INSTANCE");
                 field.setAccessible(true);
                 ((V1_version) field.get(field)).registerForgeEvent();
             } catch (ClassNotFoundException e) {
@@ -56,9 +64,10 @@ public class Main extends JavaPlugin {
                 v1Version.registerForgeEvent();
             }
         } catch (NoClassDefFoundError | NoSuchFieldException | IllegalAccessException e) {
-            getLogger().info("§cThe server-side core version is not supported or supported by Forge, and the basic functionality of Forge features has been abandoned!");
+            logger.info("§cThe server-side core version is not supported or supported by Forge, and the basic functionality of Forge features has been abandoned!");
         }
-        getLogger().info("§aPlugin loaded!");
+        logger.info("§aPlugin loaded!");
+        logger.info("§aLoaded V1_version: §e§n" + V1_version.getInstance().getClass());
     }
 
     @Override
