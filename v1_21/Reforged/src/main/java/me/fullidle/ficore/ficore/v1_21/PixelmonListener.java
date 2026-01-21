@@ -51,6 +51,8 @@ public class PixelmonListener {
     }
 
     public static void onCapture(CaptureEvent e) {
+        if (!(e instanceof CaptureEvent.StartCapture || e instanceof CaptureEvent.SuccessfulCapture)) return;
+
         val version = V1_version.getInstance();
         val pokemon = ((IPokemonWrapperFactory<Pokemon>) version.getPokemonWrapperFactory()).create(e.getPokemon());
         val pokeBallEntity = ((PokeBallEntityManager<PokeBallEntity>) version.getPokeBallEntityManager()).wrap(e.getPokeBallEntity());

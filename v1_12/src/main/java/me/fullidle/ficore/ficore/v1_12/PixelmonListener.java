@@ -71,7 +71,7 @@ public class PixelmonListener {
                 Bukkit.getPluginManager().callEvent(new PVPBattleEndEvent(battleManager.wrapper(e.bc), map));
             }
         }
-        if (event.getForgeEvent() instanceof CaptureEvent) {
+        if (event.getForgeEvent() instanceof CaptureEvent.StartCapture || event.getForgeEvent() instanceof CaptureEvent.SuccessfulCapture) {
             val e = ((CaptureEvent) event.getForgeEvent());
             val version = V1_version.getInstance();
             val pokeBallEntity = ((PokeBallEntityManager<EntityPokeBall>) version.getPokeBallEntityManager()).wrap(e.pokeball);
