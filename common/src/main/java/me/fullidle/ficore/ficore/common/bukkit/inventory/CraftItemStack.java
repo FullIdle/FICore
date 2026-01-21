@@ -29,7 +29,7 @@ public class CraftItemStack {
                     val invoke = method.invoke(v1_CraftItemStack_Class, objects);
                     methodList.removeIf(t -> !t.equals(method));
                     return invoke;
-                } catch (IllegalAccessException | InvocationTargetException e) {
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                     logger.warning("调用方法" + method.getName() + "时出现异常已将其排除,并自适应. 异常信息: " + e.getMessage());
                     iterator.remove();
                 }
