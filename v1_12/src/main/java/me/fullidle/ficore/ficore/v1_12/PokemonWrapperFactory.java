@@ -255,6 +255,11 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
+        public boolean isTradable() {
+            return !this.getOriginal().hasSpecFlag("untradeable");
+        }
+
+        @Override
         public Class<Pokemon> getType() {
             return Pokemon.class;
         }

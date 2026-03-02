@@ -215,6 +215,10 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
                 .toString()
         }
 
+        override fun isTradable(): Boolean {
+            return this.original.tradeable
+        }
+
         override fun getType(): Class<Pokemon> {
             return Pokemon::class.java
         }

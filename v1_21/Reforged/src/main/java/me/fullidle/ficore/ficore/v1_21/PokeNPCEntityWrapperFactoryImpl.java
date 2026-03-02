@@ -2,11 +2,17 @@ package me.fullidle.ficore.ficore.v1_21;
 
 import com.pixelmonmod.pixelmon.api.util.ResourceWithFallback;
 import com.pixelmonmod.pixelmon.entities.npcs.NPC;
+import com.pixelmonmod.pixelmon.entities.npcs.NPCBuilder;
+import com.pixelmonmod.pixelmon.init.registry.EntityRegistration;
+import lombok.val;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory;
+import me.fullidle.ficore.ficore.common.bukkit.CraftWorld;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 public class PokeNPCEntityWrapperFactoryImpl implements PokeNPCEntityWrapperFactory<NPC> {
@@ -26,6 +32,14 @@ public class PokeNPCEntityWrapperFactoryImpl implements PokeNPCEntityWrapperFact
     public PokeNPCEntityWrapper<NPC> asPokeNPCEntity(Entity entity) {
         if (isPokeNPCEntity(entity)) return new PokeNPCEntityWrapperImpl((NPC) CraftEntity.getHandle(entity));
         throw new IllegalArgumentException("Entity are not Pokémon NPC entities");
+    }
+
+    @Override
+    public PokeNPCEntityWrapper<NPC> create(Location location) {
+        val handle = (ServerLevel) CraftWorld.getHandle(location.getWorld());
+        val npc = new NPC(EntityRegistration.NPC.get(), handle);
+        handle.addFreshEntity(npc);
+        return create(npc);
     }
 
     public static class PokeNPCEntityWrapperImpl extends PokeNPCEntityWrapper<NPC> {

@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.vCob_21
 
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.entity.npc.NPCEntity
@@ -7,7 +8,10 @@ import com.cobblemon.mod.common.entity.npc.NPCPlayerModelType
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokeStorageWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapper
 import me.fullidle.ficore.ficore.common.api.pokemon.npc.PokeNPCEntityWrapperFactory
+import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity
+import net.minecraft.server.level.ServerLevel
+import org.bukkit.Location
 import org.bukkit.entity.Entity
 import java.net.URI
 
@@ -23,6 +27,10 @@ object PokeNPCEntityWrapperFactoryImpl : PokeNPCEntityWrapperFactory<NPCEntity> 
     override fun asPokeNPCEntity(entity: Entity): PokeNPCEntityWrapper<NPCEntity> {
         if (isPokeNPCEntity(entity)) return PokeNPCEntityWrapperImpl(CraftEntity.getHandle(entity) as NPCEntity)
         throw IllegalArgumentException("Entity $entity is not a PokeNPCEntity")
+    }
+
+    override fun create(location: Location): PokeNPCEntityWrapper<NPCEntity> {
+        return create(CobblemonEntities.NPC.create(CraftWorld.getHandle(location.world) as ServerLevel) ?: throw IllegalArgumentException("NPC create failed"))
     }
 
 

@@ -5,7 +5,9 @@ import com.pixelmonmod.pixelmon.api.battles.BattleResults;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.api.events.spawning.LegendarySpawnEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
@@ -18,8 +20,10 @@ import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.*;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.pokemon.legend.LegendSpawnEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -32,6 +36,14 @@ import java.util.Map;
 
 public class PixelmonListener {
     public static void on(ForgeEvent event) {
+        if (event.getForgeEvent() instanceof LegendarySpawnEvent.DoSpawn) {
+            val e = (LegendarySpawnEvent.DoSpawn) event.getForgeEvent();
+            val ev = new LegendSpawnEvent(((ISpeciesWrapperFactory<Species>) V1_version.getInstance().getSpeciesWrapperFactory()).create(e.getLegendary()));
+            Bukkit.getPluginManager().callEvent(ev);
+            if (ev.isCancelled()) e.setCanceled(true);
+            return;
+        }
+
         if (event.getForgeEvent() instanceof BattleStartedEvent.Pre) {
             val e = (BattleStartedEvent.Pre) event.getForgeEvent();
             val bc = e.getBattleController();

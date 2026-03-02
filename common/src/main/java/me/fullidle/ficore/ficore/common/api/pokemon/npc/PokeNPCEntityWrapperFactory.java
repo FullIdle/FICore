@@ -1,5 +1,6 @@
 package me.fullidle.ficore.ficore.common.api.pokemon.npc;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 public interface PokeNPCEntityWrapperFactory<T> {
@@ -15,4 +16,9 @@ public interface PokeNPCEntityWrapperFactory<T> {
      * @throws IllegalArgumentException 如果不是宝可梦NPC实体
      */
     PokeNPCEntityWrapper<T> asPokeNPCEntity(Entity entity);
+
+    /**
+     * 直接创建一个NPC实体报错，会顺带创建NPC实体
+     */
+    PokeNPCEntityWrapper<T> create(Location location);
 }

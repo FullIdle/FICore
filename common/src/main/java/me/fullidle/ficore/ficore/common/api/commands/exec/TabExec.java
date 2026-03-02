@@ -66,9 +66,8 @@ public class TabExec implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length <= 1) {
-            return allPrompts(this.thenExecs, null);
-        }
+        if (args.length < 1) return allPrompts(this.thenExecs, null);
+        if (args.length == 1) return allPrompts(this.thenExecs, args[0]);
         TabExec finalExec = this;
         val temp = new Context(sender, command, Collections.emptyMap());
         for (int i = 0; i < args.length - 1; i++) {

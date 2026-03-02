@@ -5,7 +5,9 @@ import com.pixelmonmod.pixelmon.api.battles.BattleResults;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent;
+import com.pixelmonmod.pixelmon.api.events.spawning.LegendarySpawnEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
+import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
 import com.pixelmonmod.pixelmon.entities.pokeballs.PokeBallEntity;
@@ -17,8 +19,10 @@ import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleEndEve
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PVPBattleStartEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokeCapturedEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.PokePreCaptureEvent;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.pokemon.legend.LegendSpawnEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.Event;
@@ -32,6 +36,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class PixelmonListener {
+    public static void onLegendSpawn(LegendarySpawnEvent.DoSpawn e) {
+        val ev = new LegendSpawnEvent(((ISpeciesWrapperFactory<Species>) V1_version.getInstance().getSpeciesWrapperFactory()).create(e.getLegendary()));
+        Bukkit.getPluginManager().callEvent(ev);
+        if (ev.isCancelled()) e.setCanceled(true);
+    }
+
     public static void onBattleStarted(BattleStartedEvent.Pre e) {
         val bc = e.getBattleController();
         if (bc.isPvP() && e.getTeamOne().length == 1 && e.getTeamTwo().length == 1) {
@@ -89,6 +99,7 @@ public class PixelmonListener {
 
     public static void register() {
         val pixelmonEventBus = com.pixelmonmod.pixelmon.Pixelmon.EVENT_BUS;
+        pixelmonEventBus.addListener(LegendarySpawnEvent.DoSpawn.class, add(PixelmonListener::onLegendSpawn));
         pixelmonEventBus.addListener(com.pixelmonmod.pixelmon.api.events.battles.BattleStartedEvent.Pre.class, add(PixelmonListener::onBattleStarted));
         pixelmonEventBus.addListener(com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent.class, add(PixelmonListener::onBattleEnd));
         pixelmonEventBus.addListener(CaptureEvent.StartCapture.class, add(PixelmonListener::onStartCapture));

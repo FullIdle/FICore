@@ -31,6 +31,7 @@ public class Main extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PluginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        Commands.register();
         try {
             try {
                 Class.forName("com.cobblemon.mod.common.Cobblemon");

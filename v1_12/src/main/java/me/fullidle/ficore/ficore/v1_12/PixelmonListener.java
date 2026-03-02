@@ -3,11 +3,13 @@ package me.fullidle.ficore.ficore.v1_12;
 import com.pixelmonmod.pixelmon.api.events.BattleStartedEvent;
 import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
+import com.pixelmonmod.pixelmon.api.events.spawning.LegendarySpawnEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
 import com.pixelmonmod.pixelmon.battles.controller.participants.PlayerParticipant;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import com.pixelmonmod.pixelmon.entities.pokeballs.EntityPokeBall;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import com.pixelmonmod.pixelmon.enums.battle.BattleResults;
 import com.pixelmonmod.pixelmon.enums.battle.EnumBattleEndCause;
 import lombok.val;
@@ -18,8 +20,10 @@ import me.fullidle.ficore.ficore.common.api.pokemon.battle.BattleResult;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.Actor;
 import me.fullidle.ficore.ficore.common.api.pokemon.battle.actor.ActorManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.event.battle.*;
+import me.fullidle.ficore.ficore.common.api.pokemon.event.pokemon.legend.LegendSpawnEvent;
 import me.fullidle.ficore.ficore.common.api.pokemon.pokeball.PokeBallEntityManager;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.ISpeciesWrapperFactory;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.PokeEntityWrapperFactory;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -31,6 +35,14 @@ import java.util.Map;
 
 public class PixelmonListener {
     public static void on(ForgeEvent event) {
+        if (event.getForgeEvent() instanceof LegendarySpawnEvent.DoSpawn) {
+            val e = (LegendarySpawnEvent.DoSpawn) event.getForgeEvent();
+            val ev = new LegendSpawnEvent(((ISpeciesWrapperFactory<EnumSpecies>) V1_version.getInstance().getSpeciesWrapperFactory()).create(e.getLegendary()));
+            Bukkit.getPluginManager().callEvent(ev);
+            if (ev.isCancelled()) e.setCanceled(true);
+            return;
+        }
+
         if (event.getForgeEvent() instanceof BattleStartedEvent) {
             val e = (BattleStartedEvent) event.getForgeEvent();
             val battleManager = ((BattleManager) FIData.V1_version.getBattleManager());

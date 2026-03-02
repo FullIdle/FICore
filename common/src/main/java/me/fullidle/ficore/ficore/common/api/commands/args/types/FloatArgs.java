@@ -3,8 +3,11 @@ package me.fullidle.ficore.ficore.common.api.commands.args.types;
 import me.fullidle.ficore.ficore.common.api.commands.Context;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class FloatArgs extends TypeArgs<Float>{
+    public static final FloatArgs NO_COMPLETE = new FloatArgs(Collections.emptyList());
+
     public FloatArgs(Collection<Float> args) {
         super(args);
     }

@@ -237,4 +237,9 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 序列化成字符串
      */
     public abstract String serialize();
+
+    /**
+     * 是否是可交易的
+     */
+    public abstract boolean isTradable();
 }
