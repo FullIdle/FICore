@@ -60,7 +60,11 @@ public class V1_12 extends V1_version {
     @Override
     @SneakyThrows
     public void unregisterAllListener(Plugin plugin) {
-        ForgeEventRegistrar.unregisterAllListener(plugin);
+        try {
+            ForgeEventRegistrar.unregisterAllListener(plugin);
+        } catch (Exception e) {
+            FIData.plugin.getLogger().warning("取消订阅Forge事件对象失败,如果不是Forge端无需在意. 原因: " + e.getMessage());
+        }
     }
 
     @Override
