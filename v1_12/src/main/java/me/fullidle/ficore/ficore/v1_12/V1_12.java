@@ -42,7 +42,7 @@ public class V1_12 extends V1_version {
     public void registerForgeEvent() {
         try {
             ForgeEventRegistrar.registerForgeEvent();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             FIData.plugin.getLogger().warning("注册ForgeEvent失败,如果不是Forge端无需在意. 原因: " + e.getMessage());
         }
     }
@@ -52,7 +52,7 @@ public class V1_12 extends V1_version {
     public void register(Plugin plugin, Object bus, Object target) {
         try {
             ForgeEventRegistrar.register(plugin, bus, target);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             FIData.plugin.getLogger().warning("订阅Forge事件对象失败,如果不是Forge端无需在意. 原因: " + e.getMessage());
         }
     }
@@ -62,7 +62,7 @@ public class V1_12 extends V1_version {
     public void unregisterAllListener(Plugin plugin) {
         try {
             ForgeEventRegistrar.unregisterAllListener(plugin);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             FIData.plugin.getLogger().warning("取消订阅Forge事件对象失败,如果不是Forge端无需在意. 原因: " + e.getMessage());
         }
     }
