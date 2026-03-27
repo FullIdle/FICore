@@ -39,6 +39,11 @@ public abstract class ISpeciesWrapper<T> extends Wrapper<T> {
     public abstract boolean isUltra();
 
     /**
+     * 是否是悖谬宝可梦
+     */
+    public abstract boolean isParadox();
+
+    /**
      * 宝可梦编号
      */
     public abstract int getDex();

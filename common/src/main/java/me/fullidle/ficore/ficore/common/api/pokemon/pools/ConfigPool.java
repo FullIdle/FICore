@@ -70,6 +70,9 @@ public class ConfigPool implements SpeciesWrapperPool {
             case "{ultra}": {
                 return UltraPool.INSTANCE;
             }
+            case "{paradox}": {
+                return ParadoxPool.INSTANCE;
+            }
         }
         if (lowerCase.startsWith("{gen(")) {
             val index = lowerCase.indexOf(")");

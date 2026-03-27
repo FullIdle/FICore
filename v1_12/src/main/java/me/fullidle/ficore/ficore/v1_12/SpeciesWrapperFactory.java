@@ -79,6 +79,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<EnumSpecies
         }
 
         @Override
+        public boolean isParadox() {
+            return isLegend();
+        }
+
+        @Override
         public int getDex() {
             return this.getOriginal().getNationalPokedexInteger();
         }

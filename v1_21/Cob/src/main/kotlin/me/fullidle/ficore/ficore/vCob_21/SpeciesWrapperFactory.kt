@@ -55,6 +55,10 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
             return this.original.labels.contains(CobblemonPokemonLabels.MYTHICAL)
         }
 
+        override fun isParadox(): Boolean {
+            return this.original.labels.contains(CobblemonPokemonLabels.PARADOX)
+        }
+
         /**
          * 如果世代为0证明cob没有配置
          */

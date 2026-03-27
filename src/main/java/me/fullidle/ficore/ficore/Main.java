@@ -29,8 +29,8 @@ public class Main extends JavaPlugin {
         int shortVer = Integer.parseInt(version.split("\\.")[1]);
 
 
-        getServer().getPluginManager().registerEvents(new PluginListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        PluginListener.INSTANCE.register();
+        PlayerListener.INSTANCE.register();
         Commands.register();
         try {
             try {

@@ -9,10 +9,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 
 public interface InvAction {
-    default void run(InventoryClickEvent event, InvButton button, @NotNull InvTransformer transformer, @Nullable Iterator<InvAction> nextRunList) {
+    default void run(InventoryClickEvent event, InvButton button, @NotNull InvTransformer transformer, @Nullable Iterator<InvAction> iterator) {
         run(event, button, transformer);
-        if (nextRunList != null && nextRunList.hasNext())
-            nextRunList.next().run(event, button, transformer, nextRunList);
+        if (iterator != null && iterator.hasNext())
+            iterator.next().run(event, button, transformer, iterator);
     }
 
     void run(InventoryClickEvent event, InvButton button, @NotNull InvTransformer transformer);

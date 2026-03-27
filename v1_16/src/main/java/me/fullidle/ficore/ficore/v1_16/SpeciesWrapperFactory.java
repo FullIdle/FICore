@@ -88,6 +88,11 @@ public class SpeciesWrapperFactory implements ISpeciesWrapperFactory<Species> {
         }
 
         @Override
+        public boolean isParadox() {
+            return isLegend();
+        }
+
+        @Override
         public int getDex() {
             return this.getOriginal().getDex();
         }

@@ -39,8 +39,9 @@ public class InvButton {
     }
 
     public void onClick(InventoryClickEvent event, InvTransformer transformer) {
-        List<InvAction> actions = this.actions.getOrDefault(event.getClick(), new ArrayList<>());
-        Iterator<InvAction> iterator = actions.iterator();
+        List<InvAction> actions = this.actions.get(event.getClick());
+        if (actions == null) return;
+        val iterator = actions.iterator();
         if (iterator.hasNext()) iterator.next().run(event, this, transformer, iterator);
     }
 

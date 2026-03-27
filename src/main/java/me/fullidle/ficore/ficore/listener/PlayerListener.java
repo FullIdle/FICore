@@ -1,7 +1,10 @@
 package me.fullidle.ficore.ficore.listener;
 
+import lombok.val;
+import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.ineventory.ListenerInvHolder;
 import me.fullidle.ficore.ficore.common.api.inventory.InvHolder;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -13,15 +16,20 @@ import org.bukkit.inventory.InventoryHolder;
 import java.util.function.Consumer;
 
 public class PlayerListener implements Listener {
+    public static final PlayerListener INSTANCE = new PlayerListener();
+
+    public void register() {
+        val plugin = FIData.plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+
     @EventHandler
     public void onInvOpen(InventoryOpenEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
         if (!(holder instanceof ListenerInvHolder)) return;
         ListenerInvHolder invHolder = (ListenerInvHolder) holder;
         Consumer<InventoryOpenEvent> consumer = invHolder.getOpen();
-        if (consumer != null) {
-            consumer.accept(e);
-        }
+        if (consumer != null) consumer.accept(e);
     }
 
     @EventHandler
@@ -30,9 +38,7 @@ public class PlayerListener implements Listener {
         if (holder instanceof ListenerInvHolder) {
             ListenerInvHolder invHolder = (ListenerInvHolder) holder;
             Consumer<InventoryClickEvent> consumer = invHolder.getClick();
-            if (consumer != null) {
-                consumer.accept(e);
-            }
+            if (consumer != null) consumer.accept(e);
             return;
         }
 
