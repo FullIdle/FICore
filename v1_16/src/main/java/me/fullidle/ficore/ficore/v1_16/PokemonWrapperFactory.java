@@ -262,6 +262,17 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         }
 
         @Override
+        public IMoveWrapper<?>[] getMoves() {
+            val moveset = getOriginal().getMoveset();
+            val moves = new MoveWrapper[4];
+            for (int i = 0; i < moves.length; i++) {
+                val attack = moveset.get(i);
+                if (attack != null) moves[i] = new MoveWrapper(attack.getMove());
+            }
+            return moves;
+        }
+
+        @Override
         public Class<Pokemon> getType() {
             return Pokemon.class;
         }

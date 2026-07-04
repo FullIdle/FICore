@@ -85,7 +85,7 @@ object SpeciesWrapperFactory : ISpeciesWrapperFactory<Species> {
 
         override fun getTypes(): List<Element> {
             return this.original.types.map {
-                Element.fromString(it.name)
+                Element.fromString(it.name.uppercase())
             }
         }
 

@@ -11,7 +11,7 @@ import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.pokemon.*;
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper;
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory;
+import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper;
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos;
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*;
 import me.fullidle.ficore.ficore.common.bukkit.entity.CraftEntity;
@@ -25,7 +25,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -229,7 +228,7 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
 
         @Override
         public List<Element> getTypes() {
-            return this.getOriginal().getBaseStats().getTypeList().stream().map(e->Element.fromString(e.name())).collect(Collectors.toList());
+            return this.getOriginal().getBaseStats().getTypeList().stream().map(e -> Element.fromString(e.name())).collect(Collectors.toList());
         }
 
         @Override
@@ -257,6 +256,17 @@ public class PokemonWrapperFactory implements IPokemonWrapperFactory<Pokemon> {
         @Override
         public boolean isTradable() {
             return !this.getOriginal().hasSpecFlag("untradeable");
+        }
+
+        @Override
+        public IMoveWrapper<?>[] getMoves() {
+            val attacks = this.getOriginal().getMoveset().attacks;
+            val moves = new MoveWrapper[4];
+            for (int i = 0; i < moves.length; i++) {
+                val attack = attacks[i];
+                if (attack != null) moves[i] = new MoveWrapper(attack.getMove());
+            }
+            return moves;
         }
 
         @Override

@@ -12,12 +12,9 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import me.fullidle.ficore.ficore.common.api.data.FIData
+import me.fullidle.ficore.ficore.common.api.pokemon.*
 import me.fullidle.ficore.ficore.common.api.pokemon.AbilityWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.Element
-import me.fullidle.ficore.ficore.common.api.pokemon.Gender
 import me.fullidle.ficore.ficore.common.api.pokemon.NatureWrapper
-import me.fullidle.ficore.ficore.common.api.pokemon.Stats
-import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.IPokemonWrapperFactory
 import me.fullidle.ficore.ficore.common.api.pokemon.storage.StoragePos
 import me.fullidle.ficore.ficore.common.api.pokemon.wrapper.*
 import me.fullidle.ficore.ficore.common.bukkit.CraftWorld
@@ -149,11 +146,11 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
         }
 
         override fun setEV(type: Stats, value: Int) {
-            this.original.setEV(asStat(type),value)
+            this.original.setEV(asStat(type), value)
         }
 
         override fun setIV(type: Stats, value: Int) {
-            this.original.setIV(asStat(type),value)
+            this.original.setIV(asStat(type), value)
         }
 
         override fun getGender(): Gender {
@@ -217,6 +214,16 @@ object PokemonWrapperFactory : IPokemonWrapperFactory<Pokemon> {
 
         override fun isTradable(): Boolean {
             return this.original.tradeable
+        }
+
+        override fun getMoves(): Array<out IMoveWrapper<*>?> {
+            val moveSet = this.original.moveSet
+            val moves = Array<MoveWrapper?>(4) { null }
+            for (i in 0 until moves.size)
+                moveSet.get(i)?.let {
+                    moves[i] = MoveWrapper(it)
+                }
+            return moves
         }
 
         override fun getType(): Class<Pokemon> {

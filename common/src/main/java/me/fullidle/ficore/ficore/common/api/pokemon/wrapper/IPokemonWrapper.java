@@ -242,4 +242,9 @@ public abstract class IPokemonWrapper<T> extends Wrapper<T> {
      * 是否是可交易的
      */
     public abstract boolean isTradable();
+
+    /**
+     * 获取技能 4个技能
+     */
+    public abstract IMoveWrapper<?>[]  getMoves();
 }
