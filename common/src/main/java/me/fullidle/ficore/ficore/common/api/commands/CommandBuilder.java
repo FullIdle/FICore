@@ -1,5 +1,7 @@
 package me.fullidle.ficore.ficore.common.api.commands;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.commands.args.Args;
 import me.fullidle.ficore.ficore.common.api.commands.exec.ArgTabExec;
@@ -18,7 +20,9 @@ public class CommandBuilder {
     private Function<Context, String> permission;
     private final Map<String, CommandBuilder> thenExecs = new HashMap<>();
     private Exec exec = WRONG_FORMAT_EXEC;
-    private boolean built = false;
+    @Getter
+    @Setter
+    private TabExecutor built;
 
     public CommandBuilder(String name) {
         this.name = name;
@@ -52,11 +56,10 @@ public class CommandBuilder {
     }
 
     public TabExecutor build() {
-        if (this.built) throw new RuntimeException("already built");
+        if (built != null) return built;
         val map = new HashMap<String, TabExec>();
         this.thenExecs.forEach((k, v) -> map.put(k, ((TabExec) v.build())));
-        this.built = true;
-        return new TabExec(name, permission, exec, map.values());
+        return built = new TabExec(name, permission, exec, map.values());
     }
 
     public PluginCommand getPluginCommand() {
@@ -90,8 +93,12 @@ public class CommandBuilder {
 
         @Override
         public TabExecutor build() {
+            val bt = getBuilt();
+            if (bt != null) return bt;
             val build = ((TabExec) super.build());
-            return new ArgTabExec(build.name, build.permission, build.exec, build.thenExecs, this.args);
+            val ate = new ArgTabExec(build.name, build.permission, build.exec, build.thenExecs, this.args);
+            setBuilt(ate);
+            return ate;
         }
     }
 

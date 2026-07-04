@@ -2,9 +2,15 @@ package me.fullidle.ficore.ficore.common.bukkit.inventory;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.val;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @Getter
 public class ItemStack {
