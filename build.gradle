@@ -19,7 +19,7 @@ plugins {
 }
 
 group = 'me.fullidle.ficore.ficore'
-version = '1.4.2-STABLE'
+version = '1.4.3-STABLE'
 
 def common = project(':common')
 

@@ -87,4 +87,8 @@ public class ItemStackUtil {
             if (predicate.test(entry.getKey()) && entry.getValue() > 0) return entry;
         return null;
     }
+
+    public static boolean isNullOrAir(ItemStack itemStack) {
+        return itemStack == null || itemStack.getType().equals(Material.AIR);
+    }
 }

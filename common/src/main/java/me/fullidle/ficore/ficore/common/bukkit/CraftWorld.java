@@ -22,6 +22,11 @@ public class CraftWorld {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getHandleAs(World world) {
+        return (T) getHandle(world);
+    }
+
     static {
         try {
             NMS_CRAFT_WORLD_CLASS = Class.forName(VersionUtil.formatCraftBukkitClass("CraftWorld"));

@@ -25,6 +25,11 @@ public class CraftEntity {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getHandleAs(Entity entity) {
+        return (T) getHandle(entity);
+    }
+
     public static Entity getEntity(Object nmsEntity) {
         if (nmsEntity == null) return null;
         try {

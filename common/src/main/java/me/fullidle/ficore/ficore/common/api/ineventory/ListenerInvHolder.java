@@ -5,12 +5,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.InventoryHolder;
 
 import java.util.function.Consumer;
 
 @Getter
-public abstract class ListenerInvHolder implements InventoryHolder {
+public abstract class ListenerInvHolder extends ListenerInventoryHolder {
     private Consumer<InventoryClickEvent> click;
     private Consumer<InventoryDragEvent> drag;
     private Consumer<InventoryOpenEvent> open;
@@ -30,5 +29,25 @@ public abstract class ListenerInvHolder implements InventoryHolder {
 
     public void onDrag(Consumer<InventoryDragEvent> consumer) {
         this.drag = consumer;
+    }
+
+    @Override
+    public void onClick(InventoryClickEvent evt) {
+        if (this.click != null) this.click.accept(evt);
+    }
+
+    @Override
+    public void onClose(InventoryCloseEvent evt) {
+        if (this.close != null) this.close.accept(evt);
+    }
+
+    @Override
+    public void onOpen(InventoryOpenEvent evt) {
+        if (this.open != null) this.open.accept(evt);
+    }
+
+    @Override
+    public void onDrag(InventoryDragEvent evt) {
+        if (this.drag != null) this.drag.accept(evt);
     }
 }

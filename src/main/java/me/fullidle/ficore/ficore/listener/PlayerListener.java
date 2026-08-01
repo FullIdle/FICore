@@ -3,6 +3,7 @@ package me.fullidle.ficore.ficore.listener;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.data.FIData;
 import me.fullidle.ficore.ficore.common.api.ineventory.ListenerInvHolder;
+import me.fullidle.ficore.ficore.common.api.ineventory.ListenerInventoryHolder;
 import me.fullidle.ficore.ficore.common.api.inventory.InvHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -26,19 +27,17 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInvOpen(InventoryOpenEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder)) return;
-        ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-        Consumer<InventoryOpenEvent> consumer = invHolder.getOpen();
-        if (consumer != null) consumer.accept(e);
+        if (holder instanceof ListenerInventoryHolder) {
+            ((ListenerInventoryHolder) holder).onOpen(e);
+            return;
+        }
     }
 
     @EventHandler
     public void onInvClick(InventoryClickEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof ListenerInvHolder) {
-            ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-            Consumer<InventoryClickEvent> consumer = invHolder.getClick();
-            if (consumer != null) consumer.accept(e);
+        if (holder instanceof ListenerInventoryHolder) {
+            ((ListenerInventoryHolder) holder).onClick(e);
             return;
         }
 
@@ -51,21 +50,18 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInvDrag(InventoryDragEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (!(holder instanceof ListenerInvHolder)) return;
-        ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-        Consumer<InventoryDragEvent> consumer = invHolder.getDrag();
-        if (consumer != null) {
-            consumer.accept(e);
+        if (holder instanceof ListenerInventoryHolder) {
+            ((ListenerInventoryHolder) holder).onDrag(e);
+            return;
         }
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof ListenerInvHolder) {
-            ListenerInvHolder invHolder = (ListenerInvHolder) holder;
-            Consumer<InventoryCloseEvent> consumer = invHolder.getClose();
-            if (consumer != null) consumer.accept(e);
+        if (holder instanceof ListenerInventoryHolder) {
+            ((ListenerInventoryHolder) holder).onClose(e);
+            return;
         }
         if (holder instanceof InvHolder) {
             ((InvHolder) holder).onClose(e);
