@@ -15,7 +15,7 @@ public class ItemStackUtil {
      * 解析简单的yaml物品格式
      */
     public static ItemStack parseSimpleYaml(ConfigurationSection section) {
-        val materialName = Objects.requireNonNull(Objects.requireNonNull(section).getString("material"));
+        val materialName = Objects.requireNonNull(Objects.requireNonNull(section).getString("material", section.getString("mats")));
         val material = Objects.requireNonNull(Material.getMaterial(materialName));
         val itemStack = new ItemStack(material);
 
@@ -45,7 +45,7 @@ public class ItemStackUtil {
      * 检查玩家物品
      * @param itemStacks 需要查找的物品集合
      * @param needCheck 需要被找到的物品数量集合
-     * @param consumer 消费者
+     * @param consumer 消费者，满足条件时才会被调用，接受到的参数是itemStacks中所有的物品，减去needCheck后的物品->数量
      * @return 是否满足所有物品
      */
     public static boolean checkNeedItem(Collection<ItemStack> itemStacks, List<Map.Entry<Predicate<ItemStack>, Integer>> needCheck, Consumer<List<Map.Entry<ItemStack, Integer>>> consumer) {
