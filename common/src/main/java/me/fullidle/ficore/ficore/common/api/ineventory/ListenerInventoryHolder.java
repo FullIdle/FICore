@@ -7,11 +7,15 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 public abstract class ListenerInventoryHolder implements InventoryHolder {
-    abstract public void onClick(InventoryClickEvent evt);
+    public void onClick(InventoryClickEvent evt) {
+    }
 
-    abstract public void onClose(InventoryCloseEvent evt);
+    public void onClose(InventoryCloseEvent evt) {
+    }
 
-    abstract public void onOpen(InventoryOpenEvent evt);
+    public void onOpen(InventoryOpenEvent evt) {
+    }
 
-    abstract public void onDrag(InventoryDragEvent evt);
+    public void onDrag(InventoryDragEvent evt) {
+    }
 }
