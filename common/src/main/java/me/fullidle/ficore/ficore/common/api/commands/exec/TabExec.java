@@ -36,15 +36,16 @@ public class TabExec implements TabExecutor {
             }
             val context = new Context(sender, command, new HashMap<>());
             TabExec finalExec = this;
-            for (String arg : args) {
-                val first = finalExec.thenExecs.stream().filter(e -> e.match(context, arg)).findFirst();
+            for (int i = 0; i < args.length;) {
+                final int index = i;
+                val first = finalExec.thenExecs.stream().filter(e -> e.match(context, args, index)).findFirst();
                 if (!first.isPresent()) {
                     CommandBuilder.WRONG_FORMAT_EXEC.exec(new Context(sender, command, Collections.emptyMap()));
                     return true;
                 }
                 finalExec = first.get();
                 //只有ArgTabExec才有实际作用
-                finalExec.writeArg(context, arg);
+                i += finalExec.writeArgs(context, args, i);
             }
             context.rawArgs = args;
             if (finalExec.permission != null && !sender.hasPermission(finalExec.permission.apply(context))) {
@@ -75,6 +76,9 @@ public class TabExec implements TabExecutor {
             val first = finalExec.thenExecs.stream().filter(e -> e.match(temp, arg)).findFirst();
             if (!first.isPresent()) return Collections.emptyList();
             finalExec = first.get();
+            if (finalExec.consumesRemaining()) {
+                return allPrompts(Collections.singletonList(finalExec), args[args.length - 1]);
+            }
         }
         if (finalExec.thenExecs.isEmpty()) return Collections.emptyList();
         return allPrompts(finalExec.thenExecs, args[args.length - 1]);
@@ -93,6 +97,22 @@ public class TabExec implements TabExecutor {
 
     public void writeArg(Context context, String value) {
         //不做任何行为
+    }
+
+    public boolean match(Context context, String[] args, int index) {
+        return match(context, args[index]);
+    }
+
+    /**
+     * 写入参数并返回消耗的参数数量。
+     */
+    public int writeArgs(Context context, String[] args, int index) {
+        writeArg(context, args[index]);
+        return 1;
+    }
+
+    public boolean consumesRemaining() {
+        return false;
     }
 
     public List<String> prompts() {

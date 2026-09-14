@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.commands.args.Args;
+import me.fullidle.ficore.ficore.common.api.commands.args.RemainingArgs;
 import me.fullidle.ficore.ficore.common.api.commands.exec.ArgTabExec;
 import me.fullidle.ficore.ficore.common.api.commands.exec.Exec;
 import me.fullidle.ficore.ficore.common.api.commands.exec.TabExec;
@@ -79,6 +80,11 @@ public class CommandBuilder {
         return new CommandBuilder(name);
     }
 
+    /**
+     * 创建参数节点。使用 StringArrayArgs 可以接收当前位置及后续所有参数，
+     * 并通过 StringArrayArgs.get(context, name) 获取 String[]。
+     * 这类参数节点至少需要一个参数，且不能再添加子节点。
+     */
     public static CommandBuilder args(String name, Args<?> args) {
         return new ArgCommandBuilder(name, args);
     }
@@ -95,6 +101,9 @@ public class CommandBuilder {
         public TabExecutor build() {
             val bt = getBuilt();
             if (bt != null) return bt;
+            if (this.args instanceof RemainingArgs && !super.thenExecs.isEmpty()) {
+                throw new IllegalArgumentException("Remaining arguments must be the last command node: " + super.name);
+            }
             val build = ((TabExec) super.build());
             val ate = new ArgTabExec(build.name, build.permission, build.exec, build.thenExecs, this.args);
             setBuilt(ate);

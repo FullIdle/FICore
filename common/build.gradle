@@ -12,6 +12,9 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
 }
 
 kotlin {
